@@ -1,0 +1,9 @@
+{
+  "name": "project-newton",
+  "version": "0.0.1",
+  "description": "A reactive server library.",
+  "main": "lib/index.js",
+  "author": "Nathan Graule",
+  "license": "MIT",
+  "private": false
+}
