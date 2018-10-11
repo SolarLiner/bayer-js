@@ -1,16 +1,18 @@
-import { Server, IncomingMessage, ServerResponse } from "http";
-import { Observable } from "rxjs";
+import { Server } from "./server";
+import { requestLogger, expressWrapper, bodyParser } from "./middleware";
+import { tap } from "rxjs/operators";
+import expressBodyParser = require("body-parser");
 
-type RequestCallback = (req: IncomingMessage, res: ServerResponse) => void;
+const server = new Server(3000);
+server.use(expressWrapper(expressBodyParser.json()), 1);
+server.use(bodyParser(), 1);
+server.use(requestLogger());
+server.use(tap(({ res, extra }) => {
+  res.statusCode = 200;
+  res.write(JSON.stringify(extra));
+  res.end();
+}));
 
-function observableServer(port: number) {
-  return new Observable(sub => {
-    const server = new Server(sub.next);
-    server.on("close", sub.complete);
-    server.listen(port);
-  });
-}
-
-observableServer(3000).subscribe(console.log, console.error, () =>
-  console.log("Done")
-);
+server.run().then(() => {
+  console.log("Listening on http://localhost:3000");
+});
