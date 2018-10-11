@@ -5,8 +5,17 @@ import { IServerRequest } from "./server";
 import { IncomingMessage, ServerResponse } from "http";
 import qs from "querystring";
 
+/**
+ * Server middleware type.
+ */
 export type ServerMiddleware = OperatorFunction<IServerRequest, IServerRequest>;
 
+/**
+ * Parses the body of a Request and tries to decode its payload.
+ * 
+ * If decoded, the object will be in `extra.body`. If not, the payload will be
+ * available under `extra.payload`.
+ */
 export function bodyParser(): ServerMiddleware {
   return mergeMap(({ req, res, extra }) => {
     return new Observable<IServerRequest>(sub => {
@@ -26,7 +35,7 @@ export function bodyParser(): ServerMiddleware {
             sub.next({ req, res, extra: { ...extra, body: formdata } });
           default:
             console.log("Unknown MIME", req.headers["content-type"]);
-            sub.next({ req, res, extra });
+            sub.next({ req, res, extra: {...extra, payload} });
             break;
         }
         sub.complete();
@@ -36,6 +45,9 @@ export function bodyParser(): ServerMiddleware {
   });
 }
 
+/**
+ * Logs request as they come.
+ */
 export function requestLogger(): ServerMiddleware {
   return tap(({ req, extra }) => {
     const { url, method } = req;
@@ -49,6 +61,19 @@ type ExpressMiddleware = (
   next: (err?: any) => void
 ) => void;
 
+/**
+ * Wrap an Express middleware to work for the server.
+ * 
+ * Note: The wrapped middleware receive proxied objects of the request and
+ * response. If the middleware adds a property to either `req` or `res`, the
+ * the proxies will instead set it to the `extra` object.
+ * 
+ * About `next()`: This server makes no use of the `next()` method - middlewares
+ * are chained together through Observable piping. All the passed function does
+ * is throw an error if something is passed to it. It also checks for the type
+ * to throw an Error objects everytime, as it should be :)
+ * @param m Express middleware to wrap.
+ */
 export function expressWrapper(m: ExpressMiddleware): ServerMiddleware {
   const t = function(err?: any) {
     if (!err) return;
