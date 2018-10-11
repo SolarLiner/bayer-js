@@ -41,4 +41,6 @@ Because I was listening to Andrew Bayer's album when initially building the
 project, and that it's a cool name, and because the JavaScript community needs
 some [beautiful music](https://www.youtube.com/watch?v=vfiL-tyMHyI).
 
-<sup>But if you ask me, [this version]() is much better 😝</sup>
+<sup>But if you ask me,
+[this version](https://www.youtube.com/watch?v=J_VN-xwN72A) is much better
+😝</sup>
