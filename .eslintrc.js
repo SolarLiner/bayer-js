@@ -7,6 +7,8 @@ module.exports = {
     "parserOptions": {
         "sourceType": "module"
     },
+    "parser": "typescript-eslint-parser",
+    "plugins": ["prettier"],
     "rules": {
         "indent": [
             "error",
