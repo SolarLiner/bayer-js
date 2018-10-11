@@ -65,7 +65,8 @@ type ExpressMiddleware = (
  * Wrap an Express middleware to work for the server.
  * 
  * Note: The wrapped middleware receive proxied objects of the request and
- * response.
+ * response. If the middleware adds a property to either `req` or `res`, the
+ * the proxies will instead set it to the `extra` object.
  * 
  * About `next()`: This server makes no use of the `next()` method - middlewares
  * are chained together through Observable piping. All the passed function does
