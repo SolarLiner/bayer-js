@@ -1,7 +1,7 @@
 {
-  "name": "project-newton",
+  "name": "bayer",
   "version": "0.0.1",
-  "description": "A reactive server library.",
+  "description": "Reactive server abstractions library for Node.js.",
   "main": "lib/index.js",
   "author": "Nathan Graule",
   "license": "MIT",
