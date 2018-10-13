@@ -3,9 +3,10 @@ import {
   IncomingMessage,
   ServerResponse
 } from "http";
-import { Observable, OperatorFunction, of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { ServerMiddleware } from "./middleware";
-import { retry, catchError, switchMap, tap, mergeMap } from "rxjs/operators";
+import { retry, catchError, switchMap, tap } from "rxjs/operators";
+import { addToPipe } from "./utils";
 
 /**
  * Encapsulated Request and Response objects. The extra object can contain
@@ -32,10 +33,6 @@ function observableServer(port: number, cb?: () => void) {
     server.on("close", () => sub.complete());
     server.listen(port, cb);
   });
-}
-
-function addToPipe<T, R>(obs: Observable<T>, func: OperatorFunction<T, R>) {
-  return obs.pipe(func);
 }
 
 /**
