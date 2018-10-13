@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
+    "@types/busboy": "^0.2.3",
     "@types/node": "^10.11.7",
     "body-parser": "^1.18.3",
     "eslint-plugin-prettier": "^3.0.0",
@@ -23,6 +24,7 @@
     "typescript-eslint-parser": "^20.0.0"
   },
   "dependencies": {
+    "busboy": "^0.2.14",
     "rxjs": "^6.3.3"
   }
 }
