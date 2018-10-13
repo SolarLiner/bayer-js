@@ -99,8 +99,7 @@ function parseAsFormData(req: IncomingMessage): Promise<IFormDataBody> {
     busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
       const fn = `${fieldname.toLowerCase()}-${filename.toLowerCase()}`;
       const filepath = path.join(os.tmpdir(), fn);
-      file.pipe(fs.createWriteStream(filepath, { encoding }));
-
+      file.pipe(fs.createWriteStream(filepath));
       body.files[fieldname] = { filepath, filename, mimetype };
     });
     busboy.on("field", (fieldname, val) => {
