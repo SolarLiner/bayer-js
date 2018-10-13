@@ -29,7 +29,7 @@ function observableServer(port: number, cb?: () => void) {
     const server = new OriginalServer((req, res) => {
       sub.next({ req, res, extra: {} });
     });
-    server.on("close", sub.complete);
+    server.on("close", () => sub.complete());
     server.listen(port, cb);
   });
 }
