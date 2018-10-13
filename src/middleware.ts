@@ -27,12 +27,12 @@ export function bodyParser(): ServerMiddleware {
         switch (req.headers["content-type"]) {
           case "application/json":
             const json = JSON.parse(payload);
-            sub.next({ req, res, extra: { ...extra, body: json } });
+            sub.next({ req, res, extra: { ...extra, payload, body: json } });
             break;
           case "multipart/form-data":
             const formdata = qs.parse(payload);
             console.log(formdata);
-            sub.next({ req, res, extra: { ...extra, body: formdata } });
+            sub.next({ req, res, extra: { ...extra, payload, body: formdata } });
           default:
             console.log("Unknown MIME", req.headers["content-type"]);
             sub.next({ req, res, extra: {...extra, payload} });
