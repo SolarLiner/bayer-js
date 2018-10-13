@@ -16,7 +16,11 @@
       ],
       "sourceMaps": true,
       "cwd": "${workspaceFolder}",
-      "protocol": "inspector"
+      "protocol": "inspector",
+      "skipFiles": [
+        "node_modules",
+        "<node_internals>/**"
+      ]
     }
   ]
 }
