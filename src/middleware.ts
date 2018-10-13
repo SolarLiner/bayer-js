@@ -62,6 +62,7 @@ export function bodyParser(): ServerMiddleware {
 export function requestLogger(): ServerMiddleware {
   return tap(({ req, extra }) => {
     const { url, method } = req;
+    console.log("Request", method, url, extra);
   });
 }
 
