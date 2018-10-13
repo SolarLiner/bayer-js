@@ -1,14 +1,42 @@
-import { Observable, OperatorFunction } from "rxjs";
+import { Observable, OperatorFunction, of, Subscriber } from "rxjs";
 import { tap, map, mergeMap } from "rxjs/operators";
 import { StringDecoder } from "string_decoder";
 import { IServerRequest } from "./server";
 import { IncomingMessage, ServerResponse } from "http";
 import { parse } from "querystring";
+import Busboy from "busboy";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { Transform, Readable, Writable } from "stream";
 
 /**
  * Server middleware type.
  */
 export type ServerMiddleware = OperatorFunction<IServerRequest, IServerRequest>;
+
+export interface IUploadedFiles {
+  [x: string]: {
+    mimetype: string;
+    file: NodeJS.ReadableStream;
+    filename: string;
+  };
+}
+
+function parseRequestBody(res: IncomingMessage): Promise<string> {
+  const d = new StringDecoder();
+  return new Promise((resolve, reject) => {
+    let payload = "";
+    res
+      .on("data", chunk => {
+        payload += d.write(chunk);
+      })
+      .on("end", () => {
+        resolve(payload + d.end());
+      })
+      .on("error", err => reject(err));
+  });
+}
 
 /**
  * Parses the body of a Request and tries to decode its payload.
@@ -19,41 +47,83 @@ export type ServerMiddleware = OperatorFunction<IServerRequest, IServerRequest>;
 export function bodyParser(): ServerMiddleware {
   return mergeMap(({ req, res, extra }) => {
     return new Observable<IServerRequest>(sub => {
-      const d = new StringDecoder();
-      let payload = "";
-      req.on("data", buf => (payload += d.write(buf)));
-      req.on("end", async () => {
-        payload += d.end();
-        switch (req.headers["content-type"]) {
-          case "application/json":
-            const json = JSON.parse(payload);
-            sub.next({ req, res, extra: { ...extra, payload, body: json } });
-            break;
-          case "multipart/form-data":
-            const formdata = parse(payload);
-            sub.next({
-              req,
-              res,
-              extra: { ...extra, payload, body: formdata }
-            });
-            break;
-          case "application/x-www-form-urlencoded":
-            const decodedForm = parse(payload);
-            sub.next({
-              req,
-              res,
-              extra: { ...extra, payload, body: decodedForm }
-            });
-            break;
-          default:
-            sub.next({ req, res, extra: { ...extra, payload } });
-            break;
-        }
-        sub.complete();
-      });
-      req.on("error", err => sub.error(err));
+      const [mimeType, _] = (req.headers["content-type"] || "text-plain").split(
+        ";",
+        2
+      );
+      switch (mimeType) {
+        case "application/json":
+          parseAsJSON(req, sub, res, extra);
+          break;
+        case "multipart/form-data":
+          parseAsFormData(req, sub, res, extra);
+          break;
+        case "application/x-www-form-urlencoded":
+          parseAsURLEncoded(req, sub, res, extra);
+          break;
+        default:
+          parseRequestBody(req)
+            .then(payload => {
+              sub.next({ req, res, extra: { ...extra, payload } });
+            })
+            .catch(err => sub.error(err));
+          break;
+      }
     });
   });
+}
+
+function parseAsURLEncoded(
+  req: IncomingMessage,
+  sub: Subscriber<IServerRequest>,
+  res: ServerResponse,
+  extra: { [x: string]: any }
+) {
+  parseRequestBody(req).then(payload => {
+    const body = parse(payload);
+    sub.next({
+      req,
+      res,
+      extra: { ...extra, body }
+    });
+  });
+}
+
+function parseAsFormData(
+  req: IncomingMessage,
+  sub: Subscriber<IServerRequest>,
+  res: ServerResponse,
+  extra: { [x: string]: any }
+) {
+  const busboy = new Busboy({ headers: req.headers });
+  const body = {
+    files: {} as IUploadedFiles,
+    data: {} as any
+  };
+  busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+    body.files[fieldname] = { file, filename, mimetype };
+  });
+  busboy.on("field", (fieldname, val) => {
+    body.data[fieldname] = val;
+  });
+  busboy.on("finish", () => {
+    sub.next({ req, res, extra: { ...extra, body } });
+  });
+  req.pipe(busboy);
+}
+
+function parseAsJSON(
+  req: IncomingMessage,
+  sub: Subscriber<IServerRequest>,
+  res: ServerResponse,
+  extra: { [x: string]: any }
+) {
+  parseRequestBody(req)
+    .then(payload => {
+      const body = JSON.parse(payload);
+      sub.next({ req, res, extra: { ...extra, body } });
+    })
+    .catch(err => sub.error(err));
 }
 
 /**
