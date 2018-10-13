@@ -5,7 +5,7 @@ import {
 } from "http";
 import { Observable, OperatorFunction, of } from "rxjs";
 import { ServerMiddleware } from "./middleware";
-import { retry, catchError, switchMap } from "rxjs/operators";
+import { retry, catchError, switchMap, tap } from "rxjs/operators";
 
 /**
  * Encapsulated Request and Response objects. The extra object can contain
@@ -28,11 +28,6 @@ function observableServer(port: number, cb?: () => void) {
   return new Observable<IServerRequest>(sub => {
     const server = new OriginalServer((req, res) => {
       sub.next({ req, res, extra: {} });
-      if (!res.writable) {
-        res.write("\n");
-        res.statusCode = 500;
-        res.end();
-      }
     });
     server.on("close", sub.complete);
     server.listen(port, cb);
@@ -101,7 +96,7 @@ export class Server {
     for (let { middleware } of this._mdw) {
       obs = addToPipe(obs, middleware);
     }
-    obs.pipe(this.errorMiddleware()).subscribe();
+    obs.pipe(this.errorMiddleware(), this.fallbackMiddleware()).subscribe();
     return Promise.resolve(this);
   }
 
@@ -116,5 +111,13 @@ export class Server {
       });
       return caught;
     });
+  }
+  private fallbackMiddleware(): ServerMiddleware {
+    return tap(({ req, res }) => {
+      if (!res.finished) {
+        res.writeHead(404, "Content not found", { "Content-Type": "text/plain" });
+        res.write(`Cannot ${req.method} ${req.url}`);
+      }
+    })
   }
 }
