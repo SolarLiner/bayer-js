@@ -97,12 +97,11 @@ export class Server {
    * Run the server.
    */
   public run() {
-    this.use(this.errorMiddleware(), Number.MIN_SAFE_INTEGER);
     let obs = this._obs.pipe(switchMap(v => of(v)));
     for (let { middleware } of this._mdw) {
       obs = addToPipe(obs, middleware);
     }
-    obs.subscribe();
+    obs.pipe(this.errorMiddleware()).subscribe();
     return Promise.resolve(this);
   }
 
