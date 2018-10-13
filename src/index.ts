@@ -5,7 +5,6 @@ import expressBodyParser = require("body-parser");
 
 const server = new Server(3000);
 server.use(expressWrapper(expressBodyParser.json()), 1);
-server.use(bodyParser(), 1);
 server.use(requestLogger());
 server.use(tap(({ res, extra }) => {
   res.statusCode = 200;

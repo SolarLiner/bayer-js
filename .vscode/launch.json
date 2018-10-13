@@ -7,11 +7,16 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/dist/index.js",
-      "outFiles": [
-        "${workspaceFolder}/dist/index.js"
-      ]
+      "name": "Debug test program",
+      "args": [
+        "${workspaceFolder}/src/index.ts"
+      ],
+      "runtimeArgs": [
+        "--nolazy", "-r", "ts-node/register"
+      ],
+      "sourceMaps": true,
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector"
     }
   ]
 }
