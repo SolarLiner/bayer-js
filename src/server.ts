@@ -107,7 +107,7 @@ export class Server {
 
   private errorMiddleware(): ServerMiddleware {
     return catchError((err, caught) => {
-      console.error(err);
+      console.error("ERROR: ", err);
       caught.toPromise().then(({ req, res }) => {
         res.writeHead(500, "Server error", { "Content-Type": "text/plain" });
         res.write(`Cannot ${req.method} ${req.url}\n`);

@@ -31,7 +31,6 @@ export function bodyParser(): ServerMiddleware {
             break;
           case "multipart/form-data":
             const formdata = parse(payload);
-            console.log(formdata);
             sub.next({ req, res, extra: { ...extra, payload, body: formdata } });
           default:
             console.log("Unknown MIME", req.headers["content-type"]);
