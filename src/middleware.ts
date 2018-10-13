@@ -3,7 +3,7 @@ import { tap, map, mergeMap } from "rxjs/operators";
 import { StringDecoder } from "string_decoder";
 import { IServerRequest } from "./server";
 import { IncomingMessage, ServerResponse } from "http";
-import qs from "querystring";
+import { parse } from "querystring";
 
 /**
  * Server middleware type.
@@ -30,7 +30,7 @@ export function bodyParser(): ServerMiddleware {
             sub.next({ req, res, extra: { ...extra, payload, body: json } });
             break;
           case "multipart/form-data":
-            const formdata = qs.parse(payload);
+            const formdata = parse(payload);
             console.log(formdata);
             sub.next({ req, res, extra: { ...extra, payload, body: formdata } });
           default:
