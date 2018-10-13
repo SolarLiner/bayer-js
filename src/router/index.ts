@@ -114,7 +114,7 @@ export class Router {
           const route = filteredRoutes[0];
           return of({ ...request, params: getMatchParams(route, path) }).pipe(
             route.handler,
-            map(this.sendResponse({res, req, extra}))
+            map(this.sendResponse({ res, req, extra }))
           );
         } else {
           return of({ req, res, extra });
@@ -129,25 +129,13 @@ export class Router {
         res.writeHead(200, response.headers);
         res.setHeader("Content-Type", response.mime || "text/plain");
         this.sendResponseContent(response.content, res);
-      }
-      else {
-        res.writeHead(response.statusCode, response.statusReason, response.headers);
-        if (typeof response.content === "string") {
-          res.write(response.content);
-          res.end();
-        }
-        else {
-          const b = response.content;
-          b.on("data", buf => res.write(buf));
-          b.on("error", err => {
-            console.error(err);
-            if (err instanceof Error)
-              throw err;
-            else
-              throw new Error(err);
-          });
-          b.on("end", () => res.end());
-        }
+      } else {
+        res.writeHead(
+          response.statusCode,
+          response.statusReason,
+          response.headers
+        );
+        this.sendResponseContent(response.content, res);
       }
       return { req, res, extra };
     };
@@ -157,8 +145,7 @@ export class Router {
     if (typeof content === "string") {
       res.write(content);
       res.end();
-    }
-    else {
+    } else {
       content.on("data", buf => res.write(buf));
       content.on("end", () => res.end());
     }
