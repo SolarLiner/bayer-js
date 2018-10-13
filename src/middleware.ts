@@ -37,13 +37,14 @@ export function bodyParser(): ServerMiddleware {
               extra: { ...extra, payload, body: formdata }
             });
             break;
-          case "application/x-www-form-url-encoded":
+          case "application/x-www-form-urlencoded":
             const decodedForm = parse(payload);
             sub.next({
               req,
               res,
               extra: { ...extra, payload, body: decodedForm }
             });
+            break;
           default:
             sub.next({ req, res, extra: { ...extra, payload } });
             break;
