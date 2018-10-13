@@ -45,7 +45,6 @@ export function bodyParser(): ServerMiddleware {
               extra: { ...extra, payload, body: decodedForm }
             });
           default:
-            console.log("Unknown MIME", req.headers["content-type"]);
             sub.next({ req, res, extra: { ...extra, payload } });
             break;
         }
