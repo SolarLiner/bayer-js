@@ -87,6 +87,19 @@ export class Router {
     this._routes = new Array();
   }
 
+  public addRoute(path: string, ...methods: HTTPVerb[]) {
+    let verbs: MatchHTTPVerb[] = [...methods];
+    if (verbs.length == 0) {
+      verbs = ["__all__"];
+    }
+    const route = pathToRegExp(path);
+    const use = (handler: ResponseHandler) => {
+      this._routes.push({ route, methods: verbs, handler });
+      return this as Router;
+    };
+    return { use };
+  }
+
   public asMiddleware(): ServerMiddleware {
     console.log(this._routes);
     return pipe(
@@ -112,9 +125,18 @@ export class Router {
         );
         if (filteredRoutes.length > 0) {
           const route = filteredRoutes[0];
-          return of({ ...request, params: getMatchParams(route, path) }).pipe(
+          return of({
+            ...request,
+            params: getMatchParams(route, path)
+          }).pipe(
             route.handler,
-            map(this.sendResponse({ res, req, extra }))
+            map(
+              this.sendResponse({
+                res,
+                req,
+                extra
+              })
+            )
           );
         } else {
           return of({ req, res, extra });
@@ -149,18 +171,5 @@ export class Router {
       content.on("data", buf => res.write(buf));
       content.on("end", () => res.end());
     }
-  }
-
-  public addRoute(path: string, ...methods: HTTPVerb[]) {
-    let verbs: MatchHTTPVerb[] = [...methods];
-    if (verbs.length == 0) {
-      verbs = ["__all__"];
-    }
-    const route = pathToRegExp(path);
-    const use = (handler: ResponseHandler) => {
-      this._routes.push({ route, methods: verbs, handler });
-      return this as Router;
-    };
-    return { use };
   }
 }
