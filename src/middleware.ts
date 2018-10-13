@@ -1,4 +1,4 @@
-import { Observable, OperatorFunction, of, Subscriber } from "rxjs";
+import { Observable, OperatorFunction, of, Subscriber, from } from "rxjs";
 import { tap, map, mergeMap } from "rxjs/operators";
 import { StringDecoder } from "string_decoder";
 import { IServerRequest } from "./server";
@@ -46,84 +46,72 @@ function parseRequestBody(res: IncomingMessage): Promise<string> {
  */
 export function bodyParser(): ServerMiddleware {
   return mergeMap(({ req, res, extra }) => {
-    return new Observable<IServerRequest>(sub => {
-      const [mimeType, _] = (req.headers["content-type"] || "text-plain").split(
-        ";",
-        2
-      );
-      switch (mimeType) {
-        case "application/json":
-          parseAsJSON(req, sub, res, extra);
-          break;
-        case "multipart/form-data":
-          parseAsFormData(req, sub, res, extra);
-          break;
-        case "application/x-www-form-urlencoded":
-          parseAsURLEncoded(req, sub, res, extra);
-          break;
-        default:
-          parseRequestBody(req)
-            .then(payload => {
-              sub.next({ req, res, extra: { ...extra, payload } });
-            })
-            .catch(err => sub.error(err));
-          break;
-      }
-    });
+    const [mimeType, _] = (req.headers["content-type"] || "text-plain").split(
+      ";",
+      2
+    );
+    switch (mimeType) {
+      case "application/json":
+        return from(parseAsJSON(req)).pipe(
+          map(body => {
+            return { req, res, extra: { ...extra, body } };
+          })
+        );
+      case "multipart/form-data":
+        return from(parseAsFormData(req)).pipe(
+          map(body => {
+            return { req, res, extra: { ...extra, body } };
+          })
+        );
+      case "application/x-www-form-urlencoded":
+        return from(parseAsURLEncoded(req)).pipe(
+          map(body => {
+            return { req, res, extra: { ...extra, body } };
+          })
+        );
+      default:
+        return from(parseRequestBody(req)).pipe(
+          map(body => {
+            return { req, res, extra: { ...extra, body } };
+          })
+        );
+    }
   });
 }
 
-function parseAsURLEncoded(
-  req: IncomingMessage,
-  sub: Subscriber<IServerRequest>,
-  res: ServerResponse,
-  extra: { [x: string]: any }
-) {
-  parseRequestBody(req).then(payload => {
-    const body = parse(payload);
-    sub.next({
-      req,
-      res,
-      extra: { ...extra, body }
-    });
-  });
+async function parseAsURLEncoded(req: IncomingMessage) {
+  const payload = await parseRequestBody(req);
+  return parse(payload);
 }
 
-function parseAsFormData(
-  req: IncomingMessage,
-  sub: Subscriber<IServerRequest>,
-  res: ServerResponse,
-  extra: { [x: string]: any }
-) {
+interface IFormDataBody {
+  files: IUploadedFiles;
+  data: any;
+}
+
+function parseAsFormData(req: IncomingMessage): Promise<IFormDataBody> {
   const busboy = new Busboy({ headers: req.headers });
   const body = {
     files: {} as IUploadedFiles,
     data: {} as any
   };
-  busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
-    body.files[fieldname] = { file, filename, mimetype };
+  return new Promise((resolve, reject) => {
+    busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+      body.files[fieldname] = { file, filename, mimetype };
+    });
+    busboy.on("field", (fieldname, val) => {
+      body.data[fieldname] = val;
+    });
+    busboy.on("finish", () => {
+      resolve(body);
+    });
+    req.pipe(busboy);
   });
-  busboy.on("field", (fieldname, val) => {
-    body.data[fieldname] = val;
-  });
-  busboy.on("finish", () => {
-    sub.next({ req, res, extra: { ...extra, body } });
-  });
-  req.pipe(busboy);
 }
 
-function parseAsJSON(
-  req: IncomingMessage,
-  sub: Subscriber<IServerRequest>,
-  res: ServerResponse,
-  extra: { [x: string]: any }
-) {
-  parseRequestBody(req)
-    .then(payload => {
-      const body = JSON.parse(payload);
-      sub.next({ req, res, extra: { ...extra, body } });
-    })
-    .catch(err => sub.error(err));
+async function parseAsJSON(req: IncomingMessage) {
+  const payload = await parseRequestBody(req);
+  return JSON.parse(payload);
 }
 
 /**
