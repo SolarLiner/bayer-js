@@ -3,9 +3,9 @@ import {
   IncomingMessage,
   ServerResponse
 } from "http";
-import { Observable, OperatorFunction } from "rxjs";
+import { Observable, OperatorFunction, of } from "rxjs";
 import { ServerMiddleware } from "./middleware";
-import { retry, catchError } from "rxjs/operators";
+import { retry, catchError, switchMap } from "rxjs/operators";
 
 /**
  * Encapsulated Request and Response objects. The extra object can contain
@@ -98,7 +98,7 @@ export class Server {
    */
   public run() {
     this.use(this.errorMiddleware(), Number.MIN_SAFE_INTEGER);
-    let obs = this._obs.pipe(retry());
+    let obs = this._obs.pipe(switchMap(v => of(v)));
     for (let { middleware } of this._mdw) {
       obs = addToPipe(obs, middleware);
     }
