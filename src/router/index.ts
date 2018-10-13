@@ -107,10 +107,11 @@ export class Router {
           request: { req, res, extra },
           extra
         };
-        const route = this._routes.filter(r =>
+        const filteredRoutes = this._routes.filter(r =>
           matchesRoute(r, path, method)
-        )[0];
-        if (route) {
+        );
+        if (filteredRoutes.length > 0) {
+          const route = filteredRoutes[0];
           return of({ ...request, params: getMatchParams(route, path) }).pipe(
             route.handler,
             map(this.sendResponse({res, req, extra}))
