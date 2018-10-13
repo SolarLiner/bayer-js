@@ -4,8 +4,8 @@ import { parse } from "url";
 import { IncomingHttpHeaders, OutgoingHttpHeaders, ServerResponse } from "http";
 import { IServerRequest } from "../server";
 import { of, OperatorFunction, pipe } from "rxjs";
-import { Minimatch } from "minimatch";
 import { Stream } from "stream";
+import pathToRegExp from "path-to-regexp";
 
 // from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 const HTTP_VERBS = [
@@ -151,20 +151,16 @@ export class Router {
     }
   }
 
-  public addRoute(route: RegExp, ...methods: HTTPVerb[]) {
+  public addRoute(path: string, ...methods: HTTPVerb[]) {
     let verbs: MatchHTTPVerb[] = [...methods];
     if (verbs.length == 0) {
       verbs = ["__all__"];
     }
+    const route = pathToRegExp(path);
     const use = (handler: ResponseHandler) => {
       this._routes.push({ route, methods: verbs, handler });
-      return this;
+      return this as Router;
     };
     return { use };
-  }
-
-  public addGlobRoute(route: string, ...methods: HTTPVerb[]) {
-    const r = new Minimatch(route).makeRe();
-    return this.addRoute(r, ...methods);
   }
 }
