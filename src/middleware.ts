@@ -12,7 +12,7 @@ export type ServerMiddleware = OperatorFunction<IServerRequest, IServerRequest>;
 
 /**
  * Parses the body of a Request and tries to decode its payload.
- * 
+ *
  * If decoded, the object will be in `extra.body`. If not, the payload will be
  * available under `extra.payload`.
  */
@@ -31,10 +31,22 @@ export function bodyParser(): ServerMiddleware {
             break;
           case "multipart/form-data":
             const formdata = parse(payload);
-            sub.next({ req, res, extra: { ...extra, payload, body: formdata } });
+            sub.next({
+              req,
+              res,
+              extra: { ...extra, payload, body: formdata }
+            });
+            break;
+          case "application/x-www-form-url-encoded":
+            const decodedForm = parse(payload);
+            sub.next({
+              req,
+              res,
+              extra: { ...extra, payload, body: decodedForm }
+            });
           default:
             console.log("Unknown MIME", req.headers["content-type"]);
-            sub.next({ req, res, extra: {...extra, payload} });
+            sub.next({ req, res, extra: { ...extra, payload } });
             break;
         }
         sub.complete();
@@ -50,7 +62,6 @@ export function bodyParser(): ServerMiddleware {
 export function requestLogger(): ServerMiddleware {
   return tap(({ req, extra }) => {
     const { url, method } = req;
-    console.log("Request", method, url, extra);
   });
 }
 
@@ -62,11 +73,11 @@ type ExpressMiddleware = (
 
 /**
  * Wrap an Express middleware to work for the server.
- * 
+ *
  * Note: The wrapped middleware receive proxied objects of the request and
  * response. If the middleware adds a property to either `req` or `res`, the
  * the proxies will instead set it to the `extra` object.
- * 
+ *
  * About `next()`: This server makes no use of the `next()` method - middlewares
  * are chained together through Observable piping. All the passed function does
  * is throw an error if something is passed to it. It also checks for the type
