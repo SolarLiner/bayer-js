@@ -18,7 +18,7 @@ export type ServerMiddleware = OperatorFunction<IServerRequest, IServerRequest>;
 export interface IUploadedFiles {
   [x: string]: {
     mimetype: string;
-    file: NodeJS.ReadableStream;
+    filepath: string;
     filename: string;
   };
 }
@@ -97,7 +97,11 @@ function parseAsFormData(req: IncomingMessage): Promise<IFormDataBody> {
   };
   return new Promise((resolve, reject) => {
     busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
-      body.files[fieldname] = { file, filename, mimetype };
+      const fn = `${fieldname.toLowerCase()}-${filename.toLowerCase()}`;
+      const filepath = path.join(os.tmpdir(), fn);
+      file.pipe(fs.createWriteStream(filepath, { encoding }));
+
+      body.files[fieldname] = { filepath, filename, mimetype };
     });
     busboy.on("field", (fieldname, val) => {
       body.data[fieldname] = val;
