@@ -1,10 +1,9 @@
 import { Server } from "./server";
-import { requestLogger, expressWrapper, bodyParser } from "./middleware";
+import { requestLogger, bodyParser } from "./middleware";
 import { tap } from "rxjs/operators";
-import expressBodyParser = require("body-parser");
 
 const server = new Server(3000);
-server.use(expressWrapper(expressBodyParser.json()), 1);
+server.use(bodyParser(), 100);
 server.use(requestLogger());
 server.use(tap(({ res, extra }) => {
   res.statusCode = 200;
