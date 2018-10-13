@@ -1,7 +1,6 @@
 import { Server } from "./server";
-import { requestLogger, expressWrapper, bodyParser } from "./middleware";
-import { tap, map } from "rxjs/operators";
-import expressBodyParser = require("body-parser");
+import { requestLogger, bodyParser } from "./middleware";
+import { map } from "rxjs/operators";
 import { Router } from "./router";
 
 const server = new Server(3000);
@@ -11,6 +10,7 @@ server.use(requestLogger());
 const router = new Router();
 router.addRoute(/foo\/^(.*)$/).use(
   map(({ path, params }) => {
+    console.log("From route", path, params);
     return {
       statusCode: 404,
       content: `Params for ${path}: ${(params || []).join(", ")}\n`
