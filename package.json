@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "busboy": "^0.2.14",
+    "path-to-regexp": "^2.4.0",
     "rxjs": "^6.3.3"
   }
 }

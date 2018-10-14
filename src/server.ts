@@ -3,9 +3,10 @@ import {
   IncomingMessage,
   ServerResponse
 } from "http";
-import { Observable, OperatorFunction, of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { ServerMiddleware } from "./middleware";
-import { retry, catchError, switchMap, tap, mergeMap } from "rxjs/operators";
+import { catchError, switchMap, tap, first, mergeMap } from "rxjs/operators";
+import { addToPipe } from "./utils";
 
 /**
  * Encapsulated Request and Response objects. The extra object can contain
@@ -32,10 +33,6 @@ function observableServer(port: number, cb?: () => void) {
     server.on("close", () => sub.complete());
     server.listen(port, cb);
   });
-}
-
-function addToPipe<T, R>(obs: Observable<T>, func: OperatorFunction<T, R>) {
-  return obs.pipe(func);
 }
 
 /**
@@ -92,33 +89,45 @@ export class Server {
    * Run the server.
    */
   public run() {
-    let obs = this._obs.pipe(mergeMap(v => of(v)));
-    for (let { middleware } of this._mdw) {
-      obs = addToPipe(obs, middleware);
-    }
-    obs
-      .pipe(
-        this.errorMiddleware(),
-        this.fallbackMiddleware()
-      )
-      .subscribe();
-    return Promise.resolve(this);
+    return new Promise<Server>(resolve => {
+      const obs = this._obs.pipe(
+        mergeMap(v => {
+          let req = of(v);
+          for (const { middleware } of this._mdw) {
+            req = addToPipe(req, middleware);
+          }
+          return req.pipe(
+            this.errorMiddleware(),
+            this.fallbackMiddleware()
+          );
+        })
+      );
+      obs.subscribe();
+
+      resolve(this);
+    });
   }
 
   private errorMiddleware(): ServerMiddleware {
     return catchError((err, caught) => {
       console.error("ERROR: ", err);
-      caught.toPromise().then(({ req, res }) => {
-        if (!res.headersSent) {
-          res.writeHead(500, "Server error", { "Content-Type": "text/plain" });
-          res.write(`Cannot ${req.method} ${req.url}\n`);
-          res.write(err);
-        }
-        res.end();
-      });
+      caught.pipe(
+        first(),
+        tap(({ req, res }) => {
+          if (!res.headersSent) {
+            res.writeHead(500, "Server error", {
+              "Content-Type": "text/plain"
+            });
+            res.write(`Cannot ${req.method} ${req.url}\n`);
+            res.write(err);
+          }
+          res.end();
+        })
+      );
       return caught;
     });
   }
+
   private fallbackMiddleware(): ServerMiddleware {
     return tap(({ req, res }) => {
       if (!res.finished) {
