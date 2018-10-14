@@ -43,14 +43,42 @@ type MatchHTTPVerb = HTTPVerb | "__all__";
  * Router object being passed in to routes upon request.
  */
 export interface IRouterProps {
+  /**
+   * Request path by the client. Has been processed and standardized to always
+   * finish with a slash.
+   */
   path: string;
+  /**
+   * HTTP method requested by the client.
+   */
   method?: HTTPVerb;
+  /**
+   * Headers passed by the client in the request.
+   */
   headers: IncomingHttpHeaders;
+  /**
+   * URL query (the part after the question mark), if any.
+   */
   query?: any;
+  /**
+   * Original server request, containing Node's request and response objects.
+   * 
+   * NOTE: Only use when absolutely necessary. It is 100% better to request a
+   * feature than to use the req/res directly.
+   */
   request: IServerRequest;
+  /**
+   * Extra data that may be added from the Server or Router middleware.
+   */
   extra: {
     [x: string]: any;
   };
+  /**
+   * Parameters match from the URL route. Array in order of parameters, as
+   * given.
+   * 
+   * TODO: Change to an object.
+   */
   params?: string[];
 }
 
@@ -59,16 +87,47 @@ export interface IRouterProps {
  * Use for access control, or manipulating the props object.
  */
 export type RouterMiddleware = OperatorFunction<IRouterProps, IRouterProps>;
+
+/**
+ * Router response from the Router routes.
+ */
 interface IRouterResponse {
+  /**
+   * Status code to return to the client.
+   * 
+   * Cheatsheet:
+   * - 200 indicates an OK response
+   * - 404 indicates a page not found
+   * - 403 indicates permission denied
+   * - 418 indicates that you're actually a teapot.
+   */
   statusCode: number;
+  /**
+   * A reason to give for the status code.
+   */
   statusReason?: string;
+  /**
+   * Optional headers to send back to the client.
+   */
   headers?: OutgoingHttpHeaders;
+  /**
+   * MIME type of the response. Will overwrite the "Content-Type" header if
+   * provided, or be set to "text/plain" otherwise.
+   */
   mime?: string;
+  /**
+   * Content to send to the client. In case of a stream, the content will be
+   * piped into the response. It is therefore recommended for larger payloads to
+   * use a stream instead.
+   */
   content: string | Stream;
 }
 
+/**
+ * Response handler type alias. A response handler should take the router props
+ * in and generate a response with status code and optionally extra headers.
+ */
 type ResponseHandler = OperatorFunction<IRouterProps, IRouterResponse>;
-
 
 interface IRoute {
   route: RegExp;

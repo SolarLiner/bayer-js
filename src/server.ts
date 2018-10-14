@@ -13,8 +13,21 @@ import { addToPipe } from "./utils";
  * anything, and is mostly there for middleware that manipulate data.
  */
 export interface IServerRequest {
+  /**
+   * Incoming request. Copied from Node.js's HTTP server module.
+   */
   req: IncomingMessage;
+  /**
+   * Server response. Copied from Node.js's HTTP server module.
+   */
   res: ServerResponse;
+
+  /**
+   * Extra data that middleware can add to the request object.
+   * 
+   * NOTE: Express middleware that add data to the request/response object are
+   * redirected here instead, through Proxying.
+   */
   extra: {
     [x: string]: any;
   };

@@ -15,10 +15,23 @@ import { Transform, Readable, Writable } from "stream";
  */
 export type ServerMiddleware = OperatorFunction<IServerRequest, IServerRequest>;
 
+/**
+ * Uploaded files object.
+ */
 export interface IUploadedFiles {
   [x: string]: {
+    /**
+     * MIME type of the uploaded object.
+     * @example "image/png"
+     */
     mimetype: string;
+    /**
+     * Path of the temporary file containing the uploaded file.
+     */
     filepath: string;
+    /**
+     * Original file name when uploaded.
+     */
     filename: string;
   };
 }
@@ -84,8 +97,17 @@ async function parseAsURLEncoded(req: IncomingMessage) {
   return parse(payload);
 }
 
+/**
+ * Form data object returned from parsing form-data bodies.
+ */
 interface IFormDataBody {
+  /**
+   * List of uploaded files
+   */
   files: IUploadedFiles;
+  /**
+   * Object of `"key": "value"` pairs.
+   */
   data: any;
 }
 
