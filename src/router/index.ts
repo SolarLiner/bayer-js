@@ -19,6 +19,14 @@ const HTTP_VERBS = [
   "TRACE",
   "PATCH"
 ];
+
+/**
+ * Accepted HTTP verbs. This restricts the use of allowed HTTP verbs towards
+ * better developer experience - this may be changed later though.
+ * 
+ * The list of verbs has been taken from 
+ * https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods.
+ */
 export type HTTPVerb =
   | "GET"
   | "HEAD"
@@ -31,6 +39,9 @@ export type HTTPVerb =
   | "PATCH";
 type MatchHTTPVerb = HTTPVerb | "__all__";
 
+/**
+ * Router object being passed in to routes upon request.
+ */
 export interface IRouterProps {
   path: string;
   method?: HTTPVerb;
@@ -43,6 +54,10 @@ export interface IRouterProps {
   params?: string[];
 }
 
+/**
+ * Router middleware that's called on every request, even unmapped ones.
+ * Use for access control, or manipulating the props object.
+ */
 export type RouterMiddleware = OperatorFunction<IRouterProps, IRouterProps>;
 interface IRouterResponse {
   statusCode: number;
@@ -54,7 +69,8 @@ interface IRouterResponse {
 
 type ResponseHandler = OperatorFunction<IRouterProps, IRouterResponse>;
 
-export interface IRoute {
+
+interface IRoute {
   route: RegExp;
   methods: MatchHTTPVerb[];
   handler: ResponseHandler;
@@ -80,19 +96,42 @@ function getMatchParams(r: IRoute, path: string, index?: number) {
   return matches;
 }
 
+/**
+ * Router middleware.
+ * This class handles dispatching requests to routes, and piping callbacks.
+ */
 export class Router {
   private _routes: IRoute[];
 
+  /**
+   * Initializes a new Router instance.
+   */
   constructor() {
     this._routes = new Array();
   }
 
+  /**
+   * Add a route to manage through the router.
+   * 
+   * The actual callback will be provided through using the returned function
+   * `use`, which itself returns this very instance; this way you can chain
+   * several route definitions in one go.
+   * @param path Route path. Can have named parameters, which will be matched 
+   * using `path-to-regexp`, just like many other server libraries.
+   * @param methods Methods to match the route to. If omitted, all methods will
+   * be matched to this route.
+   */
   public addRoute(path: string, ...methods: HTTPVerb[]) {
     let verbs: MatchHTTPVerb[] = [...methods];
     if (verbs.length == 0) {
       verbs = ["__all__"];
     }
     const route = pathToRegExp(path);
+    /**
+     * Use this route with the given callback.
+     * @param handler Pipable callback which handles writing the response
+     * string.
+     */
     const use = (handler: ResponseHandler) => {
       this._routes.push({ route, methods: verbs, handler });
       return this as Router;
@@ -100,6 +139,9 @@ export class Router {
     return { use };
   }
 
+  /**
+   * Pass this Router instance to the server as a middleware.
+   */
   public asMiddleware(): ServerMiddleware {
     console.log(this._routes);
     return pipe(
