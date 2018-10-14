@@ -1,7 +1,7 @@
 import { Observable, OperatorFunction, of, Subscriber, from } from "rxjs";
 import { tap, map, mergeMap } from "rxjs/operators";
 import { StringDecoder } from "string_decoder";
-import { IServerRequest } from "./server";
+import { IServerRequest } from ".";
 import { IncomingMessage, ServerResponse } from "http";
 import { parse } from "querystring";
 import Busboy from "busboy";

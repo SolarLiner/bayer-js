@@ -2,7 +2,7 @@ import { ServerMiddleware } from "../middleware";
 import { map, mergeMap } from "rxjs/operators";
 import { parse } from "url";
 import { IncomingHttpHeaders, OutgoingHttpHeaders, ServerResponse } from "http";
-import { IServerRequest } from "../server";
+import { IServerRequest } from "..";
 import { of, OperatorFunction, pipe } from "rxjs";
 import { Stream } from "stream";
 import pathToRegExp from "path-to-regexp";
