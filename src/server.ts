@@ -5,7 +5,7 @@ import {
 } from "http";
 import { Observable, OperatorFunction, of } from "rxjs";
 import { ServerMiddleware } from "./middleware";
-import { retry, catchError, switchMap, tap } from "rxjs/operators";
+import { retry, catchError, switchMap, tap, mergeMap } from "rxjs/operators";
 
 /**
  * Encapsulated Request and Response objects. The extra object can contain
@@ -92,11 +92,16 @@ export class Server {
    * Run the server.
    */
   public run() {
-    let obs = this._obs.pipe(switchMap(v => of(v)));
+    let obs = this._obs.pipe(mergeMap(v => of(v)));
     for (let { middleware } of this._mdw) {
       obs = addToPipe(obs, middleware);
     }
-    obs.pipe(this.errorMiddleware(), this.fallbackMiddleware()).subscribe();
+    obs
+      .pipe(
+        this.errorMiddleware(),
+        this.fallbackMiddleware()
+      )
+      .subscribe();
     return Promise.resolve(this);
   }
 
@@ -104,9 +109,11 @@ export class Server {
     return catchError((err, caught) => {
       console.error("ERROR: ", err);
       caught.toPromise().then(({ req, res }) => {
-        res.writeHead(500, "Server error", { "Content-Type": "text/plain" });
-        res.write(`Cannot ${req.method} ${req.url}\n`);
-        res.write(err);
+        if (!res.headersSent) {
+          res.writeHead(500, "Server error", { "Content-Type": "text/plain" });
+          res.write(`Cannot ${req.method} ${req.url}\n`);
+          res.write(err);
+        }
         res.end();
       });
       return caught;
@@ -115,9 +122,14 @@ export class Server {
   private fallbackMiddleware(): ServerMiddleware {
     return tap(({ req, res }) => {
       if (!res.finished) {
-        res.writeHead(404, "Content not found", { "Content-Type": "text/plain" });
-        res.write(`Cannot ${req.method} ${req.url}`);
+        if (!res.headersSent) {
+          res.writeHead(404, "Content not found", {
+            "Content-Type": "text/plain"
+          });
+          res.write(`Cannot ${req.method} ${req.url}`);
+        }
+        res.end();
       }
-    })
+    });
   }
 }
