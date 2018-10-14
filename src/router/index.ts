@@ -127,7 +127,7 @@ interface IRouterResponse {
  * Response handler type alias. A response handler should take the router props
  * in and generate a response with status code and optionally extra headers.
  */
-type ResponseHandler = OperatorFunction<IRouterProps, IRouterResponse>;
+export type ResponseHandler = OperatorFunction<IRouterProps, IRouterResponse>;
 
 interface IRoute {
   route: RegExp;
