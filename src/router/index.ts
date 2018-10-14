@@ -148,8 +148,11 @@ export class Router {
   private sendResponse({ req, res, extra }: IServerRequest) {
     return (response: IRouterResponse) => {
       if (response.statusCode == 200) {
-        res.writeHead(200, response.headers);
-        res.setHeader("Content-Type", response.mime || "text/plain");
+        const headers = {
+          ...response.headers,
+          "Content-Type": response.mime || "text/plain"
+        };
+        res.writeHead(200, headers);
         this.sendResponseContent(response.content, res);
       } else {
         res.writeHead(
