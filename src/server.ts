@@ -5,7 +5,7 @@ import {
 } from "http";
 import { Observable, of } from "rxjs";
 import { ServerMiddleware } from "./middleware";
-import { catchError, switchMap, tap, first } from "rxjs/operators";
+import { catchError, switchMap, tap, first, mergeMap } from "rxjs/operators";
 import { addToPipe } from "./utils";
 
 /**
