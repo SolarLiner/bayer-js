@@ -143,9 +143,10 @@ async function parseAsJSON(req: IncomingMessage) {
  * Logs request as they come.
  */
 export function requestLogger(): ServerMiddleware {
-  return tap(({ req, extra }) => {
+  return tap(({ req, res, extra }) => {
     const { url, method } = req;
-    console.log("Request", method, url, extra);
+    const { statusCode } = res;
+    console.log("Request", method, statusCode, url, extra);
   });
 }
 
