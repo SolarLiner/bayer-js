@@ -272,8 +272,7 @@ export class Router {
       res.write(content);
       res.end();
     } else {
-      content.on("data", buf => res.write(buf));
-      content.on("end", () => res.end());
+      content.pipe(res);
     }
   }
 }
