@@ -1,0 +1,17 @@
+{
+  "name": "Bayer.JS",
+  "mode": "modules",
+  "out": "docs/",
+  "theme": "default",
+  "ignoreCompilerErrors": "true",
+  "includeDeclarations": false,
+  "experimentalDecorators": "true",
+  "emitDecoratorMetadata": "true",
+  "target": "ES5",
+  "moduleResolution": "node",
+  "preserveConstEnums": "true",
+  "stripInternal": "true",
+  "suppressExcessPropertyErrors": "true",
+  "suppressImplicitAnyIndexErrors": "true",
+  "module": "commonjs"
+}

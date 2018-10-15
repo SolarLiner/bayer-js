@@ -8,7 +8,7 @@
   "private": false,
   "scripts": {
     "build": "tsc",
-    "docs": "typedoc --exclude src/index.ts --out docs --ignoreCompilerErrors",
+    "docs": "typedoc --options typedoc.json src",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src"
   },
