@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Debug test program",
       "args": [
-        "${workspaceFolder}/src/index.ts"
+        "${workspaceFolder}/app/index.ts"
       ],
       "runtimeArgs": [
         "--nolazy", "-r", "ts-node/register"
