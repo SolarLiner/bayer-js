@@ -253,7 +253,7 @@ export class Router {
           ...response.headers,
           "Content-Type": response.mime || "text/plain"
         };
-        res.writeHead(200, headers);
+        res.writeHead(200, response.statusReason || "OK", headers);
         this.sendResponseContent(response.content, res);
       } else {
         res.writeHead(
