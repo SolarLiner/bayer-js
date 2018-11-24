@@ -76,3 +76,6 @@ typings/
 
 # Test app
 app
+
+# HTTPS local certs
+.https
