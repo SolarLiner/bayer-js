@@ -11,5 +11,12 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "build": "lerna run build",
+    "watch": "lerna run watch",
+    "clean": "lerna run clean",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix"
+  }
 }
