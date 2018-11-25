@@ -8,16 +8,17 @@
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.16.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.1.6"
+    "typescript": "^3.1.6",
+    "rimraf": "^2.6.2"
   },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run build",
-    "watch": "lerna run watch",
-    "clean": "lerna run clean",
-    "lint": "lerna run lint",
-    "lint:fix": "lerna run lint:fix"
+    "build": "lerna exec 'tsc'",
+    "watch": "lerna exec 'tsc --watch'",
+    "clean": "lerna exec 'rimraf lib'",
+    "lint": "lerna exec 'tslint -p tsconfig.json'",
+    "lint:fix": "lerna exec 'tslint -p tsconfig.json --fix'"
   }
 }
