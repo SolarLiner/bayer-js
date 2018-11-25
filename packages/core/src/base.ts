@@ -19,7 +19,7 @@ import { IServerRequest, InternalMiddleware, ServerMiddleware } from "./index";
  * evaluating properties of Observables.
  */
 export abstract class BaseServer {
-  private _mdw: InternalMiddleware[];
+  private middleware: InternalMiddleware[];
   /**
    * Initializes a new Server instance.
    * Contrary to other popular server libraries, the port is passed on the
@@ -34,7 +34,7 @@ export abstract class BaseServer {
    * @param port Port to bind the server to.
    */
   constructor() {
-    this._mdw = new Array();
+    this.middleware = new Array();
   }
 
   public abstract get observer(): Observable<IServerRequest>;
@@ -47,9 +47,9 @@ export abstract class BaseServer {
    */
   public use(middleware: ServerMiddleware, priority?: number) {
     priority = priority || 0;
-    this._mdw.push({ priority, middleware });
-    if (this._mdw.length > 1) {
-      this._mdw.sort((a, b) => b.priority - a.priority);
+    this.middleware.push({ priority, middleware });
+    if (this.middleware.length > 1) {
+      this.middleware.sort((a, b) => b.priority - a.priority);
     }
   }
   /**
@@ -59,7 +59,7 @@ export abstract class BaseServer {
     return new Promise<BaseServer>(resolve => {
       const obs = this.observer.pipe(mergeMap(v => {
         let req = of(v);
-        for (const { middleware } of this._mdw) {
+        for (const { middleware } of this.middleware) {
           req = addToPipe(req, middleware);
         }
         return req.pipe(this.errorMiddleware(), this.fallbackMiddleware());
