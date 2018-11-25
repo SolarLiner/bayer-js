@@ -1,10 +1,10 @@
 /**
  * Plug-n-play middleware to a Server instance.
- * 
+ *
  * TODO: Write middleware doc
- * 
+ *
  * Copyright 2018 Nathan "SolarLiner" Graule
-
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,16 +24,16 @@
  * SOFTWARE.
  */
 
-import { from } from "rxjs";
-import { tap, map, mergeMap } from "rxjs/operators";
-import { StringDecoder } from "string_decoder";
 import { ServerMiddleware } from "@bayerjs/core";
-import { IncomingMessage, ServerResponse } from "http";
-import { parse } from "querystring";
 import Busboy from "busboy";
 import fs from "fs";
+import { IncomingMessage, ServerResponse } from "http";
 import os from "os";
 import path from "path";
+import { parse } from "querystring";
+import { from } from "rxjs";
+import { map, mergeMap, tap } from "rxjs/operators";
+import { StringDecoder } from "string_decoder";
 
 /**
  * Uploaded files object.
@@ -134,8 +134,8 @@ interface IFormDataBody {
 function parseAsFormData(req: IncomingMessage): Promise<IFormDataBody> {
   const busboy = new Busboy({ headers: req.headers });
   const body = {
-    files: {} as IUploadedFiles,
-    data: {} as any
+    data: {} as any,
+    files: {} as IUploadedFiles
   };
   return new Promise((resolve) => {
     busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
@@ -166,6 +166,7 @@ export function requestLogger(): ServerMiddleware {
   return tap(({ req, res, extra }) => {
     const { url, method } = req;
     const { statusCode } = res;
+    // tslint:disable-next-line:no-console
     console.log("Request", method, statusCode, url, extra);
   });
 }
@@ -193,8 +194,8 @@ type ExpressMiddleware = (
  * @param m Express middleware to wrap.
  */
 export function expressWrapper(m: ExpressMiddleware): ServerMiddleware {
-  const t = function(err?: any) {
-    if (!err) return;
+  const t = (err?: any) => {
+    if (!err) { return; }
     if (!(err instanceof Error)) {
       throw new Error(err);
     } else {
@@ -207,19 +208,19 @@ export function expressWrapper(m: ExpressMiddleware): ServerMiddleware {
     const proxyFactory = (obj: any) => {
       return new Proxy(obj, {
         get: (tgt, name) => {
-          if (name in tgt) return tgt[name];
-          else return extra[name] || undefined;
+          if (name in tgt) { return tgt[name]; }
+          else { return extra[name] || undefined; }
         },
         set: (tgt, name, value) => {
-          if (name in tgt) tgt[name] = value;
-          else extra[name] = value;
+          if (name in tgt) { tgt[name] = value; }
+          else { extra[name] = value; }
           return true;
         }
       });
     };
-    const __req = proxyFactory(req);
-    const __res = proxyFactory(res);
-    m(__req, __res, t);
+    const proxyReq = proxyFactory(req);
+    const proxyRes = proxyFactory(res);
+    m(proxyReq, proxyRes, t);
     return { req, res, extra };
   });
 }
