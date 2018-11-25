@@ -1,7 +1,7 @@
 import { Observable, of } from "rxjs";
-import { mergeMap, catchError, first, tap } from "rxjs/operators";
+import { catchError, first, mergeMap, tap } from "rxjs/operators";
+import { InternalMiddleware, IServerRequest, ServerMiddleware } from "./index";
 import { addToPipe } from "./utils";
-import { IServerRequest, InternalMiddleware, ServerMiddleware } from "./index";
 
 /**
  * TODO: Change the reference documentation
@@ -70,6 +70,7 @@ export abstract class BaseServer {
   }
   private errorMiddleware(): ServerMiddleware {
     return catchError((err, caught) => {
+      // tslint:disable-next-line:no-console
       console.error("ERROR: ", err);
       caught.pipe(first(), tap(({ req, res }) => {
         if (!res.headersSent) {

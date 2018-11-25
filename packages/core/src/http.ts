@@ -1,8 +1,8 @@
 import { Server } from "http";
+import { createServer, ServerOptions } from "https";
 import { Observable } from "rxjs";
 import { IServerRequest } from ".";
 import { BaseServer } from "./base";
-import { ServerOptions, createServer } from "https";
 export class HTTPServer extends BaseServer {
   private obs: Observable<IServerRequest>;
 
