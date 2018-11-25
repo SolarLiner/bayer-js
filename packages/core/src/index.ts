@@ -62,3 +62,7 @@ export interface InternalMiddleware {
   middleware: ServerMiddleware;
   priority: number;
 }
+
+// Export server classes
+export { BaseServer } from "./base";
+export { HTTPServer, HTTPSServer } from "./http";
