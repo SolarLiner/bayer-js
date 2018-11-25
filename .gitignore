@@ -79,3 +79,6 @@ app
 
 # HTTPS local certs
 .https
+
+# Test package
+packages/test

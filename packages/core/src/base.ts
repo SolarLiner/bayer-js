@@ -79,6 +79,7 @@ export abstract class BaseServer {
           });
           res.write(`Error ${req.method}ing ${req.url}\n`);
           res.write(err);
+          res.write("\n");
         }
         res.end();
       }));
