@@ -10,7 +10,9 @@
 		}
 	],
 	"settings": {
-		"typescript.tsdk": "node_modules/typescript/lib"
+		"typescript.tsdk": "node_modules/typescript/lib",
+    "liveServer.settings.multiRootWorkspaceName": "Bayer.JS",
+    "liveServer.settings.root": "/docs"
 	},
 	"extensions": {
 		"recommendations": [

@@ -2,6 +2,28 @@
 
 Reactive server abstractions library for Node.js.
 
+```typescript
+import { HTTPServer } from "@bayerjs/core";
+import { bodyParser } from "@bayerjs/middleware";
+import { tap } from "rxjs/operators";
+
+// Initialize a server (port is given on initialization rather than on run)
+const server = new HTTPServer(3000);
+
+// Use middleware and define priority order
+server.use(bodyParser(), 1);
+server.use(tap(({ res, extra }) => {
+  // Parsed body from a request from the body parser middleware
+  const { name } = extra.body;
+  res.writeHead(200, "OK");
+  res.write(`Hello ${name}, it's nice to meet you!`);
+  res.end();
+}));
+
+// Run the server
+server.run().then(() => console.log("Listening on http://localhost:3000"));
+```
+
 ## What it is
 
 Bayer is a reactive library that abstracts away the difficulty of setting up a
