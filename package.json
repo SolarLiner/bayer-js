@@ -5,11 +5,13 @@
   "devDependencies": {
     "lerna": "^3.4.3",
     "prettier": "^1.15.2",
+    "rimraf": "^2.6.2",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.16.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.1.6",
-    "rimraf": "^2.6.2"
+    "typedoc": "^0.13.0",
+    "typedoc-plugin-monorepo": "^0.1.0",
+    "typescript": "^3.1.6"
   },
   "workspaces": [
     "packages/*"
@@ -19,6 +21,7 @@
     "watch": "lerna exec 'tsc --watch'",
     "clean": "lerna exec 'rimraf lib'",
     "lint": "lerna exec 'tslint -p tsconfig.json'",
-    "lint:fix": "lerna exec 'tslint -p tsconfig.json --fix'"
+    "lint:fix": "lerna exec 'tslint -p tsconfig.json --fix'",
+    "docs": "typedoc --options typedoc.json packages"
   }
 }
