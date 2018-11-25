@@ -22,6 +22,6 @@
     "clean": "lerna exec 'rimraf lib'",
     "lint": "lerna exec 'tslint -p tsconfig.json'",
     "lint:fix": "lerna exec 'tslint -p tsconfig.json --fix'",
-    "docs": "typedoc --options typedoc.json packages"
+    "docs": "typedoc --options typedoc.json packages --exclude test --excludePrivate --excludeProtected"
   }
 }
