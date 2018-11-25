@@ -1,6 +1,6 @@
 {
   "name": "@bayerjs/middleware",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.1-alpha.0",
   "description": "Middlewares for the Bayer.JS server library.",
   "keywords": [
     "bayer",
@@ -35,7 +35,7 @@
     "url": "https://github.com/solarliner/bayer-js/issues"
   },
   "dependencies": {
-    "@bayerjs/core": "^0.1.0-alpha.0",
+    "@bayerjs/core": "^0.1.1-alpha.0",
     "busboy": "^0.2.14",
     "rxjs": "^6.3.3"
   },
