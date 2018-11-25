@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "Bayer.JS"
+		},
+		{
+			"path": "packages/test",
+			"name": "Bayer.JS test project"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "node_modules/typescript/lib"
+	},
+	"extensions": {
+		"recommendations": [
+			"vector-of-bool.gitflow",
+			"knisterpeter.vscode-github",
+			"eg2.tslint"
+		]
+	}
+}
