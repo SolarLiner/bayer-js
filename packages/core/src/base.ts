@@ -77,7 +77,7 @@ export abstract class BaseServer {
           res.writeHead(500, "Server error", {
             "Content-Type": "text/plain"
           });
-          res.write(`Cannot ${req.method} ${req.url}\n`);
+          res.write(`Error ${req.method}ing ${req.url}\n`);
           res.write(err);
         }
         res.end();
@@ -92,7 +92,7 @@ export abstract class BaseServer {
           res.writeHead(404, "Content not found", {
             "Content-Type": "text/plain"
           });
-          res.write(`Cannot ${req.method} ${req.url}`);
+          res.write(`Cannot ${req.method} ${req.url}\n`);
         }
         res.end();
       }
