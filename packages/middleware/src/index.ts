@@ -24,22 +24,16 @@
  * SOFTWARE.
  */
 
-import { Observable, OperatorFunction, of, Subscriber, from } from "rxjs";
+import { from } from "rxjs";
 import { tap, map, mergeMap } from "rxjs/operators";
 import { StringDecoder } from "string_decoder";
-import { IServerRequest } from ".";
+import { ServerMiddleware } from "@bayerjs/core";
 import { IncomingMessage, ServerResponse } from "http";
 import { parse } from "querystring";
 import Busboy from "busboy";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { Transform, Readable, Writable } from "stream";
-
-/**
- * Server middleware type.
- */
-export type ServerMiddleware = OperatorFunction<IServerRequest, IServerRequest>;
 
 /**
  * Uploaded files object.
@@ -85,7 +79,7 @@ function parseRequestBody(res: IncomingMessage): Promise<string> {
  */
 export function bodyParser(): ServerMiddleware {
   return mergeMap(({ req, res, extra }) => {
-    const [mimeType, _] = (req.headers["content-type"] || "text-plain").split(
+    const [mimeType] = (req.headers["content-type"] || "text-plain").split(
       ";",
       2
     );
@@ -143,7 +137,7 @@ function parseAsFormData(req: IncomingMessage): Promise<IFormDataBody> {
     files: {} as IUploadedFiles,
     data: {} as any
   };
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
       const fn = `${fieldname.toLowerCase()}-${filename.toLowerCase()}`;
       const filepath = path.join(os.tmpdir(), fn);
@@ -176,6 +170,9 @@ export function requestLogger(): ServerMiddleware {
   });
 }
 
+/**
+ * Express middleware type. Taken from the express type definitions.
+ */
 type ExpressMiddleware = (
   req: IncomingMessage,
   res: ServerResponse,
@@ -205,7 +202,7 @@ export function expressWrapper(m: ExpressMiddleware): ServerMiddleware {
     }
   };
 
-  return map(({ req, res, extra: _e }) => {
+  return map(({ req, res }) => {
     const extra: any = {};
     const proxyFactory = (obj: any) => {
       return new Proxy(obj, {
@@ -213,7 +210,7 @@ export function expressWrapper(m: ExpressMiddleware): ServerMiddleware {
           if (name in tgt) return tgt[name];
           else return extra[name] || undefined;
         },
-        set: (tgt, name, value, receiver) => {
+        set: (tgt, name, value) => {
           if (name in tgt) tgt[name] = value;
           else extra[name] = value;
           return true;

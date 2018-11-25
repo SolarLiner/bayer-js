@@ -27,10 +27,14 @@ import {
   IncomingMessage,
   ServerResponse
 } from "http";
-import { Observable, of } from "rxjs";
-import { ServerMiddleware } from "./middleware";
+import { Observable, of, OperatorFunction } from "rxjs";
 import { mergeMap, catchError, first, tap } from "rxjs/operators";
 import { addToPipe } from "./utils";
+
+/**
+ * Server middleware type.
+ */
+export type ServerMiddleware = OperatorFunction<IServerRequest, IServerRequest>;
 
 /**
  * Encapsulated Request and Response objects. The extra object can contain
