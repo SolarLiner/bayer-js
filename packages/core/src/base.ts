@@ -19,7 +19,6 @@ import { IServerRequest, InternalMiddleware, ServerMiddleware } from "./index";
  * evaluating properties of Observables.
  */
 export abstract class BaseServer {
-  protected abstract _obs: Observable<IServerRequest>;
   private _mdw: InternalMiddleware[];
   /**
    * Initializes a new Server instance.
@@ -37,6 +36,9 @@ export abstract class BaseServer {
   constructor() {
     this._mdw = new Array();
   }
+
+  public abstract get observer(): Observable<IServerRequest>;
+
   /**
    *
    * @param middleware Server middleware to plug into the server.
@@ -55,7 +57,7 @@ export abstract class BaseServer {
    */
   public run() {
     return new Promise<BaseServer>(resolve => {
-      const obs = this._obs.pipe(mergeMap(v => {
+      const obs = this.observer.pipe(mergeMap(v => {
         let req = of(v);
         for (const { middleware } of this._mdw) {
           req = addToPipe(req, middleware);
