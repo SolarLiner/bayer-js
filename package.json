@@ -9,8 +9,8 @@
   "scripts": {
     "build": "tsc",
     "docs": "typedoc --options typedoc.json src",
-    "lint": "eslint src",
-    "lint:fix": "eslint --fix src"
+    "lint": "tslint src",
+    "lint:fix": "tslint --fix src"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
@@ -18,11 +18,12 @@
     "@types/mime-types": "^2.1.0",
     "@types/node": "^10.11.7",
     "body-parser": "^1.18.3",
-    "eslint-plugin-prettier": "^3.0.0",
-    "eslit": "^5.0.0",
     "parcel-bundler": "^1.10.3",
     "prettier": "^1.14.3",
     "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.16.0",
+    "tslint-plugin-prettier": "^2.0.1",
     "typedoc": "^0.13.0",
     "typescript": "^3.1.2",
     "typescript-eslint-parser": "^20.0.0"
