@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "docs": "typedoc --options typedoc.json src",
-    "lint": "tslint src",
+    "lint": "tslint -p tsconfig.json",
     "lint:fix": "tslint --fix src"
   },
   "devDependencies": {
