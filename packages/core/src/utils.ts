@@ -1,10 +1,10 @@
 /**
- * Route handlers for the Bayer.JS router.
- * 
- * TODO: Write router handler documentation
- * 
+ * Utilities for the library.
+ *
+ * @internal
+ *
  * Copyright 2018 Nathan "SolarLiner" Graule
-
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,35 +24,18 @@
  * SOFTWARE.
  */
 
-import { ResponseHandler } from ".";
-import { map } from "rxjs/operators";
-import { join } from "path";
-import { createReadStream, lstatSync } from "fs";
-import { lookup } from "mime-types";
-import { lstat } from "fs-extra";
+import { Observable, OperatorFunction } from "rxjs";
 
-export function staticHandler(directory: string, base: string): ResponseHandler {
-  if (!base.endsWith("/")) base += "/";
-  return map(({ path }) => {
-    const relPath = path.replace(base, "").replace(/^\/|\/$/, "");
-    let filepath = join(directory, relPath);
-    if (lstatSync(filepath).isDirectory()) {
-      filepath = join(filepath, "index.html");
-    }
-    const fstream = createReadStream(filepath);
-    const mime = lookup(filepath);
-    if (!mime) {
-      return {
-        statusCode: 404,
-        statusReason: "File not found",
-        content: `Couldn't retrieve ${path}`
-      };
-    } else {
-      return {
-        statusCode: 200,
-        mime,
-        content: fstream
-      };
-    }
-  });
+/**
+ * Return the passed in operator with the given function piped.
+ * @param obs Target observable
+ * @param func Operator to pipe to
+ * @internal This operator is used internally and should be of no purpose
+ * outside this project.
+ */
+export function addToPipe<T, R>(
+  obs: Observable<T>,
+  func: OperatorFunction<T, R>
+) {
+  return obs.pipe(func);
 }
