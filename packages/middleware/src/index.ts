@@ -24,7 +24,7 @@
  * SOFTWARE.
  */
 
-import { ServerMiddleware } from "@bayerjs/core";
+import { IServerRequest, ServerMiddleware } from "@bayerjs/core";
 import Busboy from "busboy";
 import fs from "fs";
 import { IncomingMessage, ServerResponse } from "http";
@@ -103,9 +103,9 @@ export function bodyParser(): ServerMiddleware {
           })
         );
       default:
-        return from(parseRequestBody(req)).pipe(
-          map(body => {
-            return { req, res, extra: { ...extra, body } };
+        return from(parseRequestBody(req)).pipe<IServerRequest>(
+          map(payload => {
+            return { req, res, extra: { ...extra, payload } };
           })
         );
     }
