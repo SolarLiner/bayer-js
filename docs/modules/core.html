@@ -68,15 +68,49 @@
 		<div class="col-8 col-content">
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
-					<h1 id="core"><code>core</code></h1>
-					<blockquote>
-						<p>TODO: description</p>
-					</blockquote>
+					<h1 id="-bayerjs-core"><code>@bayerjs/core</code></h1>
+					<p>Core server abstract library. Features an HTTP and an HTTPS server, as well as
+						exposing the base class powering the two of them to implement other protocols on
+					top.</p>
 					<h2 id="usage">Usage</h2>
-					<pre><code><span class="hljs-keyword">const</span> core = <span class="hljs-built_in">require</span>(<span class="hljs-string">'core'</span>);
+					<h3 id="initialize-a-server-object">Initialize a server object</h3>
+					<h4 id="http-server">HTTP Server</h4>
+					<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { HTTPServer } <span class="hljs-keyword">from</span> "@bayerjs/core";
 
-<p><span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+<p>// Port <span class="hljs-keyword">is</span> defined <span class="hljs-keyword">on</span> instanciation
+const <span class="hljs-keyword">server</span> = <span class="hljs-built_in">new</span> HTTPServer(<span class="hljs-number">3000</span>);
+// Run <span class="hljs-keyword">server</span> (will <span class="hljs-number">404</span> <span class="hljs-keyword">on</span> every request)
+<span class="hljs-keyword">server</span>.run();
 </code></pre></p>
+					<h2 id="https-server">HTTPS Server</h2>
+					<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { HTTPSServer } from <span class="hljs-string">"@bayerjs/core"</span>;
+<span class="hljs-keyword">import</span> { readFileSync } from <span class="hljs-string">"fs"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-built_in">join</span> } from <span class="hljs-string">"path"</span>;
+<span class="hljs-comment">// HTTPS cryptographic keys</span>
+<span class="hljs-keyword">const</span> <span class="hljs-built_in">key</span> = readFileSync(<span class="hljs-built_in">join</span>(__dirname, <span class="hljs-string">"key.pem"</span>));
+<span class="hljs-keyword">const</span> cert = readFileSync(<span class="hljs-built_in">join</span>(__dirname, <span class="hljs-string">"cert.pem"</span>));
+
+<p><span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> HTTPSServer(<span class="hljs-number">3000</span>, { <span class="hljs-built_in">key</span>, cert });
+</code></pre></p>
+					<h3 id="add-middleware">Add middleware</h3>
+					<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { tap } <span class="hljs-keyword">from</span> "rxjs/operators";
+// <span class="hljs-keyword">With</span> either the HTTP <span class="hljs-keyword">or</span> HTTPS <span class="hljs-keyword">server</span>
+<span class="hljs-keyword">server</span>.use(tap(({ req, res, extra }) =&gt; {
+  res.writeHead(<span class="hljs-number">200</span>, "OK");
+  res.<span class="hljs-keyword">write</span>("Hello, world!");
+  res.<span class="hljs-keyword">end</span>();
+}));
+</code></pre>
+					<p>To pass data to middleware further down, write into the <code>extra</code> object:</p>
+					<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { map } <span class="hljs-keyword">from</span> <span class="hljs-string">"rxjs/operators"</span>;
+<span class="hljs-comment">// The number as second parameter is the priority. See the reference doc.</span>
+server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, extra }</span>) =&gt;</span> {
+  <span class="hljs-comment">// Push custom headers into the extra object</span>
+  <span class="hljs-built_in">Object</span>.keys(req.headers).filter(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.startsWith(<span class="hljs-string">"x-"</span>)).forEach(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> {
+    extra[v] = req.headers[v];
+  });
+}), <span class="hljs-number">1</span>);
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -121,7 +155,7 @@
 					<div class="tsd-signature tsd-kind-icon">Server<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/core/src/index.ts#L35">core/src/index.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/98f0f7a/packages/core/src/index.ts#L35">core/src/index.ts:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -143,7 +177,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/core/src/utils.ts#L36">core/src/utils.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/98f0f7a/packages/core/src/utils.ts#L36">core/src/utils.ts:36</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -201,6 +235,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="router.html">router</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="test.html">test</a>
 					</li>
 				</ul>
 			</nav>
