@@ -15,7 +15,7 @@ import { HTTPServer } from "@bayerjs/core";
 
 // Port is defined on instanciation
 const server = new HTTPServer(3000);
-// Run server (will 404 on every request)
+// Run server (will 404 on every request with this configuration)
 server.run();
 ```
 
