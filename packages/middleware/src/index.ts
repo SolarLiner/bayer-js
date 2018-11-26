@@ -175,8 +175,8 @@ export function requestLogger(): ServerMiddleware {
  * Express middleware type. Taken from the express type definitions.
  */
 type ExpressMiddleware = (
-  req: IncomingMessage,
-  res: ServerResponse,
+  req: any,
+  res: any,
   next: (err?: any) => void
 ) => void;
 
