@@ -23,42 +23,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Server } from "http";
-import { createServer, ServerOptions } from "https";
+import { IncomingMessage, ServerResponse } from "http";
 import { Observable } from "rxjs";
 import { IServerRequest } from ".";
 import { BaseServer } from "./base";
-export class HTTPServer extends BaseServer {
+
+type RequestFunction = (req: IncomingMessage, res: ServerResponse) => void;
+
+/**
+ * Manual server class. Manually supply request and response objects through the
+ * `request` method.
+ */
+export class ManualServer extends BaseServer {
+  /**
+   * Request method.
+   * @param {IncomingMessage} req Request object from Node.js http
+   * @param {ServerResponse} res Response object from Node.js http
+   */
+  public request!: RequestFunction;
   private obs: Observable<IServerRequest>;
 
-  constructor(port: number) {
+  constructor() {
     super();
     this.obs = new Observable<IServerRequest>(sub => {
-      const server = new Server((req, res) => {
+      /**
+       * Send request/response objects to the server.
+       * @param req Request object from Node.js http
+       * @param res Response object from Node.js http
+       */
+      const request: RequestFunction = (req, res) => {
         sub.next({ req, res, extra: {} });
-      });
-      server.on("close", () => sub.complete());
-      server.listen(port);
-    });
-  }
-
-  public get observer() {
-    return this.obs;
-  }
-}
-
-export class HTTPSServer extends BaseServer {
-  private obs: Observable<IServerRequest>;
-
-  constructor(port: number, options: ServerOptions) {
-    super();
-    this.obs = new Observable<IServerRequest>(sub => {
-      const server = createServer(options || {}, (req, res) => {
-        sub.next({ req, res, extra: {} });
-      })
-      server.on("close", () => sub.complete());
-      server.listen(port);
-    });
+        setTimeout(sub.complete, 0);
+      };
+      this.request = request;
+    })
   }
 
   public get observer() {

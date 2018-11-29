@@ -66,3 +66,4 @@ export interface InternalMiddleware {
 // Export server classes
 export { BaseServer } from "./base";
 export { HTTPServer, HTTPSServer } from "./http";
+export { ManualServer } from "./manual";
