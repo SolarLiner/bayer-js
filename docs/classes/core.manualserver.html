@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>HTTPSServer | Bayer.JS</title>
+	<title>ManualServer | Bayer.JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,16 +59,24 @@
 					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="core.httpsserver.html">HTTPSServer</a>
+					<a href="core.manualserver.html">ManualServer</a>
 				</li>
 			</ul>
-			<h1>Class HTTPSServer</h1>
+			<h1>Class ManualServer</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Manual server class. Manually supply request and response objects through the
+						<code>request</code> method.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -76,7 +84,7 @@
 						<a href="core.baseserver.html" class="tsd-signature-type">BaseServer</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">HTTPSServer</span>
+								<span class="target">ManualServer</span>
 							</li>
 						</ul>
 					</li>
@@ -89,20 +97,26 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.httpsserver.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.manualserver.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.manualserver.html#request" class="tsd-kind-icon">request</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="core.httpsserver.html#observer" class="tsd-kind-icon">observer</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="core.manualserver.html#observer" class="tsd-kind-icon">observer</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.httpsserver.html#run" class="tsd-kind-icon">run</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.httpsserver.html#use" class="tsd-kind-icon">use</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.manualserver.html#run" class="tsd-kind-icon">run</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.manualserver.html#use" class="tsd-kind-icon">use</a></li>
 							</ul>
 						</section>
 					</div>
@@ -114,28 +128,45 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new HTTPSServer<span class="tsd-signature-symbol">(</span>port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.httpsserver.html" class="tsd-signature-type">HTTPSServer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Manual<wbr>Server<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.manualserver.html" class="tsd-signature-type">ManualServer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.baseserver.html">BaseServer</a>.<a href="core.baseserver.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/http.ts#L51">core/src/http.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/manual.ts#L44">core/src/manual.ts:44</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>port: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>options: <span class="tsd-signature-type">ServerOptions</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="core.httpsserver.html" class="tsd-signature-type">HTTPSServer</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="core.manualserver.html" class="tsd-signature-type">ManualServer</a></h4>
 						</li>
 					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="request" class="tsd-anchor"></a>
+					<h3>request</h3>
+					<div class="tsd-signature tsd-kind-icon">request<span class="tsd-signature-symbol">:</span> <a href="../modules/core.html#requestfunction" class="tsd-signature-type">RequestFunction</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/manual.ts#L43">core/src/manual.ts:43</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Request method.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>Request object from Node.js http</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>Response object from Node.js http</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -151,7 +182,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.baseserver.html">BaseServer</a>.<a href="core.baseserver.html#observer">observer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/http.ts#L64">core/src/http.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/manual.ts#L62">core/src/manual.ts:62</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -240,33 +271,36 @@
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="core.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a>
 					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="core.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="core.httpserver.html" class="tsd-kind-icon">HTTPServer</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="core.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a>
+						<a href="core.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="core.httpsserver.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="core.manualserver.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="core.manualserver.html#request" class="tsd-kind-icon">request</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
-								<a href="core.httpsserver.html#observer" class="tsd-kind-icon">observer</a>
+								<a href="core.manualserver.html#observer" class="tsd-kind-icon">observer</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="core.httpsserver.html#run" class="tsd-kind-icon">run</a>
+								<a href="core.manualserver.html#run" class="tsd-kind-icon">run</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="core.httpsserver.html#use" class="tsd-kind-icon">use</a>
+								<a href="core.manualserver.html#use" class="tsd-kind-icon">use</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="core.httpserver.html" class="tsd-kind-icon">HTTPServer</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="core.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/core.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a>
 					</li>

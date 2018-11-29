@@ -123,6 +123,7 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.httpserver.html" class="tsd-kind-icon">HTTPServer</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -135,6 +136,7 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a></li>
 							</ul>
 						</section>
@@ -149,13 +151,47 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="requestfunction" class="tsd-anchor"></a>
+					<h3>Request<wbr>Function</h3>
+					<div class="tsd-signature tsd-kind-icon">Request<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/manual.ts#L31">core/src/manual.ts:31</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
+											</li>
+											<li>
+												<h5>res: <span class="tsd-signature-type">ServerResponse</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="servermiddleware" class="tsd-anchor"></a>
 					<h3>Server<wbr>Middleware</h3>
 					<div class="tsd-signature tsd-kind-icon">Server<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/305ccd0/packages/core/src/index.ts#L35">core/src/index.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/index.ts#L35">core/src/index.ts:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -177,7 +213,7 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/305ccd0/packages/core/src/utils.ts#L36">core/src/utils.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/utils.ts#L36">core/src/utils.ts:36</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -249,11 +285,17 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/core.httpserver.html" class="tsd-kind-icon">HTTPServer</a>
 					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/core.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/core.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/core.internalmiddleware.html" class="tsd-kind-icon">Internal<wbr>Middleware</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>

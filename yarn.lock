@@ -2,6 +2,33 @@
 # yarn lockfile v1
 
 
+"@bayerjs/core@^0.0.2-alpha.0":
+  version "0.0.2-alpha.0"
+  resolved "https://registry.yarnpkg.com/@bayerjs/core/-/core-0.0.2-alpha.0.tgz#37cc4c50e8d4c309f867ef6cbbb0e91d63695687"
+  integrity sha512-wiJBhGHfh52GN2CroVQK5jCcrNfG1tLCWVbVtOSea6P3QdXwX9+iW+sByaQsF/we8yUomRco42E8mE/V3gT9PQ==
+  dependencies:
+    rxjs "^6.3.3"
+
+"@bayerjs/middleware@^0.0.2-alpha.0":
+  version "0.0.2-alpha.0"
+  resolved "https://registry.yarnpkg.com/@bayerjs/middleware/-/middleware-0.0.2-alpha.0.tgz#f2d1efc4c3796cd7e38eeb10545b567576d4a33f"
+  integrity sha512-xZWeag7Pq9SAGKg1hHV46jKA7uMlGogJJNcdfjGmeRG55QN6ZKqFfr2TamFsNyPMn0qhfL0TPqkjhsgvfibIrg==
+  dependencies:
+    "@bayerjs/core" "^0.0.2-alpha.0"
+    busboy "^0.2.14"
+    rxjs "^6.3.3"
+
+"@bayerjs/router@^0.0.2-alpha.0":
+  version "0.0.2-alpha.0"
+  resolved "https://registry.yarnpkg.com/@bayerjs/router/-/router-0.0.2-alpha.0.tgz#002d989acb4218d3869b4893cc80d90d55bb6b39"
+  integrity sha512-ChbIZ99Tln0wXaoJ3k072+nJs6XK1jN9FiHsYiBZrBicpwFme9k315OZEfPFJQjl2prYjpfiDUh0FaKckSWJ2A==
+  dependencies:
+    "@bayerjs/core" "^0.0.2-alpha.0"
+    "@bayerjs/middleware" "^0.0.2-alpha.0"
+    mime-types "^2.1.21"
+    path-to-regexp "^2.4.0"
+    rxjs "^6.3.3"
+
 "@lerna/add@^3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@lerna/add/-/add-3.4.1.tgz#d41068317e30f530df48220d256b5e79690b1877"
