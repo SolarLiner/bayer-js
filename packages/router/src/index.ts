@@ -154,6 +154,7 @@ interface IRouterResponse {
  * in and generate a response with status code and optionally extra headers.
  */
 export type ResponseHandler = OperatorFunction<IRouterProps, IRouterResponse>;
+export type RouterFunction = (props: IRouterProps) => IRouterResponse;
 
 interface IRoute {
   route: RegExp;
@@ -224,6 +225,12 @@ export class Router {
     return { use };
   }
 
+  public route(path: string, ...methods: HTTPVerb[]) {
+    return (func: RouterFunction) => {
+      this.addRoute(path, ...methods).use(map(func));
+    }
+  }
+
   /**
    * Pass this Router instance to the server as a middleware.
    */
@@ -250,6 +257,7 @@ export class Router {
         const filteredRoutes = this.routes.filter(r =>
           matchesRoute(r, path, method)
         );
+        console.log(filteredRoutes);
         if (filteredRoutes.length > 0) {
           const route = filteredRoutes[0];
           return of({
