@@ -31,11 +31,13 @@ export class Bayer<T = any> {
     this.middlewares = new Array();
     this.obs = new Observable<IBayerCallback<T>>(sub => {
       this.reqFunc = (req, res) => {
+        const start = Date.now();
         const callbackObj = this.convertServerParams(req, res);
         sub.next(callbackObj);
         setTimeout(() => {
           sub.complete();
-          this.log(callbackObj, 0);
+          const ms = Date.now() - start;
+          this.log(callbackObj, ms);
         }, 0);
       };
     });
