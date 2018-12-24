@@ -24,14 +24,16 @@
  * SOFTWARE.
  */
 
-import { ServerMiddleware } from "@bayerjs/core";
-import { IServerRequest } from "@bayerjs/core";
 import { IncomingHttpHeaders, OutgoingHttpHeaders, ServerResponse } from "http";
+import { Stream } from "stream";
+import { parse } from "url";
+
 import pathToRegExp from "path-to-regexp";
 import { of, OperatorFunction, pipe } from "rxjs";
 import { map, mergeMap } from "rxjs/operators";
-import { Stream } from "stream";
-import { parse } from "url";
+
+import { ServerMiddleware } from "@bayerjs/core";
+import { IBayerCallback } from "@bayerjs/core";
 
 // from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 const HTTP_VERBS = [
@@ -68,7 +70,7 @@ type MatchHTTPVerb = HTTPVerb | "__all__";
 /**
  * Router object being passed in to routes upon request.
  */
-export interface IRouterProps {
+export interface IRouterProps<T extends { [x: string]: any } = any> {
   /**
    * Request path by the client. Has been processed and standardized to always
    * finish with a slash.
@@ -92,13 +94,11 @@ export interface IRouterProps {
    * WARNING: Using req/res directly is NOT supported. It may interfere with
    * other middleware or internals and should only be used as a last measure.
    */
-  request: IServerRequest;
+  request: IBayerCallback<any>;
   /**
    * Extra data that may be added from the Server or Router middleware.
    */
-  extra: {
-    [x: string]: any;
-  };
+  extra: T;
   /**
    * Parameters match from the URL route. Array in order of parameters, as
    * given.
@@ -112,7 +112,10 @@ export interface IRouterProps {
  * Router middleware that's called on every request, even unmapped ones.
  * Use for access control, or manipulating the props object.
  */
-export type RouterMiddleware = OperatorFunction<IRouterProps, IRouterProps>;
+export type RouterMiddleware = OperatorFunction<
+  IBayerCallback<any>,
+  IBayerCallback<any>
+>;
 
 /**
  * Router response from the Router routes.
@@ -163,9 +166,14 @@ interface IRoute {
 }
 
 function toHTTPVerb(verb?: string) {
-  if (!verb) { return undefined; }
-  if (HTTP_VERBS.some(v => v === verb)) { return verb as HTTPVerb; }
-  else { return null; }
+  if (!verb) {
+    return undefined;
+  }
+  if (HTTP_VERBS.some(v => v === verb)) {
+    return verb as HTTPVerb;
+  } else {
+    return null;
+  }
 }
 
 function matchesRoute(route: IRoute, path: string, method: HTTPVerb) {
@@ -176,7 +184,9 @@ function matchesRoute(route: IRoute, path: string, method: HTTPVerb) {
 }
 
 function getMatchParams(r: IRoute, path: string, index?: number) {
-  if (!index) { index = 1; }
+  if (!index) {
+    index = 1;
+  }
   const matches = [...(r.route.exec(path) || [])];
   matches.splice(0, index);
   return matches;
@@ -228,7 +238,7 @@ export class Router {
   public route(path: string, ...methods: HTTPVerb[]) {
     return (func: RouterFunction) => {
       this.addRoute(path, ...methods).use(map(func));
-    }
+    };
   }
 
   /**
@@ -280,33 +290,16 @@ export class Router {
     );
   }
 
-  private sendResponse({ req, res, extra }: IServerRequest) {
+  private sendResponse<T = any>({ req, res, extra }: IBayerCallback<T>) {
     return (response: IRouterResponse) => {
-      if (response.statusCode === 200) {
-        const headers = {
-          ...response.headers,
-          "Content-Type": response.mime || "text/plain"
-        };
-        res.writeHead(200, response.statusReason || "OK", headers);
-        this.sendResponseContent(response.content, res);
-      } else {
-        res.writeHead(
-          response.statusCode,
-          response.statusReason,
-          response.headers
-        );
-        this.sendResponseContent(response.content, res);
-      }
+      Object.keys(response.headers || {}).forEach(k =>
+        res.setHeader(k, response.headers![k]!)
+      );
+      res
+        .contentType(response.mime || "text/plain")
+        .status(response.statusCode, response.statusReason)
+        .send(response.content);
       return { req, res, extra };
     };
-  }
-
-  private sendResponseContent(content: string | Stream, res: ServerResponse) {
-    if (typeof content === "string") {
-      res.write(content);
-      res.end();
-    } else {
-      content.pipe(res);
-    }
   }
 }

@@ -30,13 +30,27 @@ import { join } from "path";
 import { map } from "rxjs/operators";
 import { ResponseHandler } from ".";
 
-export function staticHandler(directory: string, base: string): ResponseHandler {
-  if (!base.endsWith("/")) { base += "/"; }
+export function staticHandler(
+  directory: string,
+  base: string,
+  serveIndex = false,
+  indexExtension?: string
+): ResponseHandler {
+  if (!base.endsWith("/")) {
+    base += "/";
+  }
   return map(({ path }) => {
     const relPath = path.replace(base, "").replace(/^\/|\/$/, "");
     let filepath = join(directory, relPath);
     if (lstatSync(filepath).isDirectory()) {
-      filepath = join(filepath, "index.html");
+      if (!serveIndex) {
+        return {
+          content: `Couldn't retrieve ${path}`,
+          statusCode: 404,
+          statusReason: "File not found"
+        };
+      }
+      filepath = join(filepath, `index.${indexExtension || "html"}`);
     }
     const fstream = createReadStream(filepath);
     const mime = lookup(filepath);
