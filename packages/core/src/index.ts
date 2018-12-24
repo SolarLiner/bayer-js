@@ -17,7 +17,10 @@ export type ServerMiddleware<T = any, U = any> = OperatorFunction<
 >;
 
 export class Bayer {
-  private middlewares: Array<{ middleware: ServerMiddleware; priority: number }>;
+  private middlewares: Array<{
+    middleware: ServerMiddleware;
+    priority: number;
+  }>;
 
   constructor() {
     this.middlewares = new Array();
@@ -45,8 +48,13 @@ export class Bayer {
       const res = new Response(response);
 
       let obs = new Observable<IBayerCallback<any>>(sub => {
+        const start = Date.now();
         sub.next({ req, res, extra: {} });
-        setTimeout(sub.complete, 0);
+        setTimeout(() => {
+          const ms = Date.now() - start;
+          sub.complete();
+          this.log(req, res, ms);
+        }, 0);
       });
       this.middlewares.forEach(m => (obs = obs.pipe(m.middleware)));
     };
@@ -56,5 +64,19 @@ export class Bayer {
     if (this.middlewares.length > 1) {
       this.middlewares.sort((a, b) => b.priority - a.priority);
     }
+  }
+
+  private log(req: Request, res: Response, ms: number) {
+    const { method, path } = req.route;
+    const { statusCode, statusMessage } = res;
+    // tslint:disable-next-line:no-console
+    console.log(
+      "Request",
+      method,
+      path,
+      statusCode,
+      statusMessage,
+      `- ${Math.round(ms)} ms`
+    );
   }
 }

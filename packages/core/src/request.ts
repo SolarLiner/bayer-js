@@ -1,5 +1,5 @@
 import { createWriteStream } from "fs";
-import { IncomingMessage } from "http";
+import { IncomingMessage, IncomingHttpHeaders } from "http";
 import { tmpdir } from "os";
 import { join } from "path";
 import { parse } from "querystring";
@@ -81,3 +81,4 @@ export class Request extends IncomingMessage {
     });
   }
 }
+
