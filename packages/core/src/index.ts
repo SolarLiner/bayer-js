@@ -1,9 +1,11 @@
-import { createServer, IncomingMessage, ServerResponse } from "http";
+import { createServer, IncomingMessage, Server, ServerResponse } from "http";
 
 import { Observable, OperatorFunction } from "rxjs";
 
 import { Request } from "./request";
 import { Response } from "./response";
+
+type RequestFunction = (req: IncomingMessage, res: ServerResponse) => void;
 
 export interface IBayerCallback<T extends { [x: string]: any }> {
   req: Request;
@@ -16,48 +18,50 @@ export type ServerMiddleware<T = any, U = any> = OperatorFunction<
   IBayerCallback<U>
 >;
 
-export class Bayer {
+export class Bayer<T = any> {
   private middlewares: Array<{
     middleware: ServerMiddleware;
     priority: number;
   }>;
 
+  private obs: Observable<IBayerCallback<T>>;
+  private reqFunc!: RequestFunction;
+
   constructor() {
     this.middlewares = new Array();
+    this.obs = new Observable<IBayerCallback<T>>(sub => {
+      this.reqFunc = (req, res) => {
+        const callbackObj = this.convertServerParams(req, res);
+        sub.next(callbackObj);
+        setTimeout(() => {
+          sub.complete();
+          this.log(callbackObj, 0);
+        }, 0);
+      };
+    });
   }
 
-  public use<T = any, U = any>(
-    middleware: ServerMiddleware<T, U>,
-    priority = 0
-  ) {
+  public use<U = T>(middleware: ServerMiddleware<T, U>, priority = 0) {
     this.middlewares.push({ middleware, priority });
-    this.sortMiddlewares();
   }
 
   public async listen(port = 80) {
     // tslint:disable-next-line:variable-name
-    return new Promise<ThisType<Bayer>>((resolve, _reject) => {
-      const server = createServer(this.callback());
-      server.listen(port, () => resolve(this));
+    return new Promise<Server>((resolve, _reject) => {
+      const cb = this.callback();
+      console.log("[Bayer.listen]", this, this.callback, cb);
+      const server = createServer(cb);
+      server.listen(port, () => resolve(server));
     });
   }
 
   public callback() {
-    return (request: IncomingMessage, response: ServerResponse) => {
-      const req = Request.fromMessage(request);
-      const res = new Response(response);
-
-      let obs = new Observable<IBayerCallback<any>>(sub => {
-        const start = Date.now();
-        sub.next({ req, res, extra: {} });
-        setTimeout(() => {
-          const ms = Date.now() - start;
-          sub.complete();
-          this.log(req, res, ms);
-        }, 0);
-      });
-      this.middlewares.forEach(m => (obs = obs.pipe(m.middleware)));
-    };
+    this.sortMiddlewares();
+    for (const { middleware } of this.middlewares) {
+      this.obs = this.obs.pipe(middleware);
+    }
+    this.obs.subscribe();
+    return this.reqFunc;
   }
 
   private sortMiddlewares() {
@@ -66,14 +70,24 @@ export class Bayer {
     }
   }
 
-  private log(req: Request, res: Response, ms: number) {
+  private convertServerParams(
+    request: IncomingMessage,
+    response: ServerResponse
+  ): IBayerCallback<T> {
+    const req = Request.fromMessage(request);
+    const res = new Response(response);
+
+    return { req, res, extra: {} as T };
+  }
+
+  private log({ req, res }: IBayerCallback<T>, ms: number) {
     const { method, path } = req.route;
     const { statusCode, statusMessage } = res;
     // tslint:disable-next-line:no-console
     console.log(
       "Request",
       method,
-      path,
+      path + "/",
       statusCode,
       statusMessage,
       `- ${Math.round(ms)} ms`

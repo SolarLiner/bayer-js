@@ -74,7 +74,7 @@ export interface IRoute {
   /**
    * HTTP method requested by the client.
    */
-  method?: HTTPVerb;
+  method: HTTPVerb;
   /**
    * Headers passed by the client in the request.
    */
@@ -101,8 +101,9 @@ export class Request extends IncomingMessage {
     const path =
       typeof pathname === "string"
         ? (pathname || "").replace(/^\/+|\/+$/g, "")
-        : (pathname[0] || "").replace(/^\/+|\/+$/g, "");
-    const method = toHTTPVerb(m);
+        : typeof pathname === "undefined" ?
+          "" : (pathname[0] || "").replace(/^\/+|\/+$/g, "");
+    const method = toHTTPVerb(m || "GET");
     if (!method) { throw new Error("Unrecognized HTTP verb."); }
 
     return this.memUrl = { headers, method, path, query };
