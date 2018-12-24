@@ -35,7 +35,6 @@ export class Bayer<T = any> {
         const callbackObj = this.convertServerParams(req, res);
         sub.next(callbackObj);
         setTimeout(() => {
-          sub.complete();
           const ms = Date.now() - start;
           this.log(callbackObj, ms);
         }, 0);
