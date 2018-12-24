@@ -6,6 +6,39 @@ import { parse } from "querystring";
 import { StringDecoder } from "string_decoder";
 
 import Busboy from "busboy";
+import { IBayerCallback } from ".";
+
+// from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+const HTTP_VERBS = [
+  "GET",
+  "HEAD",
+  "POST",
+  "PUT",
+  "DELETE",
+  "CONNECT",
+  "OPTIONS",
+  "TRACE",
+  "PATCH"
+];
+
+/**
+ * Accepted HTTP verbs. This restricts the use of allowed HTTP verbs towards
+ * better developer experience - this may be changed later though.
+ *
+ * The list of verbs has been taken from
+ * https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods.
+ */
+export type HTTPVerb =
+  | "GET"
+  | "HEAD"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "CONNECT"
+  | "OPTIONS"
+  | "TRACE"
+  | "PATCH";
+type MatchHTTPVerb = HTTPVerb | "__all__";
 
 export interface IUploadedFiles {
   [x: string]: {
@@ -30,9 +63,54 @@ export interface IFormData<T> {
   files: IUploadedFiles;
 }
 
+/**
+ * Router object being passed in to routes upon request.
+ */
+export interface IRoute {
+  /**
+   * Request path by the client. Has been processed and standardized to always
+   * finish with a slash.
+   */
+  path: string;
+  /**
+   * HTTP method requested by the client.
+   */
+  method?: HTTPVerb;
+  /**
+   * Headers passed by the client in the request.
+   */
+  headers: IncomingHttpHeaders;
+  /**
+   * URL query (the part after the question mark), if any.
+   */
+  query?: any;
+}
+
 export class Request extends IncomingMessage {
   public static fromMessage(req: IncomingMessage) {
     return new Request(req.socket);
+  }
+
+  private memUrl?: IRoute;
+
+  public get route() {
+    if (this.memUrl) {
+      return this.memUrl;
+    }
+    const { url, method: m, headers } = this;
+    const { pathname, query } = parse(url || "");
+    const path =
+      typeof pathname === "string"
+        ? (pathname || "").replace(/^\/+|\/+$/g, "")
+        : (pathname[0] || "").replace(/^\/+|\/+$/g, "");
+    const method = toHTTPVerb(m);
+    if (!method) { throw new Error("Unrecognized HTTP verb."); }
+
+    return this.memUrl = { headers, method, path, query };
+  }
+
+  public get(key: string) {
+    return { ...this.headers, ...this.route.query }[key];
   }
 
   public async json<T = any>(): Promise<T> {
@@ -82,3 +160,8 @@ export class Request extends IncomingMessage {
   }
 }
 
+function toHTTPVerb(verb?: string) {
+  if (!verb) { return undefined; }
+  if (HTTP_VERBS.some(v => v === verb)) { return verb as HTTPVerb; }
+  else { return null; }
+}
