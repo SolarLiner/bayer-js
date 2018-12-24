@@ -6,6 +6,7 @@ import { parse } from "querystring";
 import { StringDecoder } from "string_decoder";
 
 import Busboy from "busboy";
+import { Socket } from "net";
 
 // from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 const HTTP_VERBS = [
@@ -85,18 +86,53 @@ export interface IRoute {
   query?: any;
 }
 
-export class Request extends IncomingMessage {
-  public static fromMessage(req: IncomingMessage) {
-    return new Request(req.socket);
+export class Request {
+
+  public static fromSocket(sock: Socket) {
+    const req = new IncomingMessage(sock);
+    return new Request(req);
   }
 
+  private req: IncomingMessage;
   private memUrl?: IRoute;
+
+  constructor(request: IncomingMessage) {
+    this.req = request;
+  }
+
+  public get httpVersion() {
+    return {
+      version: this.req.httpVersion,
+      major: this.req.httpVersionMajor,
+      minor: this.req.httpVersionMinor
+    };
+  }
+
+  public get trailers() {
+    return this.req.trailers;
+  }
+
+  public get method() {
+    return this.route.method;
+  }
+
+  public get headers() {
+    return this.req.headers;
+  }
+
+  public get pipe() {
+    return this.req.pipe;
+  }
+
+  public get on() {
+    return this.req.on;
+  }
 
   public get route() {
     if (this.memUrl) {
       return this.memUrl;
     }
-    const { url, method: m, headers } = this;
+    const { url, method: m, headers } = this.req;
     const { pathname, query } = parse(url || "");
     const path =
       typeof pathname === "string"

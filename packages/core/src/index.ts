@@ -74,7 +74,7 @@ export class Bayer<T = any> {
     request: IncomingMessage,
     response: ServerResponse
   ): IBayerCallback<T> {
-    const req = Request.fromMessage(request);
+    const req = new Request(request);
     const res = new Response(response);
 
     return { req, res, extra: {} as T };
