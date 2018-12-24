@@ -2,8 +2,8 @@ import { createWriteStream } from "fs";
 import { IncomingHttpHeaders, IncomingMessage } from "http";
 import { tmpdir } from "os";
 import { join } from "path";
-import { parse } from "querystring";
 import { StringDecoder } from "string_decoder";
+import { parse } from "url";
 
 import Busboy from "busboy";
 import { Socket } from "net";
