@@ -1,12 +1,11 @@
 import { createWriteStream } from "fs";
-import { IncomingMessage, IncomingHttpHeaders } from "http";
+import { IncomingHttpHeaders, IncomingMessage } from "http";
 import { tmpdir } from "os";
 import { join } from "path";
 import { parse } from "querystring";
 import { StringDecoder } from "string_decoder";
 
 import Busboy from "busboy";
-import { IBayerCallback } from ".";
 
 // from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 const HTTP_VERBS = [
