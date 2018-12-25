@@ -2,13 +2,6 @@
 # yarn lockfile v1
 
 
-"@bayerjs/core@^0.0.2-alpha.0":
-  version "0.0.2-alpha.0"
-  resolved "https://registry.yarnpkg.com/@bayerjs/core/-/core-0.0.2-alpha.0.tgz#37cc4c50e8d4c309f867ef6cbbb0e91d63695687"
-  integrity sha512-wiJBhGHfh52GN2CroVQK5jCcrNfG1tLCWVbVtOSea6P3QdXwX9+iW+sByaQsF/we8yUomRco42E8mE/V3gT9PQ==
-  dependencies:
-    rxjs "^6.3.3"
-
 "@bayerjs/middleware@^0.0.1-alpha.0":
   version "0.0.1-alpha.0"
   resolved "https://registry.yarnpkg.com/@bayerjs/middleware/-/middleware-0.0.1-alpha.0.tgz#65cb27d5781ffae5ef2965114adffde2744121f6"

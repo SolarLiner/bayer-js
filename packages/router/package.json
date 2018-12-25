@@ -18,7 +18,8 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib",
+    "lib/v2"
   ],
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
-    "@types/mime-types": "^2.1.0"
+    "@types/mime-types": "^2.1.0",
+    "typescript": "^3.2.2"
   }
 }
