@@ -29,13 +29,9 @@ export class Bayer<T = any> {
     this.middlewares = new Array();
     this.obs = new Observable<IBayerCallback<T>>(sub => {
       this.reqFunc = (req, res) => {
-        const start = Date.now();
         const callbackObj = this.convertServerParams(req, res);
         sub.next(callbackObj);
-        setTimeout(() => {
-          const ms = Date.now() - start;
-          this.log(callbackObj, ms);
-        }, 0);
+        this.terminateRequest(callbackObj);
       };
     });
   }
@@ -78,10 +74,23 @@ export class Bayer<T = any> {
     return { req, res, extra: {} as T };
   }
 
-  private log({ req, res }: IBayerCallback<T>, ms: number) {
+  private terminateRequest({ req, res }: IBayerCallback<T>) {
+    const start = Date.now();
+    setTimeout(() => {
+      if (!res.done) {
+        res.status(404).send(`Cannot ${req.route.method || "GET"} ${req.route.path}`);
+      }
+      const ms = Date.now() - start;
+      this.log(req, res, ms);
+    }, 0);
+  }
+
+  private log(req: Request, res: Response, ms: number) {
     const { method, path } = req.route;
     const { statusCode, statusMessage } = res;
+    // TODO: Use chalk and process.stdout for better logging
+    // TODO: User logger class (and implement it too)
     // tslint:disable-next-line:no-console
-    console.log("Request", method, path, statusCode, statusMessage, `- ${Math.round(ms)} ms`);
+    console.log(new Date().toString(), "Request", method, path, statusCode, statusMessage, `- ${Math.round(ms)} ms`);
   }
 }
