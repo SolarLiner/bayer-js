@@ -10,17 +10,7 @@ import { parse } from "url";
 import Busboy from "busboy";
 
 // from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
-const HTTP_VERBS = [
-  "GET",
-  "HEAD",
-  "POST",
-  "PUT",
-  "DELETE",
-  "CONNECT",
-  "OPTIONS",
-  "TRACE",
-  "PATCH"
-];
+const HTTP_VERBS = ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"];
 
 /**
  * Accepted HTTP verbs. This restricts the use of allowed HTTP verbs towards
@@ -29,16 +19,7 @@ const HTTP_VERBS = [
  * The list of verbs has been taken from
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods.
  */
-export type HTTPVerb =
-  | "GET"
-  | "HEAD"
-  | "POST"
-  | "PUT"
-  | "DELETE"
-  | "CONNECT"
-  | "OPTIONS"
-  | "TRACE"
-  | "PATCH";
+export type HTTPVerb = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
 type MatchHTTPVerb = HTTPVerb | "__all__";
 
 export interface IUploadedFiles {

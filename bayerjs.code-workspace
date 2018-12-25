@@ -12,7 +12,8 @@
 	"settings": {
 		"typescript.tsdk": "node_modules/typescript/lib",
     "liveServer.settings.multiRootWorkspaceName": "Bayer.JS",
-    "liveServer.settings.root": "/docs"
+    "liveServer.settings.root": "/docs",
+    "editor.rulers": [120]
 	},
 	"extensions": {
 		"recommendations": [

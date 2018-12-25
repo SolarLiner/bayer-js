@@ -36,17 +36,7 @@ import { ServerMiddleware } from "@bayerjs/core";
 import { IBayerCallback } from "@bayerjs/core";
 
 // from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
-const HTTP_VERBS = [
-  "GET",
-  "HEAD",
-  "POST",
-  "PUT",
-  "DELETE",
-  "CONNECT",
-  "OPTIONS",
-  "TRACE",
-  "PATCH"
-];
+const HTTP_VERBS = ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"];
 
 /**
  * Accepted HTTP verbs. This restricts the use of allowed HTTP verbs towards
@@ -55,16 +45,7 @@ const HTTP_VERBS = [
  * The list of verbs has been taken from
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods.
  */
-export type HTTPVerb =
-  | "GET"
-  | "HEAD"
-  | "POST"
-  | "PUT"
-  | "DELETE"
-  | "CONNECT"
-  | "OPTIONS"
-  | "TRACE"
-  | "PATCH";
+export type HTTPVerb = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
 type MatchHTTPVerb = HTTPVerb | "__all__";
 
 /**
@@ -112,10 +93,7 @@ export interface IRouterProps<T extends { [x: string]: any } = any> {
  * Router middleware that's called on every request, even unmapped ones.
  * Use for access control, or manipulating the props object.
  */
-export type RouterMiddleware = OperatorFunction<
-  IBayerCallback<any>,
-  IBayerCallback<any>
->;
+export type RouterMiddleware = OperatorFunction<IBayerCallback<any>, IBayerCallback<any>>;
 
 /**
  * Router response from the Router routes.
@@ -177,9 +155,7 @@ function toHTTPVerb(verb?: string) {
 }
 
 function matchesRoute(route: IRoute, path: string, method: HTTPVerb) {
-  const methodMatches = route.methods.some(
-    value => value === method || value === "__all__"
-  );
+  const methodMatches = route.methods.some(value => value === method || value === "__all__");
   return methodMatches && route.route.test(path);
 }
 
@@ -263,9 +239,7 @@ export class Router {
           query,
           request: { req, res, extra }
         };
-        const filteredRoutes = this.routes.filter(r =>
-          matchesRoute(r, path, method)
-        );
+        const filteredRoutes = this.routes.filter(r => matchesRoute(r, path, method));
         console.log(filteredRoutes);
         if (filteredRoutes.length > 0) {
           const route = filteredRoutes[0];
@@ -291,9 +265,7 @@ export class Router {
 
   private sendResponse<T = any>({ req, res, extra }: IBayerCallback<T>) {
     return (response: IRouterResponse) => {
-      Object.keys(response.headers || {}).forEach(k =>
-        res.setHeader(k, response.headers![k]!)
-      );
+      Object.keys(response.headers || {}).forEach(k => res.setHeader(k, response.headers![k]!));
       res
         .contentType(response.mime || "text/plain")
         .status(response.statusCode, response.statusReason)

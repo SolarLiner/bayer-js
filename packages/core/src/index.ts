@@ -14,10 +14,7 @@ export interface IBayerCallback<T extends { [x: string]: any }> {
   extra: T;
 }
 
-export type ServerMiddleware<T = any, U = any> = OperatorFunction<
-  IBayerCallback<T>,
-  IBayerCallback<U>
->;
+export type ServerMiddleware<T = any, U = any> = OperatorFunction<IBayerCallback<T>, IBayerCallback<U>>;
 
 export class Bayer<T = any> {
   private middlewares: Array<{
@@ -59,14 +56,16 @@ export class Bayer<T = any> {
 
   public callback() {
     this.sortMiddlewares();
-    const obs = this.obs.pipe(mergeMap(v => {
-      // let req = of(v);
-      // for (const { middleware } of this.middlewares) {
-      //   req = req.pipe(middleware);
-      // }
-      // return req;
-      return this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
-    }))
+    const obs = this.obs.pipe(
+      mergeMap(v => {
+        // let req = of(v);
+        // for (const { middleware } of this.middlewares) {
+        //   req = req.pipe(middleware);
+        // }
+        // return req;
+        return this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
+      })
+    );
     obs.subscribe(x => console.log("[DEBUG]", "callback observable", x));
     return this.reqFunc;
   }
@@ -77,10 +76,7 @@ export class Bayer<T = any> {
     }
   }
 
-  private convertServerParams(
-    request: IncomingMessage,
-    response: ServerResponse
-  ): IBayerCallback<T> {
+  private convertServerParams(request: IncomingMessage, response: ServerResponse): IBayerCallback<T> {
     const req = new Request(request);
     const res = new Response(response);
 
@@ -91,13 +87,6 @@ export class Bayer<T = any> {
     const { method, path } = req.route;
     const { statusCode, statusMessage } = res;
     // tslint:disable-next-line:no-console
-    console.log(
-      "Request",
-      method,
-      path,
-      statusCode,
-      statusMessage,
-      `- ${Math.round(ms)} ms`
-    );
+    console.log("Request", method, path, statusCode, statusMessage, `- ${Math.round(ms)} ms`);
   }
 }
