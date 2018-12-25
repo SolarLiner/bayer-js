@@ -1,13 +1,13 @@
 import pathToRegexp from "path-to-regexp";
-import { pipe, of, empty } from "rxjs";
-import { filter, tap, mergeMap, map, first } from "rxjs/operators";
+import { empty, of } from "rxjs";
+import { catchError, first, map, mergeMap } from "rxjs/operators";
 
-import { ServerMiddleware, IBayerCallback } from "@bayerjs/core";
+import { ServerMiddleware } from "@bayerjs/core";
 import { IRoute as IBaseRoute } from "@bayerjs/core";
 import { OutgoingHttpHeaders } from "http";
 import { Stream } from "stream";
 
-interface IRouterResponse<T = any> {
+interface IRouterResponse {
   /**
    * Status code to return to the client. If not given, will assume 200.
    *
@@ -112,12 +112,19 @@ export class Router {
             return params;
           }
           if (!result) {
-            res.status(404, "Not found").send(`Cannot ${route.method} ${route.path}`);
             return params;
           }
           const { statusCode, statusReason, content } = result;
           res.status(statusCode || 200, statusReason || "OK").send(content);
           return params;
+        }),
+        catchError((err, caught) => {
+          if (!(err instanceof Error)) {
+            err = new Error(err);
+          }
+          // tslint:disable-next-line:no-console
+          console.error(err);
+          return caught;
         })
       )
     );
