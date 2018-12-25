@@ -77,7 +77,6 @@ export class Router {
   }
 
   public middleware(): ServerMiddleware {
-    console.dir(this.routes);
     return mergeMap(v =>
       of(v).pipe(
         mergeMap(params => {
@@ -111,11 +110,11 @@ export class Router {
             res.status(200, "OK").send(result);
             return params;
           }
-          if (!result) {
+          if (result) {
+            const { statusCode, statusReason, content } = result;
+            res.status(statusCode || 200, statusReason || "OK").send(content);
             return params;
           }
-          const { statusCode, statusReason, content } = result;
-          res.status(statusCode || 200, statusReason || "OK").send(content);
           return params;
         }),
         catchError((err, caught) => {
