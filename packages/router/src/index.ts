@@ -220,7 +220,7 @@ export class Router {
   /**
    * Pass this Router instance to the server as a middleware.
    */
-  public asMiddleware(): ServerMiddleware {
+  public middleware(): ServerMiddleware {
     return pipe(
       mergeMap(({ req, res, extra }) => {
         const { url, method: m, headers } = req;
