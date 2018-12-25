@@ -16,7 +16,7 @@ export interface IBayerCallback<T extends { [x: string]: any }> {
 
 export type ServerMiddleware<T = any, U = any> = OperatorFunction<IBayerCallback<T>, IBayerCallback<U>>;
 
-export class Bayer<T = any> {
+export default class Bayer<T = any> {
   private middlewares: Array<{
     middleware: ServerMiddleware;
     priority: number;
@@ -57,7 +57,7 @@ export class Bayer<T = any> {
         return this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
       })
     );
-    obs.subscribe(x => console.log("[DEBUG]", "callback observable", x));
+    obs.subscribe();
     return this.reqFunc;
   }
 
@@ -94,3 +94,6 @@ export class Bayer<T = any> {
     console.log(new Date().toString(), "Request", method, path, statusCode, statusMessage, `- ${Math.round(ms)} ms`);
   }
 }
+
+export * from "./request";
+export * from "./response";
