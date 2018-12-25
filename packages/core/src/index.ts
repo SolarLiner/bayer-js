@@ -58,11 +58,6 @@ export class Bayer<T = any> {
     this.sortMiddlewares();
     const obs = this.obs.pipe(
       mergeMap(v => {
-        // let req = of(v);
-        // for (const { middleware } of this.middlewares) {
-        //   req = req.pipe(middleware);
-        // }
-        // return req;
         return this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
       })
     );
