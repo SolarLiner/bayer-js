@@ -117,12 +117,6 @@ export class Request {
     }
     const { url, method: m, headers } = this.req;
     const { pathname, query } = parse(url || "");
-    const path =
-      typeof pathname === "string"
-        ? (pathname || "").replace(/^\/+|\/+$/g, "")
-        : typeof pathname === "undefined"
-        ? ""
-        : (pathname[0] || "").replace(/^\/+|\/+$/g, "");
     const method = toHTTPVerb(m || "GET");
     if (!method) {
       throw new Error("Unrecognized HTTP verb.");
@@ -131,7 +125,7 @@ export class Request {
     return (this.memUrl = {
       headers,
       method,
-      path: !path.length ? "/" : path,
+      path: pathname || "/",
       query: querystring.parse(query || "")
     });
   }
