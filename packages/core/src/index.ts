@@ -1,5 +1,6 @@
 import { createServer, IncomingMessage, Server, ServerResponse } from "http";
 
+import chalk from "chalk";
 import { Observable, of, OperatorFunction } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 
@@ -44,7 +45,6 @@ export default class Bayer<T = any> {
     // tslint:disable-next-line:variable-name
     return new Promise<Server>((resolve, _reject) => {
       const cb = this.callback();
-      console.log("[Bayer.listen]", this, this.callback, cb);
       const server = createServer(cb);
       server.listen(port, () => resolve(server));
     });
@@ -88,10 +88,13 @@ export default class Bayer<T = any> {
   private log(req: Request, res: Response, ms: number) {
     const { method, path } = req.route;
     const { statusCode, statusMessage } = res;
-    // TODO: Use chalk and process.stdout for better logging
-    // TODO: User logger class (and implement it too)
-    // tslint:disable-next-line:no-console
-    console.log(new Date().toString(), "Request", method, path, statusCode, statusMessage, `- ${Math.round(ms)} ms`);
+    const { blue, green, greenBright } = chalk;
+    const chalkResult = statusCode === 200 ? green : chalk.red;
+    process.stdout.write(
+      `${chalk.grey(new Date().toLocaleString())} ${blue("Request")} ${green(method)} ${greenBright(
+        path
+      )} ${ms} ms - ${chalkResult(`${statusCode} ${statusMessage}`)}\n`
+    );
   }
 }
 

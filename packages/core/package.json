@@ -34,7 +34,8 @@
     "url": "https://github.com/solarliner/bayer-js/issues"
   },
   "dependencies": {
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.3.3",
+    "chalk": "^2.4.1"
   },
   "devDependencies": {
     "@types/busboy": "^0.2.3",
