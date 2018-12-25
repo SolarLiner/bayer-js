@@ -1,6 +1,7 @@
 import { createServer, IncomingMessage, Server, ServerResponse } from "http";
 
-import { Observable, OperatorFunction } from "rxjs";
+import { Observable, of, OperatorFunction } from "rxjs";
+import { mergeMap } from "rxjs/operators";
 
 import { Request } from "./request";
 import { Response } from "./response";
@@ -58,10 +59,15 @@ export class Bayer<T = any> {
 
   public callback() {
     this.sortMiddlewares();
-    for (const { middleware } of this.middlewares) {
-      this.obs = this.obs.pipe(middleware);
-    }
-    this.obs.subscribe();
+    const obs = this.obs.pipe(mergeMap(v => {
+      // let req = of(v);
+      // for (const { middleware } of this.middlewares) {
+      //   req = req.pipe(middleware);
+      // }
+      // return req;
+      return this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
+    }))
+    obs.subscribe(x => console.log("[DEBUG]", "callback observable", x));
     return this.reqFunc;
   }
 
@@ -88,7 +94,7 @@ export class Bayer<T = any> {
     console.log(
       "Request",
       method,
-      path + "/",
+      path,
       statusCode,
       statusMessage,
       `- ${Math.round(ms)} ms`
