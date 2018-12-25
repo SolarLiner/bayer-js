@@ -117,13 +117,11 @@ export class Router {
           }
           return params;
         }),
-        catchError((err, caught) => {
+        catchError(err => {
           if (!(err instanceof Error)) {
             err = new Error(err);
           }
-          // tslint:disable-next-line:no-console
-          console.error(err);
-          return caught;
+          return empty();
         })
       )
     );
