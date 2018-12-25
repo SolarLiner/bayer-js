@@ -144,7 +144,12 @@ export class Request {
     const method = toHTTPVerb(m || "GET");
     if (!method) { throw new Error("Unrecognized HTTP verb."); }
 
-    return this.memUrl = { headers, method, path, query };
+    return (this.memUrl = {
+      headers,
+      method,
+      path: !path.length ? "/" : path,
+      query: querystring.parse(query || "")
+    });
   }
 
   public get(key: string) {
