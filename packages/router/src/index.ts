@@ -1,13 +1,13 @@
 import pathToRegexp from "path-to-regexp";
-import { pipe } from "rxjs";
-import { filter, tap } from "rxjs/operators";
+import { pipe, of, empty } from "rxjs";
+import { filter, tap, mergeMap, map, first } from "rxjs/operators";
 
-import { ServerMiddleware } from "@bayerjs/core";
+import { ServerMiddleware, IBayerCallback } from "@bayerjs/core";
 import { IRoute as IBaseRoute } from "@bayerjs/core";
 import { OutgoingHttpHeaders } from "http";
 import { Stream } from "stream";
 
-interface IRouterResponse<T=any> {
+interface IRouterResponse<T = any> {
   /**
    * Status code to return to the client. If not given, will assume 200.
    *
@@ -39,19 +39,30 @@ interface IRouterResponse<T=any> {
   content: string | Stream;
 }
 
-interface IRoute<T=any> extends IBaseRoute {
-  params?: string[];
+interface IRoute<T = any> extends IBaseRoute {
+  params: string[];
   extra: T;
 }
 
 export type RouterResponse = IRouterResponse | string | Stream | null;
 
-export type ResponseHandler<T=any> = (params: IRoute<T>) => RouterResponse;
+export type RouteMiddleware<T = any> = (params: IRoute<T>) => void;
+export type ResponseHandler<T = any> = (params: IRoute<T>) => RouterResponse;
 
 interface IRouteInternal {
   method: string;
   route: RegExp;
-  ops: ResponseHandler[];
+  op: ResponseHandler;
+  middlewares: RouteMiddleware[];
+}
+
+function getMatchParams(r: IRouteInternal, path: string, index?: number) {
+  if (!index) {
+    index = 1;
+  }
+  const matches = [...(r.route.exec(path) || [])];
+  matches.splice(0, index);
+  return matches;
 }
 
 export class Router {
@@ -61,16 +72,54 @@ export class Router {
     this.routes = new Array();
   }
 
-  public route(method: string, route: string, op: ResponseHandler, ...ops: ResponseHandler[]) {
-    this.routes.push({ route: pathToRegexp(route), ops: [op, ...ops], method: method.toLowerCase() });
+  public route(method: string, route: string, op: ResponseHandler, ...middlewares: RouteMiddleware[]) {
+    this.routes.push({ route: pathToRegexp(route), op, middlewares, method: method.toUpperCase() });
   }
 
   public middleware(): ServerMiddleware {
-    return pipe(
-      filter(({ req: { route }}) => {
-        return this.routes.filter(v => route.method === v.method && v.route.test(route.path)).length > 0;
-      }),
-      tap((...a) => console.log("[Router] arguments", a))
+    console.dir(this.routes);
+    return mergeMap(v =>
+      of(v).pipe(
+        mergeMap(params => {
+          const {
+            req: { route }
+          } = params;
+          const matchedRoutes = this.routes.filter(r => route.method === r.method && r.route.test(route.path));
+          if (matchedRoutes.length > 0) return of({ routes: matchedRoutes, params });
+          else return empty();
+        }),
+        mergeMap(({ routes, params }) => {
+          return routes.map(route => ({ route, params }));
+        }),
+        first(),
+        map(({ route: origRoute, params }) => {
+          const { op, middlewares } = origRoute;
+          const {
+            req: { route },
+            res,
+            extra
+          } = params;
+          const routeArgs: IRoute<typeof extra> = {
+            ...route,
+            params: getMatchParams(origRoute, route.path),
+            extra
+          };
+          middlewares.forEach(m => m(routeArgs));
+          const result = op(routeArgs);
+
+          if (typeof result === "string" || result instanceof Stream) {
+            res.status(200, "OK").send(result);
+            return params;
+          }
+          if (!result) {
+            res.status(404, "Not found").send(`Cannot ${route.method} ${route.path}`);
+            return params;
+          }
+          const { statusCode, statusReason, content } = result;
+          res.status(statusCode || 200, statusReason || "OK").send(content);
+          return params;
+        })
+      )
     );
   }
 }
