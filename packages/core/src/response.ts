@@ -25,7 +25,13 @@ export class Response {
     this.code = code;
   }
 
+  public get done() {
+    return this._done;
+  }
+
   public statusMessage: string;
+  // tslint:disable-next-line:variable-name
+  private _done: boolean;
   private res: ServerResponse;
   private code: number;
 
@@ -33,6 +39,7 @@ export class Response {
     this.res = res;
     this.code = 200;
     this.statusMessage = "OK";
+    this._done = false;
   }
 
   public contentType(type: string) {
@@ -67,6 +74,7 @@ export class Response {
     } else {
       return this.stream(data);
     }
+    this._done = true;
   }
 
   public async stream(stream: Stream) {
