@@ -1,12 +1,13 @@
 import { createWriteStream } from "fs";
 import { IncomingHttpHeaders, IncomingMessage } from "http";
+import { Socket } from "net";
 import { tmpdir } from "os";
 import { join } from "path";
+import querystring from "querystring";
 import { StringDecoder } from "string_decoder";
 import { parse } from "url";
 
 import Busboy from "busboy";
-import { Socket } from "net";
 
 // from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 const HTTP_VERBS = [
@@ -89,7 +90,6 @@ export interface IRoute {
 }
 
 export class Request {
-
   public static fromSocket(sock: Socket) {
     const req = new IncomingMessage(sock);
     return new Request(req);
@@ -139,10 +139,13 @@ export class Request {
     const path =
       typeof pathname === "string"
         ? (pathname || "").replace(/^\/+|\/+$/g, "")
-        : typeof pathname === "undefined" ?
-          "" : (pathname[0] || "").replace(/^\/+|\/+$/g, "");
+        : typeof pathname === "undefined"
+        ? ""
+        : (pathname[0] || "").replace(/^\/+|\/+$/g, "");
     const method = toHTTPVerb(m || "GET");
-    if (!method) { throw new Error("Unrecognized HTTP verb."); }
+    if (!method) {
+      throw new Error("Unrecognized HTTP verb.");
+    }
 
     return (this.memUrl = {
       headers,
@@ -204,7 +207,12 @@ export class Request {
 }
 
 function toHTTPVerb(verb?: string) {
-  if (!verb) { return undefined; }
-  if (HTTP_VERBS.some(v => v === verb)) { return verb as HTTPVerb; }
-  else { return null; }
+  if (!verb) {
+    return undefined;
+  }
+  if (HTTP_VERBS.some(v => v === verb)) {
+    return verb as HTTPVerb;
+  } else {
+    return null;
+  }
 }
