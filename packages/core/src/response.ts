@@ -60,6 +60,9 @@ export class Response {
     if (typeof data === "string") {
       this.res.writeHead(this.statusCode, this.statusMessage);
       this.res.write(data);
+      if (!data.endsWith("\n")) {
+        this.res.write("\n");
+      }
       this.res.end();
     } else {
       return this.stream(data);
