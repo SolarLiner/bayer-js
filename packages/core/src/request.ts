@@ -83,7 +83,9 @@ export interface IRoute {
   /**
    * URL query (the part after the question mark), if any.
    */
-  query?: any;
+  query: {
+    [x: string]: string | string[];
+  };
 }
 
 export class Request {
