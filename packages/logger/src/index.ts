@@ -77,3 +77,5 @@ const rootLogger = new Logger();
 export function getRootLogger() {
   return rootLogger;
 }
+
+export * from "./handlers";

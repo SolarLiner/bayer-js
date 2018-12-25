@@ -1,4 +1,4 @@
-import { WriteStream } from "fs";
+import { createWriteStream, WriteStream } from "fs";
 
 import Logger, { ILogErrorEvent, ILogEvent } from ".";
 
@@ -10,28 +10,61 @@ interface IFormatter {
   error: ErrorFormatter;
 }
 
-export class StreamHandler {
-  constructor(private logger: Logger, level: number, private stream: WriteStream, private streamError?: WriteStream, formatter?: Partial<IFormatter>) {
-    logger.on("message", (event: ILogEvent) => {
-      if (event.level < level) return;
-      if (stream.writable) {
-        const msg = (formatter && formatter.message) ? formatter.message(event) : event.message;
-        stream.write(msg);
-        if (!msg.endsWith("\n")) stream.write("\n");
+export abstract class BaseHandler {
+  constructor(private logger: Logger, level: number) {
+    logger.on("message", event => {
+      if (level <= event.level) this.handleMessage(event);
+    });
+    logger.on("error", event => {
+      if (level <= event.level) {
+        if (event.err) this.handleError(event);
       }
     });
-    logger.on("error", (event: ILogEvent | ILogErrorEvent) => {
-      stream = !!streamError ? streamError : stream;
-      if (event.level < level) return;
-      if ((event as ILogErrorEvent).err) {
-        if (stream.writable) {
-          const msg = (formatter && formatter.error) ? formatter.error(event as ILogErrorEvent) : event.message;
-          stream.write("E: ");
-          stream.write(msg);
-          if (!msg.endsWith("\n"))
-            stream.write("\n");
-        }
-      }
-    });
+  }
+
+  public abstract handleMessage(event: ILogEvent): void;
+  public abstract handleError(event: ILogErrorEvent): void;
+}
+
+export class StreamHandler extends BaseHandler {
+  private streamError: WriteStream;
+  constructor(
+    logger: Logger,
+    level: number,
+    private stream: WriteStream,
+    streamError: WriteStream,
+    private formatter?: Partial<IFormatter>
+  ) {
+    super(logger, level);
+    if (!streamError) this.streamError = this.stream;
+    else this.streamError = streamError;
+  }
+
+  public handleMessage(event: ILogEvent) {
+    if (this.stream.writable) {
+      const msg = this.formatter && this.formatter.message ? this.formatter.message(event) : event.message;
+      this.stream.write(msg);
+      if (!msg.endsWith("\n")) this.stream.write("\n");
+    }
+  }
+
+  public handleError(event: ILogErrorEvent) {
+    if (this.stream.writable) {
+      const msg = this.formatter && this.formatter.error ? this.formatter.error(event) : event.message;
+      this.streamError.write(msg);
+      if (!msg.endsWith("\n")) this.streamError.write("\n");
+    }
+  }
+}
+
+export class FileHandler extends StreamHandler {
+  constructor(logger: Logger, level: number, filename: string, formatter?: Partial<IFormatter>) {
+    const stream = createWriteStream(filename);
+    super(logger, level, stream, stream, formatter);
+  }
+
+  public handleError(event: ILogErrorEvent) {
+    event.message = "E: " + event.message;
+    super.handleError(event);
   }
 }
