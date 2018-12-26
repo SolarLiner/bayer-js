@@ -28,7 +28,8 @@
     "watch": "tsc --watch",
     "clean": "rimraf lib",
     "lint": "tslint -p tsconfig.json",
-    "lint:fix": "tslint -p tsconfig.json --fix"
+    "lint:fix": "tslint -p tsconfig.json --fix",
+    "prepack": "tsc"
   },
   "bugs": {
     "url": "https://github.com/solarliner/bayer-js/issues"
