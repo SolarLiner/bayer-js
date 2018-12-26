@@ -9,7 +9,7 @@ Core server abstract library. Start the server with `Bayer.listen` or get a call
 #### HTTP Server
 
 ```typescript
-import { Bayer } from "@bayerjs/core";
+import Bayer from "@bayerjs/core";
 
 const app = new Bayer();
 
