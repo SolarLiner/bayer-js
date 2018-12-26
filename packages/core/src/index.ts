@@ -7,14 +7,26 @@ import { Response } from "./response";
 
 type RequestFunction = (req: IncomingMessage, res: ServerResponse) => void;
 
+/**
+ * Callback object type used in the Server middlewares.
+ */
 export interface IBayerCallback<T extends { [x: string]: any }> {
+  /** Request object. */
   req: Request;
+  /** Response object. */
   res: Response;
+  /** Extra data to be used by middlewares (to add or to use). */
   extra: T;
 }
 
+/** Server middleware type. Every middleware is a RxJS operator (pipe included) to which is passed a Callback object and
+ * is expected to return one as well.
+ */
 export type ServerMiddleware<T = any, U = any> = OperatorFunction<IBayerCallback<T>, IBayerCallback<U>>;
 
+/**
+ * Bayer.js server class. This is the main application and the entrypoint to every Bayer.js server applications.
+ */
 export default class Bayer<T = any> {
   private middlewares: Array<{
     middleware: ServerMiddleware;
@@ -24,6 +36,9 @@ export default class Bayer<T = any> {
   private obs: Observable<IBayerCallback<T>>;
   private reqFunc!: RequestFunction;
 
+  /**
+   * Initializes a new Bayer server.
+   */
   constructor() {
     this.middlewares = new Array();
     this.obs = new Observable<IBayerCallback<T>>(sub => {
@@ -34,10 +49,26 @@ export default class Bayer<T = any> {
     });
   }
 
+  /**
+   * Add a middleware function to be used by the server.
+   * @param middleware Middleware to be added to the pipeline
+   * @param [priority=0] Optional priority given to the middleware.
+   */
   public use<U = T>(middleware: ServerMiddleware<T, U>, priority = 0) {
     this.middlewares.push({ middleware, priority });
   }
 
+  /**
+   * Listens into a port for new requests.
+   *
+   * Note: This is a convinience wrapper for the `Bayer.callback` function. This is equivalent to:
+   *
+   * ```javascript
+   * http.createServer(port, app.callback()); // assuming app is the Bayer server object
+   * ```
+   * @param port Port to listen for new requests.
+   * @retuns A promise resolving to the http server created.
+   */
   public async listen(port = 80) {
     // tslint:disable-next-line:variable-name
     return new Promise<Server>((resolve, _reject) => {
@@ -47,6 +78,14 @@ export default class Bayer<T = any> {
     });
   }
 
+  /**
+   * Callback function. Main entrypoint for requests.
+   *
+   * This was designed to be passed into the `http.createServer` function to get server requests. It was also designed
+   * for serverless environments where functions are called on http requests.
+   *
+   * @returns A function that accepts Node.js's IncomingMessage and ServerResponse objects.
+   */
   public callback() {
     this.sortMiddlewares();
     let start: number;
@@ -117,9 +156,20 @@ export default class Bayer<T = any> {
   }
 }
 
+/**
+ * Custom error class to handle flow-breaking response (such as HTTP errors).
+ *
+ * @example throw new HttpError(403, "Unauthorized").
+ */
 export class HttpError extends Error {
   public code: number;
   public reason?: string;
+
+  /**
+   * Initializes a new HttpError object.
+   * @param statusCode Status code to be send with the response
+   * @param statusMessage Status message to be sent with the status code, and as response body.
+   */
   constructor(statusCode: number, statusMessage?: string) {
     super(`${statusCode} ${statusMessage}`);
     this.name = "HttpError";
