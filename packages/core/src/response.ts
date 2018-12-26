@@ -91,6 +91,9 @@ export class Response {
   }
 
   public end() {
-    
+    this.processed = true;
+    this.res.writeHead(this.statusCode, this.statusMessage);
+    this.res.write("\n");
+    this.res.end();
   }
 }
