@@ -3,25 +3,22 @@
 Reactive server abstractions library for Node.js.
 
 ```typescript
-import { HTTPServer } from "@bayerjs/core";
-import { bodyParser } from "@bayerjs/middleware";
-import { tap } from "rxjs/operators";
+import Bayer from "@bayerjs/core";
+import { staticFiles } from "@bayerjs/middleware";
+import Router from "@bayerjs/router";
 
-// Initialize a server (port is given on initialization rather than on run)
-const server = new HTTPServer(3000);
+const app = new Bayer();
+const router = new Router();
 
-// Use middleware and define priority order
-server.use(bodyParser(), 1);
-server.use(tap(({ res, extra }) => {
-  // Parsed body from a request from the body parser middleware
-  const { name } = extra.body;
-  res.writeHead(200, "OK");
-  res.write(`Hello ${name}, it's nice to meet you!`);
-  res.end();
-}));
+router.route("GET", "/", ({ res }) => {
+  res.status(403, "Unauthorized").json({ error: "You are not authorized" });
+});
 
-// Run the server
-server.run().then(() => console.log("Listening on http://localhost:3000"));
+// Use middleware
+app.use(staticFiles(join(__dirname, "../public")));
+app.use(router.middleware(), 1); // Optional priority (here to set it higher than the static files to override routes);
+// Run the app
+app.run().then(() => console.log("Listening on http://localhost:3000"));
 ```
 
 ## What it is
@@ -33,7 +30,7 @@ is basically the textbook use-case of reactive programming.
 ### Modular
 
 As its smallest, Bayer provides you with an Observable, providing
-`IncomingMessage` and `ServerResponse` parameters from Node's HTTP server
+`Request` and `Response` parameter objects, which are based on Node.js's `IncomingMessage` and `ServerResponse` objects.
 library.
 
 Bayer can easily be extended through the use of Middlewares, they're
