@@ -6,6 +6,14 @@ import { map, mergeMap } from "rxjs/operators";
 import { HttpError, ServerMiddleware } from "@bayerjs/core";
 import { access as _access, createReadStream, exists as _exists, lstat, Stats } from "fs";
 
+/**
+ * Static files middleware for the Bayer.js server library.
+ * @param localpath Local folder containing static files
+ * @param baseUrl Base URL from which to build relative paths to files
+ * @param useIndexFile Whether to search for an index file if hitting a folder
+ * @param indexExtension Extension of the index file.
+ * @returns Bayer.js Server middleware.
+ */
 export function staticFiles(
   localpath: string,
   baseUrl = "/",
