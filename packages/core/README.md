@@ -1,8 +1,6 @@
 # `@bayerjs/core`
 
-Core server abstract library. Features an HTTP and an HTTPS server, as well as
-exposing the base class powering the two of them to implement other protocols on
-top.
+Core server abstract library. Start the server with `Bayer.listen` or get a callback function with `Bayer.callback`.
 
 ## Usage
 
@@ -11,40 +9,24 @@ top.
 #### HTTP Server
 
 ```typescript
-import { HTTPServer } from "@bayerjs/core";
+import { Bayer } from "@bayerjs/core";
 
-// Port is defined on instanciation
-const server = new HTTPServer(3000);
-// Run server (will 404 on every request with this configuration)
-server.run();
-```
+const app = new Bayer();
 
-## HTTPS Server
-
-```typescript
-import { HTTPSServer } from "@bayerjs/core";
-import { readFileSync } from "fs";
-import { join } from "path";
-// HTTPS cryptographic keys
-const key = readFileSync(join(__dirname, "key.pem"));
-const cert = readFileSync(join(__dirname, "cert.pem"));
-
-const server = new HTTPSServer(3000, { key, cert });
+app.listen(); // Will listen on port 80 and 404 every request made to it
 ```
 
 ### Add middleware
 
 ```typescript
 import { tap } from "rxjs/operators";
-// With either the HTTP or HTTPS server
-server.use(tap(({ req, res, extra }) => {
-  res.writeHead(200, "OK");
-  res.write("Hello, world!");
-  res.end();
+
+app.use(tap(({ req, res, extra }) => {
+  res.status(200, "OK").send("Hello world!");
 }));
 ```
 
-To pass data to middleware further down, write into the `extra` object:
+To pass data to middlewares further down, write into the `extra` object:
 
 ```typescript
 import { map } from "rxjs/operators";
