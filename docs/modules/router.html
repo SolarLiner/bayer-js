@@ -70,68 +70,52 @@
 				<div class="tsd-comment tsd-typography">
 					<h1 id="-bayerjs-router"><code>@bayerjs/router</code></h1>
 					<p>Package containing a router middleware for the Bayer.js server library.</p>
-					<pre><code class="lang-typescript">const server = <span class="hljs-keyword">new</span> HTTPServer(<span class="hljs-number">3000</span>);
-const router = <span class="hljs-keyword">new</span> Router();
-router.addRoute(<span class="hljs-string">"/profile/:name"</span>).use(
-  map(<span class="hljs-function"><span class="hljs-params">({ params })</span> =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(params);
-    <span class="hljs-keyword">return</span> {
-      content: `<span class="javascript">Hello, ${params[<span class="hljs-number">0</span>]}</span>`,
-      statusCode: <span class="hljs-number">200</span>
-    };
-  })
-);
+					<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> Bayer();
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
+router.route(<span class="hljs-string">"/profile/:name"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">params</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(params);
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`Hello, <span class="hljs-subst">${params[<span class="hljs-number">0</span>]}</span>!`</span>;
+});
 
-<p>server.use(router.asMiddleware(), <span class="hljs-number">1</span>);
-server.use(requestLogger(), <span class="hljs-number">-1</span>);
-<span class="hljs-regexp">//</span> tslint:disable-next-line:<span class="hljs-literal">no</span>-<span class="hljs-built_in">console</span>
-server.run().<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Listening on <a href="http://localhost:3000&quot;">http://localhost:3000&quot;</a></span>));
+<p>server.use(router.middleware(), <span class="hljs-number">1</span>);
+<span class="hljs-comment">// tslint:disable-next-line:no-console</span>
+server.listen(<span class="hljs-number">3000</span>).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Listening on <a href="http://localhost:3000&quot;">http://localhost:3000&quot;</a></span>));
 </code></pre></p>
-					<p>The router makes it easier to create practical web servers. Instead of directly exposing the Request and Response objects, the Router middleware will expose extracted data directly, tucking the <code>req</code>/<code>res</code> objects behind the <code>request</code> object.</p>
+					<p>The router makes it easier to create practical web servers. Instead of directly exposing the Request and Response
+						objects, the Router middleware will expose extracted data directly, tucking the <code>req</code>/<code>res</code> objects behind the <code>request</code>
+					object.</p>
 					<h2 id="usage">Usage</h2>
 					<h3 id="add-routes">Add routes</h3>
 					<p>The following code snippets are equivalent:</p>
 					<pre><code class="lang-typescript">const router = new Router();
-router.addRoute(<span class="hljs-string">"/path/to/route"</span>, <span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>).use(
-  map(props =&gt; {
-    return {
-      content: <span class="hljs-string">"Hello, World"</span>,
-      statusCode: <span class="hljs-number">200</span>
-    };
-  })
-);
-</code></pre>
-					<pre><code class="lang-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title">routerFunc</span>(props) {
-  <span class="hljs-keyword">return</span> <span class="hljs-type">{</span>
-    content: <span class="hljs-string">"Hello, World"</span>,
-    statusCode: <span class="hljs-number">200</span>
-  };
-}
+router.route(<span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>, <span class="hljs-string">"/path/to/route"</span>, function() {
+    return <span class="hljs-string">"Hello World!"</span>;
+});
 </code></pre>
 					<p>Routes can have parameters, prefixed by a colon character:</p>
-					<pre><code class="lang-typescript">@router.route(<span class="hljs-string">"/users/:user"</span>, <span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>)
-function userDetail({ params }) {
+					<pre><code class="lang-typescript">router.route(<span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>, <span class="hljs-string">"/users/:user"</span>, userDetail);
+
+<p>function userDetail({ params }) {
   const { firstname, lastname, email } = getUserFromSlug(params<span class="hljs-string">[0]</span>);
   return {
     content: JSON.stringify({ firstname, lastname, email }),
     statusCode: <span class="hljs-number">200</span>
   };
 }
-</code></pre>
-					<p>The <code>params</code> array contains the parsed values of the parameters. Optional parameters can be suffixed with a question mark.</p>
-					<pre><code class="lang-typescript">@router.route(<span class="hljs-string">"/posts/:post?"</span>, <span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>)
-function postDetail(props) { /* ... */}
-
-<p>router.addRoute(<span class="hljs-string">&quot;/posts/:post?&quot;</span>, <span class="hljs-string">&quot;<span class="hljs-keyword">GET</span>&quot;</span>).use(/* ...*/);
 </code></pre></p>
-					<p>Specifying the method is optional, and if left out, the route will match <strong>all methods</strong>.</p>
-					<h2 id="middlewares">Middlewares</h2>
+					<p>The <code>params</code> array contains the parsed values of the parameters. Optional parameters can be suffixed with a question
+					mark.</p>
+					<pre><code class="lang-typescript">router.route(<span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>, <span class="hljs-string">"/posts/:post?"</span>, postDetail)
+function postDetail(props) { /* ... */ }
+</code></pre>
+					<h2 id="middlewares-to-be-implemented-">Middlewares (To be implemented)</h2>
 					<p>Router can have their own middlewares. They will be applied before any route.
-					To add more data through the middleware, use the <code>extra</code> object, which is the same as the <code>extra</code> object of the Server Middleware.</p>
+						To add more data through the middleware, use the <code>extra</code> object, which is the same as the <code>extra</code> object of the Server
+					Middleware.</p>
 					<pre><code class="lang-typescript">router.use(tap({ path, extra }) =&gt; {
   <span class="hljs-keyword">if</span>(path.starts<span class="hljs-constructor">With(<span class="hljs-string">"/admin"</span>)</span>) {
     <span class="hljs-keyword">if</span>(!check<span class="hljs-constructor">UserIsAdmin(<span class="hljs-params">extra</span>.<span class="hljs-params">user</span>.<span class="hljs-params">id</span>)</span>) {
-      throw <span class="hljs-keyword">new</span> <span class="hljs-constructor">Error403(<span class="hljs-string">"You are not authorized to access the administration dashboard."</span>)</span>;
+      throw <span class="hljs-keyword">new</span> <span class="hljs-constructor">HttpError(403, <span class="hljs-string">"Unauthorized"</span>, <span class="hljs-string">"You are not authorized to access the administration dashboard."</span>)</span>;
     }
   }
 });
@@ -181,7 +165,7 @@ function postDetail(props) { /* ... */}
 					<div class="tsd-signature tsd-kind-icon">Response<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/875672c/packages/router/src/index.ts#L60">router/src/index.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/f42e74a/packages/router/src/index.ts#L60">router/src/index.ts:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -217,7 +201,7 @@ function postDetail(props) { /* ... */}
 					<div class="tsd-signature tsd-kind-icon">Route<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/875672c/packages/router/src/index.ts#L58">router/src/index.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/f42e74a/packages/router/src/index.ts#L58">router/src/index.ts:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -253,7 +237,7 @@ function postDetail(props) { /* ... */}
 					<div class="tsd-signature tsd-kind-icon">Router<wbr>Response<span class="tsd-signature-symbol">:</span> <a href="../interfaces/router.irouterresponse.html" class="tsd-signature-type">IRouterResponse</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Stream</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/875672c/packages/router/src/index.ts#L53">router/src/index.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/f42e74a/packages/router/src/index.ts#L53">router/src/index.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -275,7 +259,7 @@ function postDetail(props) { /* ... */}
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/875672c/packages/router/src/index.ts#L69">router/src/index.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/f42e74a/packages/router/src/index.ts#L69">router/src/index.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -310,9 +294,6 @@ function postDetail(props) { /* ... */}
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="router.html">router</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="test.html">test</a>
 					</li>
 				</ul>
 			</nav>
