@@ -120,30 +120,40 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.httpserver.html" class="tsd-kind-icon">HTTPServer</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter"><a href="../classes/core.bayer.html" class="tsd-kind-icon">Bayer</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.httperror.html" class="tsd-kind-icon">Http<wbr>Error</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.request.html" class="tsd-kind-icon">Request</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/core.response.html" class="tsd-kind-icon">Response</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/core.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/core.internalmiddleware.html" class="tsd-kind-icon">Internal<wbr>Middleware</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter"><a href="../interfaces/core.ibayercallback.html" class="tsd-kind-icon">IBayer<wbr>Callback</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter"><a href="../interfaces/core.iformdata.html" class="tsd-kind-icon">IForm<wbr>Data</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/core.iroute.html" class="tsd-kind-icon">IRoute</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/core.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="core.html#httpverb" class="tsd-kind-icon">HTTPVerb</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="core.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="core.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="core.html#addtopipe" class="tsd-kind-icon">add<wbr>ToPipe</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="core.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a></li>
 							</ul>
 						</section>
 					</div>
@@ -151,13 +161,41 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="httpverb" class="tsd-anchor"></a>
+					<h3>HTTPVerb</h3>
+					<div class="tsd-signature tsd-kind-icon">HTTPVerb<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"GET"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"HEAD"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"POST"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"PUT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"DELETE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"CONNECT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"OPTIONS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"TRACE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"PATCH"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/core/src/request.ts#L23">core/src/request.ts:23</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Accepted HTTP verbs. This restricts the use of allowed HTTP verbs towards
+							better developer experience - this may be changed later though.</p>
+						</div>
+						<p>The list of verbs has been taken from
+						<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods</a>.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="matchhttpverb" class="tsd-anchor"></a>
+					<h3>MatchHTTPVerb</h3>
+					<div class="tsd-signature tsd-kind-icon">MatchHTTPVerb<span class="tsd-signature-symbol">:</span> <a href="core.html#httpverb" class="tsd-signature-type">HTTPVerb</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"__all__"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/core/src/request.ts#L24">core/src/request.ts:24</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
 					<a name="requestfunction" class="tsd-anchor"></a>
 					<h3>Request<wbr>Function</h3>
 					<div class="tsd-signature tsd-kind-icon">Request<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/manual.ts#L31">core/src/manual.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/core/src/index.ts#L8">core/src/index.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -185,73 +223,79 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 						</ul>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 					<a name="servermiddleware" class="tsd-anchor"></a>
 					<h3>Server<wbr>Middleware</h3>
-					<div class="tsd-signature tsd-kind-icon">Server<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">Server<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.ibayercallback.html" class="tsd-signature-type">IBayerCallback</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/core.ibayercallback.html" class="tsd-signature-type">IBayerCallback</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/index.ts#L35">core/src/index.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/core/src/index.ts#L25">core/src/index.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Server middleware type.</p>
+							<p>Server middleware type. Every middleware is a RxJS operator (pipe included) to which is passed a Callback object and
+							is expected to return one as well.</p>
 						</div>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="http_verbs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> HTTP_<wbr>VERBS</h3>
+					<div class="tsd-signature tsd-kind-icon">HTTP_<wbr>VERBS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot;GET&quot;, &quot;HEAD&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;CONNECT&quot;, &quot;OPTIONS&quot;, &quot;TRACE&quot;, &quot;PATCH&quot;]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/core/src/request.ts#L14">core/src/request.ts:14</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="addtopipe" class="tsd-anchor"></a>
-					<h3>add<wbr>ToPipe</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>ToPipe&lt;T, R&gt;<span class="tsd-signature-symbol">(</span>obs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, func<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="tohttpverb" class="tsd-anchor"></a>
+					<h3>toHTTPVerb</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">toHTTPVerb<span class="tsd-signature-symbol">(</span>verb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"GET"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"HEAD"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"POST"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"PUT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"DELETE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"CONNECT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"OPTIONS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"TRACE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"PATCH"</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/core/src/utils.ts#L36">core/src/utils.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/core/src/request.ts#L233">core/src/request.ts:233</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Return the passed in operator with the given function piped.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>internal</dt>
-									<dd><p>This operator is used internally and should be of no purpose
-										outside this project.</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-								<li>
-									<h4>R</h4>
-								</li>
-							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>obs: <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Target observable</p>
-									</div>
-								</li>
-								<li>
-									<h5>func: <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Operator to pipe to</p>
-									</div>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> verb: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"GET"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"HEAD"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"POST"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"PUT"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"DELETE"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"CONNECT"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"OPTIONS"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"TRACE"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"PATCH"</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -272,36 +316,54 @@ server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ req, ext
 					<li class=" tsd-kind-external-module">
 						<a href="router.html">router</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="test.html">test</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/core.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../classes/core.bayer.html" class="tsd-kind-icon">Bayer</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/core.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a>
+						<a href="../classes/core.httperror.html" class="tsd-kind-icon">Http<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/core.httpserver.html" class="tsd-kind-icon">HTTPServer</a>
+						<a href="../classes/core.request.html" class="tsd-kind-icon">Request</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/core.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a>
+						<a href="../classes/core.response.html" class="tsd-kind-icon">Response</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../interfaces/core.ibayercallback.html" class="tsd-kind-icon">IBayer<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../interfaces/core.iformdata.html" class="tsd-kind-icon">IForm<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/core.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a>
+						<a href="../interfaces/core.iroute.html" class="tsd-kind-icon">IRoute</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/core.internalmiddleware.html" class="tsd-kind-icon">Internal<wbr>Middleware</a>
+						<a href="../interfaces/core.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="core.html#httpverb" class="tsd-kind-icon">HTTPVerb</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="core.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="core.html#addtopipe" class="tsd-kind-icon">add<wbr>ToPipe</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="core.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="core.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a>
 					</li>
 				</ul>
 			</nav>

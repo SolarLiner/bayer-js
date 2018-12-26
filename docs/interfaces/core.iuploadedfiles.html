@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/middleware.html">middleware</a>
+					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="middleware.iuploadedfiles.html">IUploadedFiles</a>
+					<a href="core.iuploadedfiles.html">IUploadedFiles</a>
 				</li>
 			</ul>
 			<h1>Interface IUploadedFiles</h1>
@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Uploaded files object.</p>
+						<p>Uploaded files type. Used by <a href="../classes/core.request.html#formdata">Request.formData</a>.</p>
 					</div>
 				</div>
 			</section>
@@ -89,7 +89,7 @@
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>x: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">object</span></div>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Uploaded files object.</p>
+						<p>Uploaded files type. Used by <a href="../classes/core.request.html#formdata">Request.formData</a>.</p>
 					</div>
 				</div>
 				<ul class="tsd-parameters">
@@ -131,79 +131,67 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/core.html">core</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/middleware.html">middleware</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/router.html">router</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/test.html">test</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/middleware.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../classes/core.bayer.html" class="tsd-kind-icon">Bayer</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/middleware.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a>
+						<a href="../classes/core.httperror.html" class="tsd-kind-icon">Http<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/middleware.httpserver.html" class="tsd-kind-icon">HTTPServer</a>
+						<a href="../classes/core.request.html" class="tsd-kind-icon">Request</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/middleware.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a>
+						<a href="../classes/core.response.html" class="tsd-kind-icon">Response</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="middleware.iformdatabody.html" class="tsd-kind-icon">IForm<wbr>Data<wbr>Body</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="core.ibayercallback.html" class="tsd-kind-icon">IBayer<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="core.iformdata.html" class="tsd-kind-icon">IForm<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="middleware.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a>
+						<a href="core.iroute.html" class="tsd-kind-icon">IRoute</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="middleware.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
+						<a href="core.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="middleware.internalmiddleware.html" class="tsd-kind-icon">Internal<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/middleware.html#expressmiddleware" class="tsd-kind-icon">Express<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/middleware.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/middleware.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
+						<a href="../modules/core.html#httpverb" class="tsd-kind-icon">HTTPVerb</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/middleware.html#addtopipe" class="tsd-kind-icon">add<wbr>ToPipe</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/middleware.html#bodyparser" class="tsd-kind-icon">body<wbr>Parser</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/middleware.html#expresswrapper" class="tsd-kind-icon">express<wbr>Wrapper</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../modules/core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/middleware.html#parseasformdata" class="tsd-kind-icon">parse<wbr>AsForm<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/middleware.html#parseasjson" class="tsd-kind-icon">parse<wbr>AsJSON</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/middleware.html#parseasurlencoded" class="tsd-kind-icon">parse<wbr>AsURLEncoded</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/middleware.html#parserequestbody" class="tsd-kind-icon">parse<wbr>Request<wbr>Body</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/middleware.html#requestlogger" class="tsd-kind-icon">request<wbr>Logger</a>
+						<a href="../modules/core.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a>
 					</li>
 				</ul>
 			</nav>

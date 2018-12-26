@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IServerRequest | Bayer.JS</title>
+	<title>IRouteInternal | Bayer.JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,29 +59,21 @@
 					<a href="../modules/router.html">router</a>
 				</li>
 				<li>
-					<a href="router.iserverrequest.html">IServerRequest</a>
+					<a href="router.irouteinternal.html">IRouteInternal</a>
 				</li>
 			</ul>
-			<h1>Interface IServerRequest</h1>
+			<h1>Interface IRouteInternal</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Encapsulated Request and Response objects. The extra object can contain
-						anything, and is mostly there for middleware that manipulate data.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IServerRequest</span>
+						<span class="target">IRouteInternal</span>
 					</li>
 				</ul>
 			</section>
@@ -89,73 +81,59 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="router.iserverrequest.html#extra" class="tsd-kind-icon">extra</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="router.iserverrequest.html#req" class="tsd-kind-icon">req</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="router.iserverrequest.html#res" class="tsd-kind-icon">res</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="router.irouteinternal.html#method" class="tsd-kind-icon">method</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="router.irouteinternal.html#middlewares" class="tsd-kind-icon">middlewares</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="router.irouteinternal.html#op" class="tsd-kind-icon">op</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="router.irouteinternal.html#route" class="tsd-kind-icon">route</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="extra" class="tsd-anchor"></a>
-					<h3>extra</h3>
-					<div class="tsd-signature tsd-kind-icon">extra<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="method" class="tsd-anchor"></a>
+					<h3>method</h3>
+					<div class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in middleware/node_modules/@bayerjs/core/src/index.ts:57</li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/router/src/index.ts#L53">router/src/index.ts:53</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Extra data that middleware can add to the request object.</p>
-						</div>
-						<p>NOTE: Express middleware that add data to the request/response object are
-						redirected here instead, through Proxying.</p>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>x: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="req" class="tsd-anchor"></a>
-					<h3>req</h3>
-					<div class="tsd-signature tsd-kind-icon">req<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IncomingMessage</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="middlewares" class="tsd-anchor"></a>
+					<h3>middlewares</h3>
+					<div class="tsd-signature tsd-kind-icon">middlewares<span class="tsd-signature-symbol">:</span> <a href="../modules/router.html#routemiddleware" class="tsd-signature-type">RouteMiddleware</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in middleware/node_modules/@bayerjs/core/src/index.ts:45</li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/router/src/index.ts#L56">router/src/index.ts:56</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Incoming request. Copied from Node.js&#39;s HTTP server module.</p>
-						</div>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="res" class="tsd-anchor"></a>
-					<h3>res</h3>
-					<div class="tsd-signature tsd-kind-icon">res<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ServerResponse</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="op" class="tsd-anchor"></a>
+					<h3>op</h3>
+					<div class="tsd-signature tsd-kind-icon">op<span class="tsd-signature-symbol">:</span> <a href="../modules/router.html#responsehandler" class="tsd-signature-type">ResponseHandler</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in middleware/node_modules/@bayerjs/core/src/index.ts:49</li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/router/src/index.ts#L55">router/src/index.ts:55</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Server response. Copied from Node.js&#39;s HTTP server module.</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="route" class="tsd-anchor"></a>
+					<h3>route</h3>
+					<div class="tsd-signature tsd-kind-icon">route<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/router/src/index.ts#L54">router/src/index.ts:54</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -174,28 +152,55 @@
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/router.html">router</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/test.html">test</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/router.router-1.html" class="tsd-kind-icon">Router</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="router.iroute.html" class="tsd-kind-icon">IRoute</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="router.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="router.irouteinternal.html" class="tsd-kind-icon">IRoute<wbr>Internal</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="router.iserverrequest.html#extra" class="tsd-kind-icon">extra</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="router.irouteinternal.html#method" class="tsd-kind-icon">method</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="router.iserverrequest.html#req" class="tsd-kind-icon">req</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="router.irouteinternal.html#middlewares" class="tsd-kind-icon">middlewares</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="router.iserverrequest.html#res" class="tsd-kind-icon">res</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="router.irouteinternal.html#op" class="tsd-kind-icon">op</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="router.irouteinternal.html#route" class="tsd-kind-icon">route</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="router.irouterresponse.html" class="tsd-kind-icon">IRouter<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../modules/router.html#responsehandler" class="tsd-kind-icon">Response<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../modules/router.html#routemiddleware" class="tsd-kind-icon">Route<wbr>Middleware</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/router.html#routerresponse" class="tsd-kind-icon">Router<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/router.html#getmatchparams" class="tsd-kind-icon">get<wbr>Match<wbr>Params</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
