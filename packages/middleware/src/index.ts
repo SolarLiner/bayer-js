@@ -1,10 +1,10 @@
 import { join } from "path";
 
-import { empty, from, pipe } from "rxjs";
-import { catchError, map, mergeMap } from "rxjs/operators";
+import { pipe } from "rxjs";
+import { map, mergeMap } from "rxjs/operators";
 
-import { ServerMiddleware } from "@bayerjs/core";
-import { createReadStream, lstat, Stats } from "fs";
+import { HttpError, ServerMiddleware } from "@bayerjs/core";
+import { access as _access, createReadStream, exists as _exists, lstat, Stats } from "fs";
 
 export function staticFiles(
   localpath: string,
@@ -13,40 +13,16 @@ export function staticFiles(
   indexExtension = "html"
 ): ServerMiddleware {
   return pipe(
-    mergeMap(params => {
-      const resourcePath = absolute(baseUrl, params.req.route.path.substr(1));
+    map(params => {
+      const resourcePath = absolute(baseUrl, params.req.route.path.substr(1)).substr(1);
       const path = join(localpath, resourcePath);
-      return from(nodeCallbackPromise<Stats>(lstat, path)).pipe(map(stat => ({ stat, params, path })));
+      return { params, path };
     }),
-    map(({ params, stat, path }) => {
-      if (stat.isFile()) {
-        return { params, file: createReadStream(path) };
-      } else if (useIndexFile) {
-        return { params, file: createReadStream(join(path, `index.${indexExtension}`)) };
-      } else {
-        throw 404;
-      }
+    mergeMap(({ params, path }) => {
+      return checkAvailable(path, useIndexFile, indexExtension).then(p => ({ params, file: createReadStream(p) }));
     }),
-    map(({ params, file }) => {
-      params.res.status(200).send(file);
-      return params;
-    }),
-    catchError((err, caught) => {
-      if (typeof err === "number") {
-        return caught.pipe(
-          mergeMap(({ res }) => {
-            res.status(err).send("");
-            return empty();
-          })
-        );
-      } else {
-        return caught.pipe(
-          mergeMap(({ res }) => {
-            res.status(500).send(err.toString());
-            return empty();
-          })
-        );
-      }
+    mergeMap(({ params, file }) => {
+      return params.res.send(file).then(() => params);
     })
   );
 }
@@ -64,12 +40,41 @@ function absolute(base: string, relative: string) {
   return stack.join("/");
 }
 
+async function checkAvailable(p: string, useIndexFile: boolean, indexExtension: string, forceNoIndex = false): Promise<string> {
+  if (!await exists(p)) throw new HttpError(404, "Not found");
+  const stat = await nodeCallbackPromise<Stats>(lstat, p);
+  if (stat.isDirectory()) {
+    if (useIndexFile && !forceNoIndex) return checkAvailable(join(p, `index.${indexExtension}`), useIndexFile, indexExtension, true);
+    else throw new HttpError(404, "Not found");
+  } else if (stat.isFile()) {
+    if (await access(p)) return p;
+    else throw new HttpError(403, "Resource forbidden");
+  } else {
+    throw new HttpError(404, "Not found");
+  }
+}
+
 // tslint:disable-next-line:ban-types
 function nodeCallbackPromise<T>(func: Function, ...args: any[]) {
   return new Promise<T>((resolve, reject) => {
     func(...args, (err: any, data: T) => {
       if (err) reject(err);
-      resolve(data);
+      else resolve(data);
     });
+  });
+}
+
+async function access(path: string) {
+  return new Promise<boolean>(resolve => {
+    _access(path, err => {
+      if (err) resolve(false);
+      else resolve(true);
+    });
+  });
+}
+
+async function exists(path: string) {
+  return new Promise<boolean>(resolve => {
+    _exists(path, e => resolve(e));
   });
 }

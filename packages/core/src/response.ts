@@ -26,12 +26,13 @@ export class Response {
   }
 
   public get done() {
-    return this._done;
+    return this.sent || this.processed;
   }
 
   public statusMessage: string;
   // tslint:disable-next-line:variable-name
-  private _done: boolean;
+  private sent: boolean;
+  private processed: boolean;
   private res: ServerResponse;
   private code: number;
 
@@ -39,7 +40,8 @@ export class Response {
     this.res = res;
     this.code = 200;
     this.statusMessage = "OK";
-    this._done = false;
+    this.processed = false;
+    this.sent = false;
   }
 
   public contentType(type: string) {
@@ -65,24 +67,30 @@ export class Response {
 
   public async send(data: string | Stream) {
     if (typeof data === "string") {
+      this.processed = true;
       this.res.writeHead(this.statusCode, this.statusMessage);
       this.res.write(data);
       if (!data.endsWith("\n")) {
         this.res.write("\n");
       }
       this.res.end();
+      this.sent = true;
     } else {
       return this.stream(data);
     }
-    this._done = true;
   }
 
   public async stream(stream: Stream) {
+    this.processed = true;
     return new Promise<void>((resolve, reject) => {
       this.res.writeHead(this.statusCode, this.statusMessage);
       this.res.on("finish", resolve);
       this.res.on("error", reject);
       stream.pipe(this.res);
     });
+  }
+
+  public end() {
+    
   }
 }

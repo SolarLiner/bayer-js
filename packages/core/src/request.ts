@@ -8,6 +8,7 @@ import { StringDecoder } from "string_decoder";
 import { parse } from "url";
 
 import Busboy from "busboy";
+import chalk from "chalk";
 
 // from https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 const HTTP_VERBS = ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"];
@@ -174,7 +175,9 @@ export class Request {
       this.on("end", () => resolve(payload + d.end()));
       this.on("error", err => reject(err));
       this.on("close", () => {
-        console.log("Connection closed.");
+        process.stdout.write(
+          chalk.gray(new Date().toLocaleString()) + chalk.yellowBright(" W: Connection closed") + "\n"
+        );
         resolve(payload + d.end());
       });
     });

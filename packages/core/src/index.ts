@@ -1,9 +1,7 @@
-import { createServer, IncomingMessage, Server, ServerResponse } from "http";
-
 import chalk from "chalk";
+import { createServer, IncomingMessage, Server, ServerResponse } from "http";
 import { Observable, of, OperatorFunction } from "rxjs";
-import { mergeMap } from "rxjs/operators";
-
+import { catchError, mergeMap, tap } from "rxjs/operators";
 import { Request } from "./request";
 import { Response } from "./response";
 
@@ -32,7 +30,6 @@ export default class Bayer<T = any> {
       this.reqFunc = (req, res) => {
         const callbackObj = this.convertServerParams(req, res);
         sub.next(callbackObj);
-        this.terminateRequest(callbackObj);
       };
     });
   }
@@ -52,10 +49,19 @@ export default class Bayer<T = any> {
 
   public callback() {
     this.sortMiddlewares();
+    let start: number;
     const obs = this.obs.pipe(
+      tap(() => {
+        start = Date.now();
+      }),
       mergeMap(v => {
-        return this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
-      })
+        const middleware$ = this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
+        return middleware$.pipe(catchError(err => {
+          this.handleRequestError(err, v);
+          return of(v);
+        }));
+      }),
+      tap(params => this.terminateRequest(params, start))
     );
     obs.subscribe();
     return this.reqFunc;
@@ -74,27 +80,51 @@ export default class Bayer<T = any> {
     return { req, res, extra: {} as T };
   }
 
-  private terminateRequest({ req, res }: IBayerCallback<T>) {
-    const start = Date.now();
-    setTimeout(() => {
-      if (!res.done) {
-        res.status(404).send(`Cannot ${req.route.method || "GET"} ${req.route.path}`);
-      }
-      const ms = Date.now() - start;
-      this.log(req, res, ms);
-    }, 0);
+  private terminateRequest({ req, res }: IBayerCallback<T>, start: number) {
+    if (!res.done) {
+      res.status(404).send(`Cannot ${req.route.method || "GET"} ${req.route.path}`);
+    }
+    const ms = Date.now() - start;
+    this.log(req, res, ms);
   }
 
   private log(req: Request, res: Response, ms: number) {
     const { method, path } = req.route;
-    const { statusCode, statusMessage } = res;
+    const { statusCode: handleRequestError, statusMessage } = res;
     const { blue, green, greenBright } = chalk;
-    const chalkResult = statusCode === 200 ? green : chalk.red;
+    const chalkResult = handleRequestError === 200 ? green : chalk.red;
     process.stdout.write(
       `${chalk.grey(new Date().toLocaleString())} ${blue("Request")} ${green(method)} ${greenBright(
         path
-      )} ${ms} ms - ${chalkResult(`${statusCode} ${statusMessage}`)}\n`
+      )} ${ms} ms - ${chalkResult(`${handleRequestError} ${statusMessage}`)}\n`
     );
+  }
+
+  private handleRequestError(err: any, { res }: IBayerCallback<T>) {
+    if (typeof err === "number") {
+      res.status(err).end();
+    } else if (err instanceof HttpError) {
+      const ress = res.status(err.code);
+      if (err.reason) return ress.send(err.reason);
+      ress.end();
+    } else {
+      const ress = res.status(500, "Internal server error");
+      if (err instanceof Error) return ress.send(`${err.name} : ${err.message}`);
+      ress.end();
+    }
+  }
+}
+
+export class HttpError extends Error {
+  public code: number;
+  public reason?: string;
+  constructor(statusCode: number, statusMessage?: string) {
+    super(`${statusCode} ${statusMessage}`);
+    this.name = "HttpError";
+    this.code = statusCode;
+    this.reason = statusMessage;
+
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 
