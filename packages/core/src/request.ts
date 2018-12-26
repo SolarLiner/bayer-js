@@ -132,7 +132,7 @@ export class Request {
   }
 
   public get(key: string) {
-    return { ...this.headers, ...this.route.query }[key];
+    return { ...this.trailers, ...this.headers, ...this.route.query }[key];
   }
 
   public async json<T = any>(): Promise<T> {
