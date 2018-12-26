@@ -3,25 +3,21 @@
 Package containing a router middleware for the Bayer.js server library.
 
 ```typescript
-const server = new HTTPServer(3000);
+const server = new Bayer();
 const router = new Router();
-router.addRoute("/profile/:name").use(
-  map(({ params }) => {
-    console.log(params);
-    return {
-      content: `Hello, ${params[0]}`,
-      statusCode: 200
-    };
-  })
-);
+router.route("/profile/:name", function(params) {
+  console.log(params);
+  return `Hello, ${params[0]}!`;
+});
 
-server.use(router.asMiddleware(), 1);
-server.use(requestLogger(), -1);
+server.use(router.middleware(), 1);
 // tslint:disable-next-line:no-console
-server.run().then(() => console.log("Listening on http://localhost:3000"));
+server.listen(3000).then(() => console.log("Listening on http://localhost:3000"));
 ```
 
-The router makes it easier to create practical web servers. Instead of directly exposing the Request and Response objects, the Router middleware will expose extracted data directly, tucking the `req`/`res` objects behind the `request` object.
+The router makes it easier to create practical web servers. Instead of directly exposing the Request and Response
+objects, the Router middleware will expose extracted data directly, tucking the `req`/`res` objects behind the `request`
+object.
 
 ## Usage
 
@@ -31,29 +27,16 @@ The following code snippets are equivalent:
 
 ```typescript
 const router = new Router();
-router.addRoute("/path/to/route", "GET").use(
-  map(props => {
-    return {
-      content: "Hello, World",
-      statusCode: 200
-    };
-  })
-);
-```
-
-```typescript
-function routerFunc(props) {
-  return {
-    content: "Hello, World",
-    statusCode: 200
-  };
-}
+router.route("GET", "/path/to/route", function() {
+    return "Hello World!";
+});
 ```
 
 Routes can have parameters, prefixed by a colon character:
 
 ```typescript
-@router.route("/users/:user", "GET")
+router.route("GET", "/users/:user", userDetail);
+
 function userDetail({ params }) {
   const { firstname, lastname, email } = getUserFromSlug(params[0]);
   return {
@@ -63,27 +46,25 @@ function userDetail({ params }) {
 }
 ```
 
-The `params` array contains the parsed values of the parameters. Optional parameters can be suffixed with a question mark.
+The `params` array contains the parsed values of the parameters. Optional parameters can be suffixed with a question
+mark.
 
 ```typescript
-@router.route("/posts/:post?", "GET")
-function postDetail(props) { /* ... */}
-
-router.addRoute("/posts/:post?", "GET").use(/* ...*/);
+router.route("GET", "/posts/:post?", postDetail)
+function postDetail(props) { /* ... */ }
 ```
 
-Specifying the method is optional, and if left out, the route will match **all methods**.
-
-## Middlewares
+## Middlewares (To be implemented)
 
 Router can have their own middlewares. They will be applied before any route.
-To add more data through the middleware, use the `extra` object, which is the same as the `extra` object of the Server Middleware.
+To add more data through the middleware, use the `extra` object, which is the same as the `extra` object of the Server
+Middleware.
 
 ```typescript
 router.use(tap({ path, extra }) => {
   if(path.startsWith("/admin")) {
     if(!checkUserIsAdmin(extra.user.id)) {
-      throw new Error403("You are not authorized to access the administration dashboard.");
+      throw new HttpError(403, "Unauthorized", "You are not authorized to access the administration dashboard.");
     }
   }
 });

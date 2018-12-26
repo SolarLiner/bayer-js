@@ -7,6 +7,9 @@ import { IRoute as IBaseRoute } from "@bayerjs/core";
 import { OutgoingHttpHeaders } from "http";
 import { Stream } from "stream";
 
+/**
+ * Router response object to be returned by routes.
+ */
 interface IRouterResponse {
   /**
    * Status code to return to the client. If not given, will assume 200.
@@ -44,9 +47,16 @@ interface IRoute<T = any> extends IBaseRoute {
   extra: T;
 }
 
+/**
+ * Router response object type.
+ */
 export type RouterResponse = IRouterResponse | string | Stream | null;
 
+/**
+ * Route middleware function type.
+ */
 export type RouteMiddleware<T = any> = (params: IRoute<T>) => void;
+/** Response handler function type. */
 export type ResponseHandler<T = any> = (params: IRoute<T>) => RouterResponse;
 
 interface IRouteInternal {
@@ -65,17 +75,43 @@ function getMatchParams(r: IRouteInternal, path: string, index?: number) {
   return matches;
 }
 
+/**
+ * Router class for the Bayer.js server object. Plug into the server like this:
+ *
+ * ```javascript
+ * const server = new Bayer();
+ * const router = new Router();
+ * router.route(...);
+ *
+ * server.use(router.middleware());
+ *
+ * server.listen();
+ * ```
+ */
 export class Router {
   private routes: IRouteInternal[];
 
+  /**
+   * Initializes a new Router object.
+   */
   constructor() {
     this.routes = new Array();
   }
 
+  /**
+   * Adds a route to be handled by the router
+   * @param method Method matching this route
+   * @param route URL matching this route
+   * @param op Function handling the route
+   * @param middlewares Optional middlewares handling the route (ie. access control)
+   */
   public route(method: string, route: string, op: ResponseHandler, ...middlewares: RouteMiddleware[]) {
     this.routes.push({ route: pathToRegexp(route), op, middlewares, method: method.toUpperCase() });
   }
 
+  /**
+   * Returns this router as a server middleware function.
+   */
   public middleware(): ServerMiddleware {
     return mergeMap(v =>
       of(v).pipe(

@@ -70,68 +70,52 @@
 				<div class="tsd-comment tsd-typography">
 					<h1 id="-bayerjs-router"><code>@bayerjs/router</code></h1>
 					<p>Package containing a router middleware for the Bayer.js server library.</p>
-					<pre><code class="lang-typescript">const server = <span class="hljs-keyword">new</span> HTTPServer(<span class="hljs-number">3000</span>);
-const router = <span class="hljs-keyword">new</span> Router();
-router.addRoute(<span class="hljs-string">"/profile/:name"</span>).use(
-  map(<span class="hljs-function"><span class="hljs-params">({ params })</span> =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(params);
-    <span class="hljs-keyword">return</span> {
-      content: `<span class="javascript">Hello, ${params[<span class="hljs-number">0</span>]}</span>`,
-      statusCode: <span class="hljs-number">200</span>
-    };
-  })
-);
+					<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> Bayer();
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
+router.route(<span class="hljs-string">"/profile/:name"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">params</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(params);
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`Hello, <span class="hljs-subst">${params[<span class="hljs-number">0</span>]}</span>!`</span>;
+});
 
-<p>server.use(router.asMiddleware(), <span class="hljs-number">1</span>);
-server.use(requestLogger(), <span class="hljs-number">-1</span>);
-<span class="hljs-regexp">//</span> tslint:disable-next-line:<span class="hljs-literal">no</span>-<span class="hljs-built_in">console</span>
-server.run().<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Listening on <a href="http://localhost:3000&quot;">http://localhost:3000&quot;</a></span>));
+<p>server.use(router.middleware(), <span class="hljs-number">1</span>);
+<span class="hljs-comment">// tslint:disable-next-line:no-console</span>
+server.listen(<span class="hljs-number">3000</span>).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Listening on <a href="http://localhost:3000&quot;">http://localhost:3000&quot;</a></span>));
 </code></pre></p>
-					<p>The router makes it easier to create practical web servers. Instead of directly exposing the Request and Response objects, the Router middleware will expose extracted data directly, tucking the <code>req</code>/<code>res</code> objects behind the <code>request</code> object.</p>
+					<p>The router makes it easier to create practical web servers. Instead of directly exposing the Request and Response
+						objects, the Router middleware will expose extracted data directly, tucking the <code>req</code>/<code>res</code> objects behind the <code>request</code>
+					object.</p>
 					<h2 id="usage">Usage</h2>
 					<h3 id="add-routes">Add routes</h3>
 					<p>The following code snippets are equivalent:</p>
 					<pre><code class="lang-typescript">const router = new Router();
-router.addRoute(<span class="hljs-string">"/path/to/route"</span>, <span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>).use(
-  map(props =&gt; {
-    return {
-      content: <span class="hljs-string">"Hello, World"</span>,
-      statusCode: <span class="hljs-number">200</span>
-    };
-  })
-);
-</code></pre>
-					<pre><code class="lang-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title">routerFunc</span>(props) {
-  <span class="hljs-keyword">return</span> <span class="hljs-type">{</span>
-    content: <span class="hljs-string">"Hello, World"</span>,
-    statusCode: <span class="hljs-number">200</span>
-  };
-}
+router.route(<span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>, <span class="hljs-string">"/path/to/route"</span>, function() {
+    return <span class="hljs-string">"Hello World!"</span>;
+});
 </code></pre>
 					<p>Routes can have parameters, prefixed by a colon character:</p>
-					<pre><code class="lang-typescript">@router.route(<span class="hljs-string">"/users/:user"</span>, <span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>)
-function userDetail({ params }) {
+					<pre><code class="lang-typescript">router.route(<span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>, <span class="hljs-string">"/users/:user"</span>, userDetail);
+
+<p>function userDetail({ params }) {
   const { firstname, lastname, email } = getUserFromSlug(params<span class="hljs-string">[0]</span>);
   return {
     content: JSON.stringify({ firstname, lastname, email }),
     statusCode: <span class="hljs-number">200</span>
   };
 }
-</code></pre>
-					<p>The <code>params</code> array contains the parsed values of the parameters. Optional parameters can be suffixed with a question mark.</p>
-					<pre><code class="lang-typescript">@router.route(<span class="hljs-string">"/posts/:post?"</span>, <span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>)
-function postDetail(props) { /* ... */}
-
-<p>router.addRoute(<span class="hljs-string">&quot;/posts/:post?&quot;</span>, <span class="hljs-string">&quot;<span class="hljs-keyword">GET</span>&quot;</span>).use(/* ...*/);
 </code></pre></p>
-					<p>Specifying the method is optional, and if left out, the route will match <strong>all methods</strong>.</p>
-					<h2 id="middlewares">Middlewares</h2>
+					<p>The <code>params</code> array contains the parsed values of the parameters. Optional parameters can be suffixed with a question
+					mark.</p>
+					<pre><code class="lang-typescript">router.route(<span class="hljs-string">"<span class="hljs-keyword">GET</span>"</span>, <span class="hljs-string">"/posts/:post?"</span>, postDetail)
+function postDetail(props) { /* ... */ }
+</code></pre>
+					<h2 id="middlewares-to-be-implemented-">Middlewares (To be implemented)</h2>
 					<p>Router can have their own middlewares. They will be applied before any route.
-					To add more data through the middleware, use the <code>extra</code> object, which is the same as the <code>extra</code> object of the Server Middleware.</p>
+						To add more data through the middleware, use the <code>extra</code> object, which is the same as the <code>extra</code> object of the Server
+					Middleware.</p>
 					<pre><code class="lang-typescript">router.use(tap({ path, extra }) =&gt; {
   <span class="hljs-keyword">if</span>(path.starts<span class="hljs-constructor">With(<span class="hljs-string">"/admin"</span>)</span>) {
     <span class="hljs-keyword">if</span>(!check<span class="hljs-constructor">UserIsAdmin(<span class="hljs-params">extra</span>.<span class="hljs-params">user</span>.<span class="hljs-params">id</span>)</span>) {
-      throw <span class="hljs-keyword">new</span> <span class="hljs-constructor">Error403(<span class="hljs-string">"You are not authorized to access the administration dashboard."</span>)</span>;
+      throw <span class="hljs-keyword">new</span> <span class="hljs-constructor">HttpError(403, <span class="hljs-string">"Unauthorized"</span>, <span class="hljs-string">"You are not authorized to access the administration dashboard."</span>)</span>;
     }
   }
 });
@@ -145,68 +129,29 @@ function postDetail(props) { /* ... */}
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.baseserver-1.html" class="tsd-kind-icon">Base<wbr>Server</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.httpsserver-1.html" class="tsd-kind-icon">HTTPSServer</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.httpserver-1.html" class="tsd-kind-icon">HTTPServer</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.httpserver.html" class="tsd-kind-icon">HTTPServer</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.manualserver-1.html" class="tsd-kind-icon">Manual<wbr>Server</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/router.router-1.html" class="tsd-kind-icon">Router</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/router.iformdatabody.html" class="tsd-kind-icon">IForm<wbr>Data<wbr>Body</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/router.iroute.html" class="tsd-kind-icon">IRoute</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/router.irouterprops.html" class="tsd-kind-icon">IRouter<wbr>Props</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported"><a href="../interfaces/router.iroute.html" class="tsd-kind-icon">IRoute</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/router.irouteinternal.html" class="tsd-kind-icon">IRoute<wbr>Internal</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/router.irouterresponse.html" class="tsd-kind-icon">IRouter<wbr>Response</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/router.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/router.iserverrequest-1.html" class="tsd-kind-icon">IServer<wbr>Request</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/router.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/router.internalmiddleware.html" class="tsd-kind-icon">Internal<wbr>Middleware</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/router.internalmiddleware-1.html" class="tsd-kind-icon">Internal<wbr>Middleware</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#expressmiddleware" class="tsd-kind-icon">Express<wbr>Middleware</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="router.html#httpverb" class="tsd-kind-icon">HTTPVerb</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#requestfunction-1" class="tsd-kind-icon">Request<wbr>Function</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="router.html#responsehandler" class="tsd-kind-icon">Response<wbr>Handler</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="router.html#routerfunction" class="tsd-kind-icon">Router<wbr>Function</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="router.html#routermiddleware" class="tsd-kind-icon">Router<wbr>Middleware</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="router.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="router.html#servermiddleware-1" class="tsd-kind-icon">Server<wbr>Middleware</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="router.html#responsehandler" class="tsd-kind-icon">Response<wbr>Handler</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="router.html#routemiddleware" class="tsd-kind-icon">Route<wbr>Middleware</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="router.html#routerresponse" class="tsd-kind-icon">Router<wbr>Response</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Variables</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="router.html#addtopipe" class="tsd-kind-icon">add<wbr>ToPipe</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="router.html#addtopipe-1" class="tsd-kind-icon">add<wbr>ToPipe</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="router.html#bodyparser" class="tsd-kind-icon">body<wbr>Parser</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="router.html#expresswrapper" class="tsd-kind-icon">express<wbr>Wrapper</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#getmatchparams" class="tsd-kind-icon">get<wbr>Match<wbr>Params</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#matchesroute" class="tsd-kind-icon">matches<wbr>Route</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#parseasformdata" class="tsd-kind-icon">parse<wbr>AsForm<wbr>Data</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#parseasjson" class="tsd-kind-icon">parse<wbr>AsJSON</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#parseasurlencoded" class="tsd-kind-icon">parse<wbr>AsURLEncoded</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#parserequestbody" class="tsd-kind-icon">parse<wbr>Request<wbr>Body</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="router.html#requestlogger" class="tsd-kind-icon">request<wbr>Logger</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="router.html#statichandler" class="tsd-kind-icon">static<wbr>Handler</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="router.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a></li>
 							</ul>
 						</section>
 					</div>
@@ -214,203 +159,72 @@ function postDetail(props) { /* ... */}
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="expressmiddleware" class="tsd-anchor"></a>
-					<h3>Express<wbr>Middleware</h3>
-					<div class="tsd-signature tsd-kind-icon">Express<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in router/node_modules/@bayerjs/middleware/src/index.ts:177</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Express middleware type. Taken from the express type definitions.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>req: <span class="tsd-signature-type">any</span></h5>
-											</li>
-											<li>
-												<h5>res: <span class="tsd-signature-type">any</span></h5>
-											</li>
-											<li>
-												<h5>next: <span class="tsd-signature-type">function</span></h5>
-												<ul class="tsd-parameters">
-													<li class="tsd-parameter-siganture">
-														<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-															<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-														</ul>
-														<ul class="tsd-descriptions">
-															<li class="tsd-description">
-																<h4 class="tsd-parameters-title">Parameters</h4>
-																<ul class="tsd-parameters">
-																	<li>
-																		<h5><span class="tsd-flag ts-flagOptional">Optional</span> err: <span class="tsd-signature-type">any</span></h5>
-																	</li>
-																</ul>
-																<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-															</li>
-														</ul>
-													</li>
-												</ul>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="httpverb" class="tsd-anchor"></a>
-					<h3>HTTPVerb</h3>
-					<div class="tsd-signature tsd-kind-icon">HTTPVerb<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"GET"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"HEAD"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"POST"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"PUT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"DELETE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"CONNECT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"OPTIONS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"TRACE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"PATCH"</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L56">router/src/index.ts:56</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Accepted HTTP verbs. This restricts the use of allowed HTTP verbs towards
-							better developer experience - this may be changed later though.</p>
-						</div>
-						<p>The list of verbs has been taken from
-						<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods</a>.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="matchhttpverb" class="tsd-anchor"></a>
-					<h3>MatchHTTPVerb</h3>
-					<div class="tsd-signature tsd-kind-icon">MatchHTTPVerb<span class="tsd-signature-symbol">:</span> <a href="router.html#httpverb" class="tsd-signature-type">HTTPVerb</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"__all__"</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L66">router/src/index.ts:66</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="requestfunction" class="tsd-anchor"></a>
-					<h3>Request<wbr>Function</h3>
-					<div class="tsd-signature tsd-kind-icon">Request<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in router/node_modules/@bayerjs/middleware/node_modules/@bayerjs/core/src/manual.ts:31</li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
-											</li>
-											<li>
-												<h5>res: <span class="tsd-signature-type">ServerResponse</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="requestfunction-1" class="tsd-anchor"></a>
-					<h3>Request<wbr>Function</h3>
-					<div class="tsd-signature tsd-kind-icon">Request<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in router/node_modules/@bayerjs/core/src/manual.ts:31</li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
-											</li>
-											<li>
-												<h5>res: <span class="tsd-signature-type">ServerResponse</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 					<a name="responsehandler" class="tsd-anchor"></a>
 					<h3>Response<wbr>Handler</h3>
-					<div class="tsd-signature tsd-kind-icon">Response<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/router.irouterprops.html" class="tsd-signature-type">IRouterProps</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/router.irouterresponse.html" class="tsd-signature-type">IRouterResponse</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">Response<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L156">router/src/index.ts:156</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/f42e74a/packages/router/src/index.ts#L60">router/src/index.ts:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Response handler type alias. A response handler should take the router props
-							in and generate a response with status code and optionally extra headers.</p>
+							<p>Response handler function type.</p>
 						</div>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="routerfunction" class="tsd-anchor"></a>
-					<h3>Router<wbr>Function</h3>
-					<div class="tsd-signature tsd-kind-icon">Router<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L157">router/src/index.ts:157</a></li>
-						</ul>
-					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="../interfaces/router.irouterprops.html" class="tsd-signature-type">IRouterProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/router.irouterresponse.html" class="tsd-signature-type">IRouterResponse</a></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="../interfaces/router.iroute.html" class="tsd-signature-type">IRoute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html#routerresponse" class="tsd-signature-type">RouterResponse</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>props: <a href="../interfaces/router.irouterprops.html" class="tsd-signature-type">IRouterProps</a></h5>
+												<h5>params: <a href="../interfaces/router.iroute.html" class="tsd-signature-type">IRoute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="../interfaces/router.irouterresponse.html" class="tsd-signature-type">IRouterResponse</a></h4>
+										<h4 class="tsd-returns-title">Returns <a href="router.html#routerresponse" class="tsd-signature-type">RouterResponse</a></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+					<a name="routemiddleware" class="tsd-anchor"></a>
+					<h3>Route<wbr>Middleware</h3>
+					<div class="tsd-signature tsd-kind-icon">Route<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/f42e74a/packages/router/src/index.ts#L58">router/src/index.ts:58</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Route middleware function type.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="../interfaces/router.iroute.html" class="tsd-signature-type">IRoute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>params: <a href="../interfaces/router.iroute.html" class="tsd-signature-type">IRoute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 									</li>
 								</ul>
 							</li>
@@ -418,250 +232,40 @@ function postDetail(props) { /* ... */}
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="routermiddleware" class="tsd-anchor"></a>
-					<h3>Router<wbr>Middleware</h3>
-					<div class="tsd-signature tsd-kind-icon">Router<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/router.irouterprops.html" class="tsd-signature-type">IRouterProps</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/router.irouterprops.html" class="tsd-signature-type">IRouterProps</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="routerresponse" class="tsd-anchor"></a>
+					<h3>Router<wbr>Response</h3>
+					<div class="tsd-signature tsd-kind-icon">Router<wbr>Response<span class="tsd-signature-symbol">:</span> <a href="../interfaces/router.irouterresponse.html" class="tsd-signature-type">IRouterResponse</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Stream</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L115">router/src/index.ts:115</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/f42e74a/packages/router/src/index.ts#L53">router/src/index.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Router middleware that&#39;s called on every request, even unmapped ones.
-							Use for access control, or manipulating the props object.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="servermiddleware" class="tsd-anchor"></a>
-					<h3>Server<wbr>Middleware</h3>
-					<div class="tsd-signature tsd-kind-icon">Server<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/middleware.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/middleware.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in middleware/node_modules/@bayerjs/core/src/index.ts:35</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Server middleware type.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="servermiddleware-1" class="tsd-anchor"></a>
-					<h3>Server<wbr>Middleware</h3>
-					<div class="tsd-signature tsd-kind-icon">Server<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/middleware.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/middleware.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in middleware/node_modules/@bayerjs/core/src/index.ts:35</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Server middleware type.</p>
+							<p>Router response object type.</p>
 						</div>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Variables</h2>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="http_verbs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> HTTP_<wbr>VERBS</h3>
-					<div class="tsd-signature tsd-kind-icon">HTTP_<wbr>VERBS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot;GET&quot;,&quot;HEAD&quot;,&quot;POST&quot;,&quot;PUT&quot;,&quot;DELETE&quot;,&quot;CONNECT&quot;,&quot;OPTIONS&quot;,&quot;TRACE&quot;,&quot;PATCH&quot;]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L37">router/src/index.ts:37</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="addtopipe" class="tsd-anchor"></a>
-					<h3>add<wbr>ToPipe</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>ToPipe&lt;T, R&gt;<span class="tsd-signature-symbol">(</span>obs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, func<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in middleware/node_modules/@bayerjs/core/src/utils.ts:36</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Return the passed in operator with the given function piped.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>internal</dt>
-									<dd><p>This operator is used internally and should be of no purpose
-										outside this project.</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-								<li>
-									<h4>R</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>obs: <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Target observable</p>
-									</div>
-								</li>
-								<li>
-									<h5>func: <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Operator to pipe to</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="addtopipe-1" class="tsd-anchor"></a>
-					<h3>add<wbr>ToPipe</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>ToPipe&lt;T, R&gt;<span class="tsd-signature-symbol">(</span>obs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, func<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in middleware/node_modules/@bayerjs/core/src/utils.ts:36</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Return the passed in operator with the given function piped.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>internal</dt>
-									<dd><p>This operator is used internally and should be of no purpose
-										outside this project.</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-								<li>
-									<h4>R</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>obs: <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Target observable</p>
-									</div>
-								</li>
-								<li>
-									<h5>func: <span class="tsd-signature-type">OperatorFunction</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Operator to pipe to</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="bodyparser" class="tsd-anchor"></a>
-					<h3>body<wbr>Parser</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">body<wbr>Parser<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html#servermiddleware-1" class="tsd-signature-type">ServerMiddleware</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in router/node_modules/@bayerjs/middleware/src/index.ts:80</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Parses the body of a Request and tries to decode its payload.</p>
-								</div>
-								<p>If decoded, the object will be in <code>extra.body</code>. If not, the payload will be
-								available under <code>extra.payload</code>.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="router.html#servermiddleware-1" class="tsd-signature-type">ServerMiddleware</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="expresswrapper" class="tsd-anchor"></a>
-					<h3>express<wbr>Wrapper</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">express<wbr>Wrapper<span class="tsd-signature-symbol">(</span>m<span class="tsd-signature-symbol">: </span><a href="router.html#expressmiddleware" class="tsd-signature-type">ExpressMiddleware</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html#servermiddleware-1" class="tsd-signature-type">ServerMiddleware</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in router/node_modules/@bayerjs/middleware/src/index.ts:196</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Wrap an Express middleware to work for the server.</p>
-								</div>
-								<p>Note: The wrapped middleware receive proxied objects of the request and
-									response. If the middleware adds a property to either <code>req</code> or <code>res</code>, the
-								the proxies will instead set it to the <code>extra</code> object.</p>
-								<p>About <code>next()</code>: This server makes no use of the <code>next()</code> method - middlewares
-									are chained together through Observable piping. All the passed function does
-									is throw an error if something is passed to it. It also checks for the type
-								to throw an Error objects everytime, as it should be :)</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>m: <a href="router.html#expressmiddleware" class="tsd-signature-type">ExpressMiddleware</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Express middleware to wrap.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="router.html#servermiddleware-1" class="tsd-signature-type">ServerMiddleware</a></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 					<a name="getmatchparams" class="tsd-anchor"></a>
 					<h3>get<wbr>Match<wbr>Params</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Match<wbr>Params<span class="tsd-signature-symbol">(</span>r<span class="tsd-signature-symbol">: </span><a href="../interfaces/router.iroute.html" class="tsd-signature-type">IRoute</a>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, index<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Match<wbr>Params<span class="tsd-signature-symbol">(</span>r<span class="tsd-signature-symbol">: </span><a href="../interfaces/router.irouteinternal.html" class="tsd-signature-type">IRouteInternal</a>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, index<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L178">router/src/index.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/f42e74a/packages/router/src/index.ts#L69">router/src/index.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>r: <a href="../interfaces/router.iroute.html" class="tsd-signature-type">IRoute</a></h5>
+									<h5>r: <a href="../interfaces/router.irouteinternal.html" class="tsd-signature-type">IRouteInternal</a></h5>
 								</li>
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
@@ -671,219 +275,6 @@ function postDetail(props) { /* ... */}
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="matchesroute" class="tsd-anchor"></a>
-					<h3>matches<wbr>Route</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">matches<wbr>Route<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><a href="../interfaces/router.iroute.html" class="tsd-signature-type">IRoute</a>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, method<span class="tsd-signature-symbol">: </span><a href="router.html#httpverb" class="tsd-signature-type">HTTPVerb</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L171">router/src/index.ts:171</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>route: <a href="../interfaces/router.iroute.html" class="tsd-signature-type">IRoute</a></h5>
-								</li>
-								<li>
-									<h5>path: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>method: <a href="router.html#httpverb" class="tsd-signature-type">HTTPVerb</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="parseasformdata" class="tsd-anchor"></a>
-					<h3>parse<wbr>AsForm<wbr>Data</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>AsForm<wbr>Data<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/router.iformdatabody.html" class="tsd-signature-type">IFormDataBody</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in router/node_modules/@bayerjs/middleware/src/index.ts:134</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/router.iformdatabody.html" class="tsd-signature-type">IFormDataBody</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="parseasjson" class="tsd-anchor"></a>
-					<h3>parse<wbr>AsJSON</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>AsJSON<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in router/node_modules/@bayerjs/middleware/src/index.ts:157</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="parseasurlencoded" class="tsd-anchor"></a>
-					<h3>parse<wbr>AsURLEncoded</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>AsURLEncoded<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ParsedUrlQuery</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in router/node_modules/@bayerjs/middleware/src/index.ts:115</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ParsedUrlQuery</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="parserequestbody" class="tsd-anchor"></a>
-					<h3>parse<wbr>Request<wbr>Body</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Request<wbr>Body<span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in router/node_modules/@bayerjs/middleware/src/index.ts:59</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>res: <span class="tsd-signature-type">IncomingMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="requestlogger" class="tsd-anchor"></a>
-					<h3>request<wbr>Logger</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">request<wbr>Logger<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html#servermiddleware-1" class="tsd-signature-type">ServerMiddleware</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in router/node_modules/@bayerjs/middleware/src/index.ts:165</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Logs request as they come.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="router.html#servermiddleware-1" class="tsd-signature-type">ServerMiddleware</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="statichandler" class="tsd-anchor"></a>
-					<h3>static<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">static<wbr>Handler<span class="tsd-signature-symbol">(</span>directory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html#responsehandler" class="tsd-signature-type">ResponseHandler</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/handlers.ts#L33">router/src/handlers.ts:33</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>directory: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>base: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="router.html#responsehandler" class="tsd-signature-type">ResponseHandler</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="tohttpverb" class="tsd-anchor"></a>
-					<h3>toHTTPVerb</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">toHTTPVerb<span class="tsd-signature-symbol">(</span>verb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"GET"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"HEAD"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"POST"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"PUT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"DELETE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"CONNECT"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"OPTIONS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"TRACE"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"PATCH"</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/6129bc3/packages/router/src/index.ts#L165">router/src/index.ts:165</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> verb: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">null</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"GET"</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"HEAD"</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"POST"</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"PUT"</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"DELETE"</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"CONNECT"</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"OPTIONS"</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"TRACE"</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">"PATCH"</span>
-							</h4>
 						</li>
 					</ul>
 				</section>
@@ -909,130 +300,28 @@ function postDetail(props) { /* ... */}
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.baseserver-1.html" class="tsd-kind-icon">Base<wbr>Server</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.httpsserver-1.html" class="tsd-kind-icon">HTTPSServer</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.httpserver.html" class="tsd-kind-icon">HTTPServer</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.httpserver-1.html" class="tsd-kind-icon">HTTPServer</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.manualserver.html" class="tsd-kind-icon">Manual<wbr>Server</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.manualserver-1.html" class="tsd-kind-icon">Manual<wbr>Server</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/router.router-1.html" class="tsd-kind-icon">Router</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/router.iformdatabody.html" class="tsd-kind-icon">IForm<wbr>Data<wbr>Body</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="../interfaces/router.iroute.html" class="tsd-kind-icon">IRoute</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/router.irouterprops.html" class="tsd-kind-icon">IRouter<wbr>Props</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../interfaces/router.irouteinternal.html" class="tsd-kind-icon">IRoute<wbr>Internal</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../interfaces/router.irouterresponse.html" class="tsd-kind-icon">IRouter<wbr>Response</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/router.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/router.iserverrequest-1.html" class="tsd-kind-icon">IServer<wbr>Request</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/router.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/router.internalmiddleware.html" class="tsd-kind-icon">Internal<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/router.internalmiddleware-1.html" class="tsd-kind-icon">Internal<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#expressmiddleware" class="tsd-kind-icon">Express<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="router.html#httpverb" class="tsd-kind-icon">HTTPVerb</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#requestfunction-1" class="tsd-kind-icon">Request<wbr>Function</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="router.html#responsehandler" class="tsd-kind-icon">Response<wbr>Handler</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="router.html#routerfunction" class="tsd-kind-icon">Router<wbr>Function</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="router.html#routemiddleware" class="tsd-kind-icon">Route<wbr>Middleware</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="router.html#routermiddleware" class="tsd-kind-icon">Router<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="router.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="router.html#servermiddleware-1" class="tsd-kind-icon">Server<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="router.html#addtopipe" class="tsd-kind-icon">add<wbr>ToPipe</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="router.html#addtopipe-1" class="tsd-kind-icon">add<wbr>ToPipe</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="router.html#bodyparser" class="tsd-kind-icon">body<wbr>Parser</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="router.html#expresswrapper" class="tsd-kind-icon">express<wbr>Wrapper</a>
+						<a href="router.html#routerresponse" class="tsd-kind-icon">Router<wbr>Response</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="router.html#getmatchparams" class="tsd-kind-icon">get<wbr>Match<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#matchesroute" class="tsd-kind-icon">matches<wbr>Route</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#parseasformdata" class="tsd-kind-icon">parse<wbr>AsForm<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#parseasjson" class="tsd-kind-icon">parse<wbr>AsJSON</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#parseasurlencoded" class="tsd-kind-icon">parse<wbr>AsURLEncoded</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#parserequestbody" class="tsd-kind-icon">parse<wbr>Request<wbr>Body</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="router.html#requestlogger" class="tsd-kind-icon">request<wbr>Logger</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="router.html#statichandler" class="tsd-kind-icon">static<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a>
 					</li>
 				</ul>
 			</nav>
