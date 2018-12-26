@@ -66,32 +66,29 @@
 			<div class="tsd-panel tsd-typography">
 				<h1 id="bayer">Bayer</h1>
 				<p>Reactive server abstractions library for Node.js.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { HTTPServer } <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/core"</span>;
-<span class="hljs-keyword">import</span> { bodyParser } <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/middleware"</span>;
-<span class="hljs-keyword">import</span> { tap } <span class="hljs-keyword">from</span> <span class="hljs-string">"rxjs/operators"</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> Bayer <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/core"</span>;
+<span class="hljs-keyword">import</span> { staticFiles } <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/middleware"</span>;
+<span class="hljs-keyword">import</span> Router <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/router"</span>;
 
-<span class="hljs-comment">// Initialize a server (port is given on initialization rather than on run)</span>
-<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> HTTPServer(<span class="hljs-number">3000</span>);
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Bayer();
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
 
-<span class="hljs-comment">// Use middleware and define priority order</span>
-server.use(bodyParser(), <span class="hljs-number">1</span>);
-server.use(tap(<span class="hljs-function">(<span class="hljs-params">{ res, extra }</span>) =&gt;</span> {
-  <span class="hljs-comment">// Parsed body from a request from the body parser middleware</span>
-  <span class="hljs-keyword">const</span> { name } = extra.body;
-  res.writeHead(<span class="hljs-number">200</span>, <span class="hljs-string">"OK"</span>);
-  res.write(<span class="hljs-string">`Hello <span class="hljs-subst">${name}</span>, it's nice to meet you!`</span>);
-  res.end();
-}));
+router.route(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"/"</span>, <span class="hljs-function">(<span class="hljs-params">{ res }</span>) =&gt;</span> {
+  res.status(<span class="hljs-number">403</span>, <span class="hljs-string">"Unauthorized"</span>).json({ error: <span class="hljs-string">"You are not authorized"</span> });
+});
 
-<span class="hljs-comment">// Run the server</span>
-server.run().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Listening on http://localhost:3000"</span>));</code></pre>
+<span class="hljs-comment">// Use middleware</span>
+app.use(staticFiles(join(__dirname, <span class="hljs-string">"../public"</span>)));
+app.use(router.middleware(), <span class="hljs-number">1</span>); <span class="hljs-comment">// Optional priority (here to set it higher than the static files to override routes);</span>
+<span class="hljs-comment">// Run the app</span>
+app.run().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Listening on http://localhost:3000"</span>));</code></pre>
 				<h2 id="what-it-is">What it is</h2>
 				<p>Bayer is a reactive library that abstracts away the difficulty of setting up a
 					Node.js server with common-case features. It uses <code>rxjs</code> handle data-flow, as it
 				is basically the textbook use-case of reactive programming.</p>
 				<h3 id="modular">Modular</h3>
 				<p>As its smallest, Bayer provides you with an Observable, providing
-					<code>IncomingMessage</code> and <code>ServerResponse</code> parameters from Node&#39;s HTTP server
+					<code>Request</code> and <code>Response</code> parameter objects, which are based on Node.js&#39;s <code>IncomingMessage</code> and <code>ServerResponse</code> objects.
 				library.</p>
 				<p>Bayer can easily be extended through the use of Middlewares, they&#39;re
 					<code>OperatorFunction</code>s that get piped to the main request Observable.
