@@ -69,6 +69,20 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Router class for the Bayer.js server object. Plug into the server like this:</p>
+					</div>
+					<pre><code class="language-javascript"><span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> Bayer();
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
+router.route(...);
+
+server.use(router.middleware());
+
+server.listen();</code></pre>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -109,9 +123,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/router/src/index.ts#L69">router/src/index.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/875672c/packages/router/src/index.ts#L92">router/src/index.ts:92</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Initializes a new Router object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="router.router-1.html" class="tsd-signature-type">Router</a></h4>
 						</li>
 					</ul>
@@ -129,9 +148,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/router/src/index.ts#L79">router/src/index.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/875672c/packages/router/src/index.ts#L115">router/src/index.ts:115</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns this router as a server middleware function.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></h4>
 						</li>
 					</ul>
@@ -146,22 +170,39 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/49fc087/packages/router/src/index.ts#L75">router/src/index.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/875672c/packages/router/src/index.ts#L108">router/src/index.ts:108</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adds a route to be handled by the router</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>method: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Method matching this route</p>
+									</div>
 								</li>
 								<li>
 									<h5>route: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>URL matching this route</p>
+									</div>
 								</li>
 								<li>
 									<h5>op: <a href="../modules/router.html#responsehandler" class="tsd-signature-type">ResponseHandler</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Function handling the route</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>middlewares: <a href="../modules/router.html#routemiddleware" class="tsd-signature-type">RouteMiddleware</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional middlewares handling the route (ie. access control)</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

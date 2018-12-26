@@ -1,6 +1,6 @@
 {
   "emitDecoratorMetadata": "true",
-  "exclude": "test",
+  "exclude": "./packages/test",
   "excludePrivate": true,
   "excludeProtected": true,
   "experimentalDecorators": true,
