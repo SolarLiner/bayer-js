@@ -56,10 +56,12 @@ export default class Bayer<T = any> {
       }),
       mergeMap(v => {
         const middleware$ = this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
-        return middleware$.pipe(catchError(err => {
-          this.handleRequestError(err, v);
-          return of(v);
-        }));
+        return middleware$.pipe(
+          catchError(err => {
+            this.handleRequestError(err, v);
+            return of(v);
+          })
+        );
       }),
       tap(params => this.terminateRequest(params, start))
     );
@@ -123,6 +125,9 @@ export class HttpError extends Error {
     this.name = "HttpError";
     this.code = statusCode;
     this.reason = statusMessage;
+
+    // HACK: Set prototype manually: https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    Object.setPrototypeOf(this, HttpError.prototype);
 
     Error.captureStackTrace(this, this.constructor);
   }
