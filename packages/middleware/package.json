@@ -1,0 +1,36 @@
+{
+  "name": "@bayerjs/middleware",
+  "version": "0.0.1-alpha.0",
+  "description": "Middleware for the Bayer.js server library",
+  "keywords": [
+    "bayerjs",
+    "middleware"
+  ],
+  "author": "Nathan Graule <solarliner@gmail.com>",
+  "homepage": "https://github.com/SolarLiner/bayer-js#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolarLiner/bayer-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/SolarLiner/bayer-js/issues"
+  },
+  "devDependencies": {
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@bayerjs/core": "^0.0.1-alpha.0"
+  }
+}
