@@ -23,6 +23,9 @@ const HTTP_VERBS = ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS"
 export type HTTPVerb = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
 type MatchHTTPVerb = HTTPVerb | "__all__";
 
+/**
+ * Uploaded files type. Used by {@link Request.formData}.
+ */
 export interface IUploadedFiles {
   [x: string]: {
     /**
@@ -71,7 +74,17 @@ export interface IRoute {
   };
 }
 
+/**
+ * Request class. Used by the Bayer server to represent an incoming request.
+ *
+ * The Request class doesn't extend IncomingMessage in order to shield its methods to the user - instead exposing a
+ * select few.
+ */
 export class Request {
+  /**
+   * Create a new Request object from a socket.
+   * @param sock Socket to bind.
+   */
   public static fromSocket(sock: Socket) {
     const req = new IncomingMessage(sock);
     return new Request(req);
@@ -80,10 +93,17 @@ export class Request {
   private req: IncomingMessage;
   private memUrl?: IRoute;
 
+  /**
+   * Initializes a new Request object.
+   * @param request Node.js's IncomingMessage object used as base for this Request object.
+   */
   constructor(request: IncomingMessage) {
     this.req = request;
   }
 
+  /**
+   * Gets the request's HTTP version as an object {version, major, minor}.
+   */
   public get httpVersion() {
     return {
       version: this.req.httpVersion,
@@ -92,26 +112,44 @@ export class Request {
     };
   }
 
+  /**
+   * Gets the request trailers.
+   */
   public get trailers() {
     return this.req.trailers;
   }
 
+  /**
+   * Gets the request's method.
+   */
   public get method() {
     return this.route.method;
   }
 
+  /**
+   * Gets the requests headers.
+   */
   public get headers() {
     return this.req.headers;
   }
 
+  /** Pipes data out of this request to a WriterStream. */
   public get pipe() {
     return this.req.pipe;
   }
 
+  /**
+   * Subscribe to the underlying IncomingMessage events.
+   */
   public get on() {
     return this.req.on;
   }
 
+  /**
+   * Get request route, which is its headers, method, path, and query parameters.
+   *
+   * Note: This is memoized per Request object. Data will only be evaluated once.
+   */
   public get route() {
     if (this.memUrl) {
       return this.memUrl;
@@ -131,14 +169,20 @@ export class Request {
     });
   }
 
+  /**
+   * Gets a value from this request's query objects, headers or trailers.
+   * @param key Key string to search for.
+   */
   public get(key: string) {
     return { ...this.trailers, ...this.headers, ...this.route.query }[key];
   }
 
+  /** Returns the request body from a JSON object body. */
   public async json<T = any>(): Promise<T> {
     return JSON.parse(await this.body());
   }
 
+  /** Returns the request body from a Form Data body. */
   public async formData<T = any>() {
     const busboy = new Busboy({ headers: this.headers });
     const body: IFormData<T> = {
@@ -163,10 +207,12 @@ export class Request {
     });
   }
 
+  /** Returns the request body from a URL Encoded body. */
   public async urlEncoded() {
     return parse(await this.body());
   }
 
+  /** Decodes and returns the request body as string. */
   public body() {
     return new Promise<string>((resolve, reject) => {
       const d = new StringDecoder();
