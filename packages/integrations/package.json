@@ -1,0 +1,42 @@
+{
+  "name": "@bayerjs/integrations",
+  "version": "0.2.0-alpha.0",
+  "description": "Framework integrations to Bayer.js",
+  "keywords": [
+    "bayerjs",
+    "ssr",
+    "vue"
+  ],
+  "author": "Nathan Graule <solarliner@gmail.com>",
+  "homepage": "https://github.com/SolarLiner/bayer-js#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolarLiner/bayer-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/SolarLiner/bayer-js/issues"
+  },
+  "dependencies": {
+    "@bayerjs/core": "^0.2.0-alpha.0",
+    "vue-server-renderer": "^2.5.21"
+  },
+  "devDependencies": {
+    "typescript": "^3.2.2",
+    "vue": "^2.5.21"
+  },
+  "peerDependencies": {
+    "vue": "^2.5.21"
+  }
+}
