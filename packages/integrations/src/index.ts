@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { createRenderer } from "vue-server-renderer";
+import { createBundleRenderer } from "vue-server-renderer";
 
 import { of } from "rxjs";
 import { map, mergeMap, tap } from "rxjs/operators";
@@ -31,24 +31,28 @@ interface IVueAppOptions {
 
 type CreateAppFunction = (context: IVueContext) => Vue | PromiseLike<Vue>;
 
-export function renderVueApp(createApp: CreateAppFunction, options?: IVueAppOptions): ServerMiddleware {
-  return tap(params => {
-    of(params).pipe(
-      mergeMap(({ req }) => {
-        const context = Object.assign({}, options && options.context ? options.context : {}, {
-          url: req.route.path
-        }) as IVueContext;
-        return Promise.resolve(createApp(context));
-      }),
-      map(app => {
-        const renderer = createRenderer({
-          template: (options && options.template) ? options.template : DEFAULT_TEMPLATE
-        });
-        return renderer.renderToStream(app);
+interface IBundles {
+  clientManifest?: object;
+  serverBundle: string;
+}
+
+export function renderVueApp(bundles: IBundles, options?: IVueAppOptions): ServerMiddleware {
+  const renderer = createBundleRenderer(bundles.serverBundle, {
+    runInNewContext: false,
+    template: (options && options.template) ? options.template : DEFAULT_TEMPLATE,
+    clientManifest: bundles.clientManifest
+  })
+  return mergeMap(params => {
+    const context = { url: params.req.route.path };
+    params.res.send("Vue SSR middleware");
+    return of(context).pipe(
+      mergeMap(ctx => {
+        return renderer.renderToString(ctx);
       }),
       map(html => {
         params.res.send(html);
+        return params;
       })
-    );
+    )
   });
 }
