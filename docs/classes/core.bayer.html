@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BaseServer | Bayer.JS</title>
+	<title>Bayer | Bayer.JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="core.baseserver.html">BaseServer</a>
+					<a href="core.bayer.html">Bayer</a>
 				</li>
 			</ul>
-			<h1>Class BaseServer</h1>
+			<h1>Class Bayer&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -72,33 +72,23 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>TODO: Change the reference documentation
-							The server. Encapsulates Node&#39;s <code>http.Server</code> by binding Observable
-						subscriber methods to its events.</p>
+						<p>Bayer.js server class. This is the main application and the entrypoint to every Bayer.js server applications.</p>
 					</div>
-					<p>Contrary to other popular server libraries, the port is passed on the
-						constructor rather than when listening - this is an implementation detail,
-						but all Observable work is done within the constructor. Calling the <code>run</code>
-						method will subscribe to the encapsulating Observable, calling the setup
-					functions and starting the server.</p>
-					<p>Put it another way, while the port is asked for in the constructor, the
-						server will actually only start when <code>run</code> is called, due to the lazy-
-					evaluating properties of Observables.</p>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">BaseServer</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="core.httpserver.html" class="tsd-signature-type">HTTPServer</a>
-							</li>
-							<li>
-								<a href="core.httpsserver.html" class="tsd-signature-type">HTTPSServer</a>
-							</li>
-						</ul>
+						<span class="target">Bayer</span>
 					</li>
 				</ul>
 			</section>
@@ -109,20 +99,15 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="core.baseserver.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Accessors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.baseserver.html#observer" class="tsd-kind-icon">observer</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="core.bayer.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.baseserver.html#run" class="tsd-kind-icon">run</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.baseserver.html#use" class="tsd-kind-icon">use</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.bayer.html#callback" class="tsd-kind-icon">callback</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.bayer.html#listen" class="tsd-kind-icon">listen</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="core.bayer.html#use" class="tsd-kind-icon">use</a></li>
 							</ul>
 						</section>
 					</div>
@@ -134,49 +119,21 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Server<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.baseserver.html" class="tsd-signature-type">BaseServer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Bayer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.bayer.html" class="tsd-signature-type">Bayer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/core/src/base.ts#L22">core/src/base.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/core/src/index.ts#L37">core/src/index.ts:37</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Initializes a new Server instance.
-										Contrary to other popular server libraries, the port is passed on the
-										constructor rather than when listening - this is an implementation detail,
-										but all Observable work is done within the constructor. Calling the <code>run</code>
-										method will subscribe to the encapsulating Observable, calling the setup
-									functions and starting the server.</p>
+									<p>Initializes a new Bayer server.</p>
 								</div>
-								<p>Put it another way, while the port is asked for in the constructor, the
-									server will actually only start when <code>run</code> is called, due to the lazy-
-								evaluating properties of Observables.</p>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="core.baseserver.html" class="tsd-signature-type">BaseServer</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="observer" class="tsd-anchor"></a>
-					<h3>observer</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> observer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/core/src/base.ts#L40">core/src/base.ts:40</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.iserverrequest.html" class="tsd-signature-type">IServerRequest</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="core.bayer.html" class="tsd-signature-type">Bayer</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -184,52 +141,123 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="run" class="tsd-anchor"></a>
-					<h3>run</h3>
+					<a name="callback" class="tsd-anchor"></a>
+					<h3>callback</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="core.baseserver.html" class="tsd-signature-type">BaseServer</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">callback<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/core/src/base.ts#L58">core/src/base.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/core/src/index.ts#L89">core/src/index.ts:89</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Run the server.</p>
+									<p>Callback function. Main entrypoint for requests.</p>
 								</div>
+								<p>This was designed to be passed into the <code>http.createServer</code> function to get server requests. It was also designed
+								for serverless environments where functions are called on http requests.</p>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="core.baseserver.html" class="tsd-signature-type">BaseServer</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<p>A function that accepts Node.js&#39;s IncomingMessage and ServerResponse objects.</p>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
+												</li>
+												<li>
+													<h5>res: <span class="tsd-signature-type">ServerResponse</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="use" class="tsd-anchor"></a>
-					<h3>use</h3>
+					<a name="listen" class="tsd-anchor"></a>
+					<h3>listen</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">use<span class="tsd-signature-symbol">(</span>middleware<span class="tsd-signature-symbol">: </span><a href="../modules/core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">listen<span class="tsd-signature-symbol">(</span>port<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Server</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/core/src/base.ts#L48">core/src/base.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/core/src/index.ts#L72">core/src/index.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Listens into a port for new requests.</p>
+								</div>
+								<p>Note: This is a convinience wrapper for the <code>Bayer.callback</code> function. This is equivalent to:</p>
+								<pre><code class="language-javascript">http.createServer(port, app.callback()); <span class="hljs-comment">// assuming app is the Bayer server object</span></code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>retuns</dt>
+									<dd><p>A promise resolving to the http server created.</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>middleware: <a href="../modules/core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> port: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;80</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Server middleware to plug into the server.</p>
+										<p>Port to listen for new requests.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Server</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="use" class="tsd-anchor"></a>
+					<h3>use</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">use&lt;U&gt;<span class="tsd-signature-symbol">(</span>middleware<span class="tsd-signature-symbol">: </span><a href="../modules/core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/core/src/index.ts#L57">core/src/index.ts:57</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a middleware function to be used by the server.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>U</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>middleware: <a href="../modules/core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Middleware to be added to the pipeline</p>
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> priority: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> priority: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -259,42 +287,63 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="core.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="core.bayer.html" class="tsd-kind-icon">Bayer</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="core.baseserver.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="core.baseserver.html#observer" class="tsd-kind-icon">observer</a>
+								<a href="core.bayer.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="core.baseserver.html#run" class="tsd-kind-icon">run</a>
+								<a href="core.bayer.html#callback" class="tsd-kind-icon">callback</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="core.baseserver.html#use" class="tsd-kind-icon">use</a>
+								<a href="core.bayer.html#listen" class="tsd-kind-icon">listen</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="core.bayer.html#use" class="tsd-kind-icon">use</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="core.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a>
+						<a href="core.httperror.html" class="tsd-kind-icon">Http<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="core.httpserver.html" class="tsd-kind-icon">HTTPServer</a>
+						<a href="core.request.html" class="tsd-kind-icon">Request</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="core.response.html" class="tsd-kind-icon">Response</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../interfaces/core.ibayercallback.html" class="tsd-kind-icon">IBayer<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../interfaces/core.iformdata.html" class="tsd-kind-icon">IForm<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/core.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a>
+						<a href="../interfaces/core.iroute.html" class="tsd-kind-icon">IRoute</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/core.internalmiddleware.html" class="tsd-kind-icon">Internal<wbr>Middleware</a>
+						<a href="../interfaces/core.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/core.html#httpverb" class="tsd-kind-icon">HTTPVerb</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="../modules/core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/core.html#addtopipe" class="tsd-kind-icon">add<wbr>ToPipe</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a>
 					</li>
 				</ul>
 			</nav>

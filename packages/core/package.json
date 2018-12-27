@@ -1,6 +1,6 @@
 {
   "name": "@bayerjs/core",
-  "version": "0.0.1-alpha.0",
+  "version": "0.2.0-alpha.0",
   "description": "Bayer.JS core server library",
   "keywords": [
     "server",
@@ -28,15 +28,19 @@
     "watch": "tsc --watch",
     "clean": "rimraf lib",
     "lint": "tslint -p tsconfig.json",
-    "lint:fix": "tslint -p tsconfig.json --fix"
+    "lint:fix": "tslint -p tsconfig.json --fix",
+    "prepack": "tsc"
   },
   "bugs": {
     "url": "https://github.com/solarliner/bayer-js/issues"
   },
   "dependencies": {
+    "busboy": "^0.2.14",
+    "chalk": "^2.4.1",
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
+    "@types/busboy": "^0.2.3",
     "@types/node": "^10.12.10",
     "lerna": "^3.4.3",
     "rimraf": "^2.6.2",

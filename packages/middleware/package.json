@@ -1,16 +1,13 @@
 {
   "name": "@bayerjs/middleware",
-  "version": "0.0.1-alpha.0",
-  "description": "Middlewares for the Bayer.JS server library.",
+  "version": "0.2.0-alpha.0",
+  "description": "Middleware for the Bayer.js server library",
   "keywords": [
-    "bayer",
     "bayerjs",
-    "server",
-    "library",
     "middleware"
   ],
   "author": "Nathan Graule <solarliner@gmail.com>",
-  "homepage": "https://github.com/solarliner/bayer-js",
+  "homepage": "https://github.com/SolarLiner/bayer-js#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "directories": {
@@ -22,25 +19,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solarliner/bayer-js.git"
+    "url": "git+https://github.com/SolarLiner/bayer-js.git"
   },
   "scripts": {
-    "build": "tsc --build",
-    "watch": "tsc --watch",
-    "clean": "rimraf lib",
-    "lint": "tslint -p tsconfig.json",
-    "lint:fix": "tslint -p tsconfig.json --fix"
+    "prepack": "tsc"
   },
   "bugs": {
-    "url": "https://github.com/solarliner/bayer-js/issues"
-  },
-  "dependencies": {
-    "@bayerjs/core": "^0.0.1-alpha.0",
-    "busboy": "^0.2.14",
-    "rxjs": "^6.3.3"
+    "url": "https://github.com/SolarLiner/bayer-js/issues"
   },
   "devDependencies": {
-    "@types/busboy": "^0.2.3",
-    "rimraf": "^2.6.2"
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@bayerjs/core": "^0.2.0-alpha.0"
   }
 }

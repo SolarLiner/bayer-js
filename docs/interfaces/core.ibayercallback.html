@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>InternalMiddleware | Bayer.JS</title>
+	<title>IBayerCallback | Bayer.JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,21 +59,36 @@
 					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="core.internalmiddleware.html">InternalMiddleware</a>
+					<a href="core.ibayercallback.html">IBayerCallback</a>
 				</li>
 			</ul>
-			<h1>Interface InternalMiddleware</h1>
+			<h1>Interface IBayerCallback&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Callback object type used in the Server middlewares.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">InternalMiddleware</span>
+						<span class="target">IBayerCallback</span>
 					</li>
 				</ul>
 			</section>
@@ -84,8 +99,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.internalmiddleware.html#middleware" class="tsd-kind-icon">middleware</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.internalmiddleware.html#priority" class="tsd-kind-icon">priority</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.ibayercallback.html#extra" class="tsd-kind-icon">extra</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.ibayercallback.html#req" class="tsd-kind-icon">req</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.ibayercallback.html#res" class="tsd-kind-icon">res</a></li>
 							</ul>
 						</section>
 					</div>
@@ -94,24 +110,49 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="middleware" class="tsd-anchor"></a>
-					<h3>middleware</h3>
-					<div class="tsd-signature tsd-kind-icon">middleware<span class="tsd-signature-symbol">:</span> <a href="../modules/core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></div>
+					<a name="extra" class="tsd-anchor"></a>
+					<h3>extra</h3>
+					<div class="tsd-signature tsd-kind-icon">extra<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/core/src/index.ts#L62">core/src/index.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/core/src/index.ts#L19">core/src/index.ts:19</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Extra data to be used by middlewares (to add or to use).</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="priority" class="tsd-anchor"></a>
-					<h3>priority</h3>
-					<div class="tsd-signature tsd-kind-icon">priority<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="req" class="tsd-anchor"></a>
+					<h3>req</h3>
+					<div class="tsd-signature tsd-kind-icon">req<span class="tsd-signature-symbol">:</span> <a href="../classes/core.request.html" class="tsd-signature-type">Request</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/core/src/index.ts#L63">core/src/index.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/core/src/index.ts#L15">core/src/index.ts:15</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Request object.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="res" class="tsd-anchor"></a>
+					<h3>res</h3>
+					<div class="tsd-signature tsd-kind-icon">res<span class="tsd-signature-symbol">:</span> <a href="../classes/core.response.html" class="tsd-signature-type">Response</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/core/src/index.ts#L17">core/src/index.ts:17</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Response object.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -134,38 +175,62 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/core.baseserver.html" class="tsd-kind-icon">Base<wbr>Server</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../classes/core.bayer.html" class="tsd-kind-icon">Bayer</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/core.httpsserver.html" class="tsd-kind-icon">HTTPSServer</a>
+						<a href="../classes/core.httperror.html" class="tsd-kind-icon">Http<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/core.httpserver.html" class="tsd-kind-icon">HTTPServer</a>
+						<a href="../classes/core.request.html" class="tsd-kind-icon">Request</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="core.iserverrequest.html" class="tsd-kind-icon">IServer<wbr>Request</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/core.response.html" class="tsd-kind-icon">Response</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="core.internalmiddleware.html" class="tsd-kind-icon">Internal<wbr>Middleware</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="core.ibayercallback.html" class="tsd-kind-icon">IBayer<wbr>Callback</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.internalmiddleware.html#middleware" class="tsd-kind-icon">middleware</a>
+								<a href="core.ibayercallback.html#extra" class="tsd-kind-icon">extra</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.internalmiddleware.html#priority" class="tsd-kind-icon">priority</a>
+								<a href="core.ibayercallback.html#req" class="tsd-kind-icon">req</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="core.ibayercallback.html#res" class="tsd-kind-icon">res</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="core.iformdata.html" class="tsd-kind-icon">IForm<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="core.iroute.html" class="tsd-kind-icon">IRoute</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="core.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/core.html#httpverb" class="tsd-kind-icon">HTTPVerb</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="../modules/core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/core.html#addtopipe" class="tsd-kind-icon">add<wbr>ToPipe</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/core.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a>
 					</li>
 				</ul>
 			</nav>

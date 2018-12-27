@@ -71,271 +71,204 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/middleware.iformdatabody.html" class="tsd-kind-icon">IForm<wbr>Data<wbr>Body</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/middleware.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#expressmiddleware" class="tsd-kind-icon">Express<wbr>Middleware</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="middleware.html#bodyparser" class="tsd-kind-icon">body<wbr>Parser</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="middleware.html#expresswrapper" class="tsd-kind-icon">express<wbr>Wrapper</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#parseasformdata" class="tsd-kind-icon">parse<wbr>AsForm<wbr>Data</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#parseasjson" class="tsd-kind-icon">parse<wbr>AsJSON</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#parseasurlencoded" class="tsd-kind-icon">parse<wbr>AsURLEncoded</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#parserequestbody" class="tsd-kind-icon">parse<wbr>Request<wbr>Body</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="middleware.html#requestlogger" class="tsd-kind-icon">request<wbr>Logger</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#absolute" class="tsd-kind-icon">absolute</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#access" class="tsd-kind-icon">access</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#checkavailable" class="tsd-kind-icon">check<wbr>Available</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="middleware.html#exists" class="tsd-kind-icon">exists</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported"><a href="middleware.html#nodecallbackpromise" class="tsd-kind-icon">node<wbr>Callback<wbr>Promise</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="middleware.html#staticfiles" class="tsd-kind-icon">static<wbr>Files</a></li>
 							</ul>
 						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="expressmiddleware" class="tsd-anchor"></a>
-					<h3>Express<wbr>Middleware</h3>
-					<div class="tsd-signature tsd-kind-icon">Express<wbr>Middleware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/middleware/src/index.ts#L177">middleware/src/index.ts:177</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Express middleware type. Taken from the express type definitions.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span>, next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
-											</li>
-											<li>
-												<h5>res: <span class="tsd-signature-type">ServerResponse</span></h5>
-											</li>
-											<li>
-												<h5>next: <span class="tsd-signature-type">function</span></h5>
-												<ul class="tsd-parameters">
-													<li class="tsd-parameter-siganture">
-														<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-															<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-														</ul>
-														<ul class="tsd-descriptions">
-															<li class="tsd-description">
-																<h4 class="tsd-parameters-title">Parameters</h4>
-																<ul class="tsd-parameters">
-																	<li>
-																		<h5><span class="tsd-flag ts-flagOptional">Optional</span> err: <span class="tsd-signature-type">any</span></h5>
-																	</li>
-																</ul>
-																<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-															</li>
-														</ul>
-													</li>
-												</ul>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="bodyparser" class="tsd-anchor"></a>
-					<h3>body<wbr>Parser</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">body<wbr>Parser<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="absolute" class="tsd-anchor"></a>
+					<h3>absolute</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">absolute<span class="tsd-signature-symbol">(</span>base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, relative<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/middleware/src/index.ts#L80">middleware/src/index.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/middleware/src/index.ts#L38">middleware/src/index.ts:38</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Parses the body of a Request and tries to decode its payload.</p>
-								</div>
-								<p>If decoded, the object will be in <code>extra.body</code>. If not, the payload will be
-								available under <code>extra.payload</code>.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="expresswrapper" class="tsd-anchor"></a>
-					<h3>express<wbr>Wrapper</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">express<wbr>Wrapper<span class="tsd-signature-symbol">(</span>m<span class="tsd-signature-symbol">: </span><a href="middleware.html#expressmiddleware" class="tsd-signature-type">ExpressMiddleware</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/middleware/src/index.ts#L196">middleware/src/index.ts:196</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Wrap an Express middleware to work for the server.</p>
-								</div>
-								<p>Note: The wrapped middleware receive proxied objects of the request and
-									response. If the middleware adds a property to either <code>req</code> or <code>res</code>, the
-								the proxies will instead set it to the <code>extra</code> object.</p>
-								<p>About <code>next()</code>: This server makes no use of the <code>next()</code> method - middlewares
-									are chained together through Observable piping. All the passed function does
-									is throw an error if something is passed to it. It also checks for the type
-								to throw an Error objects everytime, as it should be :)</p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>m: <a href="middleware.html#expressmiddleware" class="tsd-signature-type">ExpressMiddleware</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Express middleware to wrap.</p>
-									</div>
+									<h5>base: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>relative: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="parseasformdata" class="tsd-anchor"></a>
-					<h3>parse<wbr>AsForm<wbr>Data</h3>
+					<a name="access" class="tsd-anchor"></a>
+					<h3>access</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>AsForm<wbr>Data<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/middleware.iformdatabody.html" class="tsd-signature-type">IFormDataBody</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">access<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/middleware/src/index.ts#L134">middleware/src/index.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/middleware/src/index.ts#L75">middleware/src/index.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
+									<h5>path: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/middleware.iformdatabody.html" class="tsd-signature-type">IFormDataBody</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="parseasjson" class="tsd-anchor"></a>
-					<h3>parse<wbr>AsJSON</h3>
+					<a name="checkavailable" class="tsd-anchor"></a>
+					<h3>check<wbr>Available</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>AsJSON<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Available<span class="tsd-signature-symbol">(</span>p<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, useIndexFile<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, indexExtension<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, forceNoIndex<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/middleware/src/index.ts#L157">middleware/src/index.ts:157</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/middleware/src/index.ts#L51">middleware/src/index.ts:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
+									<h5>p: <span class="tsd-signature-type">string</span></h5>
 								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="parseasurlencoded" class="tsd-anchor"></a>
-					<h3>parse<wbr>AsURLEncoded</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>AsURLEncoded<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ParsedUrlQuery</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/middleware/src/index.ts#L115">middleware/src/index.ts:115</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
 								<li>
-									<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
+									<h5>useIndexFile: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ParsedUrlQuery</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="parserequestbody" class="tsd-anchor"></a>
-					<h3>parse<wbr>Request<wbr>Body</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Request<wbr>Body<span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/middleware/src/index.ts#L59">middleware/src/index.ts:59</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
 								<li>
-									<h5>res: <span class="tsd-signature-type">IncomingMessage</span></h5>
+									<h5>indexExtension: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> forceNoIndex: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="requestlogger" class="tsd-anchor"></a>
-					<h3>request<wbr>Logger</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">request<wbr>Logger<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="exists" class="tsd-anchor"></a>
+					<h3>exists</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">exists<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/ee0b432/packages/middleware/src/index.ts#L165">middleware/src/index.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/middleware/src/index.ts#L84">middleware/src/index.ts:84</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>path: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+					<a name="nodecallbackpromise" class="tsd-anchor"></a>
+					<h3>node<wbr>Callback<wbr>Promise</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">node<wbr>Callback<wbr>Promise&lt;T&gt;<span class="tsd-signature-symbol">(</span>func<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/middleware/src/index.ts#L66">middleware/src/index.ts:66</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>func: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="staticfiles" class="tsd-anchor"></a>
+					<h3>static<wbr>Files</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">static<wbr>Files<span class="tsd-signature-symbol">(</span>localpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, baseUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, useIndexFile<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, indexExtension<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/middleware/src/index.ts#L17">middleware/src/index.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Logs request as they come.</p>
+									<p>Static files middleware for the Bayer.js server library.</p>
 								</div>
 							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>localpath: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Local folder containing static files</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> baseUrl: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;/&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Base URL from which to build relative paths to files</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> useIndexFile: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Whether to search for an index file if hitting a folder</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> indexExtension: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;html&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Extension of the index file.</p>
+									</div>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="core.html#servermiddleware" class="tsd-signature-type">ServerMiddleware</a></h4>
+							<p>Bayer.js Server middleware.</p>
 						</li>
 					</ul>
 				</section>
@@ -360,35 +293,23 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/middleware.iformdatabody.html" class="tsd-kind-icon">IForm<wbr>Data<wbr>Body</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="middleware.html#absolute" class="tsd-kind-icon">absolute</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/middleware.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="middleware.html#access" class="tsd-kind-icon">access</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="middleware.html#expressmiddleware" class="tsd-kind-icon">Express<wbr>Middleware</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="middleware.html#checkavailable" class="tsd-kind-icon">check<wbr>Available</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="middleware.html#exists" class="tsd-kind-icon">exists</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="middleware.html#nodecallbackpromise" class="tsd-kind-icon">node<wbr>Callback<wbr>Promise</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="middleware.html#bodyparser" class="tsd-kind-icon">body<wbr>Parser</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="middleware.html#expresswrapper" class="tsd-kind-icon">express<wbr>Wrapper</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="middleware.html#parseasformdata" class="tsd-kind-icon">parse<wbr>AsForm<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="middleware.html#parseasjson" class="tsd-kind-icon">parse<wbr>AsJSON</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="middleware.html#parseasurlencoded" class="tsd-kind-icon">parse<wbr>AsURLEncoded</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="middleware.html#parserequestbody" class="tsd-kind-icon">parse<wbr>Request<wbr>Body</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="middleware.html#requestlogger" class="tsd-kind-icon">request<wbr>Logger</a>
+						<a href="middleware.html#staticfiles" class="tsd-kind-icon">static<wbr>Files</a>
 					</li>
 				</ul>
 			</nav>
