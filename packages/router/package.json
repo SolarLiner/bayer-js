@@ -1,6 +1,6 @@
 {
   "name": "@bayerjs/router",
-  "version": "0.0.1-alpha.0",
+  "version": "0.2.0-alpha.0",
   "description": "Router for the Bayer.JS server library",
   "keywords": [
     "bayer",
@@ -26,14 +26,14 @@
     "url": "git+https://github.com/SolarLiner/bayer-js.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "prepack": "tsc"
   },
   "bugs": {
     "url": "https://github.com/SolarLiner/bayer-js/issues"
   },
   "dependencies": {
-    "@bayerjs/core": "^0.0.1-alpha.0",
-    "@bayerjs/middleware": "^0.0.1-alpha.0",
+    "@bayerjs/core": "^0.2.0-alpha.0",
+    "@bayerjs/middleware": "^0.2.0-alpha.0",
     "mime-types": "^2.1.21",
     "path-to-regexp": "^2.4.0",
     "rxjs": "^6.3.3"

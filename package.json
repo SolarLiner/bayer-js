@@ -1,7 +1,7 @@
 {
   "name": "bayerjs",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.0",
   "devDependencies": {
     "lerna": "^3.4.3",
     "prettier": "^1.15.2",
