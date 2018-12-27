@@ -23,9 +23,9 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn build:types; yarn build:js",
+    "build": "yarn build:js; yarn build:types",
     "build:js": "lerna exec --concurrency 4 --stream 'BABEL_ENV=build babel --root-mode upward src -d lib --source-maps --extensions .ts --delete-dir-on-start --no-comments'",
-    "build:types": "lerna exec --stream --concurrency 4 'tsc'",
+    "build:types": "lerna exec --stream --concurrency 4 --no-bail 'tsc'",
     "watch": "lerna exec --stream --parallel'tsc --watch'",
     "clean": "lerna exec --stream --concurrency 4 'rimraf lib'",
     "lint": "lerna exec --stream --concurrency 4 'tslint -p tsconfig.json'",
