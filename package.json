@@ -3,6 +3,12 @@
   "private": true,
   "version": "0.1.0-alpha.0",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-typescript": "^7.1.0",
+    "babel-preset-minify": "^0.5.0",
     "lerna": "^3.4.3",
     "prettier": "^1.15.2",
     "rimraf": "^2.6.2",
@@ -17,11 +23,14 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna exec 'tsc'",
-    "watch": "lerna exec 'tsc --watch'",
-    "clean": "lerna exec 'rimraf lib'",
-    "lint": "lerna exec 'tslint -p tsconfig.json'",
-    "lint:fix": "lerna exec 'tslint -p tsconfig.json --fix'",
+    "build": "yarn build:js; yarn build:types",
+    "build:js": "lerna exec --concurrency 4 --stream 'BABEL_ENV=build babel --root-mode upward src -d lib --source-maps --extensions .ts --delete-dir-on-start --no-comments'",
+    "build:types": "lerna exec --stream --concurrency 4 --no-bail 'tsc'",
+    "watch": "lerna exec --stream --parallel'tsc --watch'",
+    "clean": "lerna exec --stream --concurrency 4 'rimraf lib'",
+    "lint": "lerna exec --stream --concurrency 4 'tslint -p tsconfig.json'",
+    "lint:types": "lerna exec --stream --concurrency 4 'tsc --noEmit'",
+    "lint:fix": "lerna exec --stream --concurrency 4 'tslint -p tsconfig.json --fix'",
     "docs": "typedoc --options typedoc.json packages --exclude test --excludePrivate --excludeProtected"
   }
 }
