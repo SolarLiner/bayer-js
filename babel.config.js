@@ -1,28 +1,23 @@
-module.exports = (api) => {
+module.exports = api => {
   api.cache(true);
 
   return {
     presets: [
       [
-        '@babel/env',
+        "@babel/env",
         {
           targets: {
-            node: '8'
-          },
-        },
+            node: "8"
+          }
+        }
       ],
-      '@babel/preset-typescript',
-      'minify'
+      "@babel/preset-typescript",
     ],
     env: {
       build: {
-        ignore: [
-          '**/*.test.ts',
-          '__snapshots__',
-          '__tests__',
-        ],
-      },
+        ignore: ["**/*.test.ts", "__snapshots__", "__tests__"]
+      }
     },
-    ignore: ['node_modules'],
+    ignore: ["node_modules"]
   };
 };
