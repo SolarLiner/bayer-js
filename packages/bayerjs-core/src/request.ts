@@ -158,6 +158,13 @@ export class Request {
   }
 
   /**
+   * Returns the full path of the request (base URL + local route path)
+   */
+  public get fullPath() {
+    return join(this.baseUrl, this.route.path.substr(1));
+  }
+
+  /**
    * Clones the requests, optionally applying a new base URL to it.
    * @param [baseUrl="/"] New base URL to base request off of
    */
@@ -236,7 +243,7 @@ export class Request {
     return {
       headers,
       method,
-      path: relative(this.baseUrl, pathname || "/"),
+      path: "/" + relative(this.baseUrl, pathname || ""),
       query: querystring.parse(query || "")
     };
   }

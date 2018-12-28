@@ -139,7 +139,8 @@ export default class Bayer<T = any> {
   }
 
   private log(req: Request, res: Response, ms: number) {
-    const { method, path } = req.route;
+    const { method } = req.route;
+    const path = req.fullPath;
     const { statusCode: handleRequestError, statusMessage } = res;
     const { blue, green, greenBright } = chalk;
     const chalkResult = handleRequestError === 200 ? green : chalk.red;
