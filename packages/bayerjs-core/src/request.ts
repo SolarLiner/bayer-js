@@ -158,6 +158,14 @@ export class Request {
   }
 
   /**
+   * Clones the requests, optionally applying a new base URL to it.
+   * @param [baseUrl="/"] New base URL to base request off of
+   */
+  public clone(baseUrl = "/") {
+    return new Request(this.req, baseUrl);
+  }
+
+  /**
    * Gets a value from this request's query objects, headers or trailers.
    * @param key Key string to search for.
    */
