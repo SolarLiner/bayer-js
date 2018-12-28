@@ -88,7 +88,14 @@ export default class Bayer<T = any> {
    */
   public callback() {
     this.sortMiddlewares();
-    const obs = this.obs.pipe(this.middleware());
+    let start: number; // TODO: Make start/stop timer concurrency-safe.
+    const obs = this.obs.pipe(
+      tap(() => {
+        start = Date.now();
+      }),
+      this.middleware(),
+      tap(params => this.terminateRequest(params, start))
+    );
     obs.subscribe();
     return this.reqFunc;
   }
@@ -97,11 +104,7 @@ export default class Bayer<T = any> {
    * Return the app as a middleware. Useful to plug applications together.
    */
   public middleware(): ServerMiddleware {
-    let start: number; // TODO: Make start/stop timer concurrency-safe.
     return pipe(
-      tap(() => {
-        start = Date.now();
-      }),
       mergeMap(v => {
         const middleware$ = this.middlewares.reduce((req, m) => req.pipe(m.middleware), of(v));
         return middleware$.pipe(
@@ -110,8 +113,7 @@ export default class Bayer<T = any> {
             return of(v);
           })
         );
-      }),
-      tap(params => this.terminateRequest(params, start))
+      })
     );
   }
 
