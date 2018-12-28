@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IRouteInternal | Bayer.JS</title>
+	<title>IVueContext | Bayer.JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/router.html">router</a>
+					<a href="../modules/bayerjs_integrations.html">bayerjs-integrations</a>
 				</li>
 				<li>
-					<a href="router.irouteinternal.html">IRouteInternal</a>
+					<a href="bayerjs_integrations.ivuecontext.html">IVueContext</a>
 				</li>
 			</ul>
-			<h1>Interface IRouteInternal</h1>
+			<h1>Interface IVueContext</h1>
 		</div>
 	</div>
 </header>
@@ -73,9 +73,13 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IRouteInternal</span>
+						<span class="target">IVueContext</span>
 					</li>
 				</ul>
+			</section>
+			<section class="tsd-panel tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+				<h3 class="tsd-before-signature">Indexable</h3>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>x: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -84,10 +88,7 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="router.irouteinternal.html#method" class="tsd-kind-icon">method</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="router.irouteinternal.html#middlewares" class="tsd-kind-icon">middlewares</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="router.irouteinternal.html#op" class="tsd-kind-icon">op</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="router.irouteinternal.html#route" class="tsd-kind-icon">route</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="bayerjs_integrations.ivuecontext.html#url" class="tsd-kind-icon">url</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,42 +97,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="method" class="tsd-anchor"></a>
-					<h3>method</h3>
-					<div class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="url" class="tsd-anchor"></a>
+					<h3>url</h3>
+					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/router/src/index.ts#L63">router/src/index.ts:63</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="middlewares" class="tsd-anchor"></a>
-					<h3>middlewares</h3>
-					<div class="tsd-signature tsd-kind-icon">middlewares<span class="tsd-signature-symbol">:</span> <a href="../modules/router.html#routemiddleware" class="tsd-signature-type">RouteMiddleware</a><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/router/src/index.ts#L66">router/src/index.ts:66</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="op" class="tsd-anchor"></a>
-					<h3>op</h3>
-					<div class="tsd-signature tsd-kind-icon">op<span class="tsd-signature-symbol">:</span> <a href="../modules/router.html#responsehandler" class="tsd-signature-type">ResponseHandler</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/router/src/index.ts#L65">router/src/index.ts:65</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="route" class="tsd-anchor"></a>
-					<h3>route</h3>
-					<div class="tsd-signature tsd-kind-icon">route<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/dddd3c9/packages/router/src/index.ts#L64">router/src/index.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/4d9444d/packages/bayerjs-integrations/src/index.ts#L23">bayerjs-integrations/src/index.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,59 +115,50 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/core.html">core</a>
+						<a href="../modules/bayerjs_core.html">bayerjs-<wbr>core</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/middleware.html">middleware</a>
+						<a href="../modules/bayerjs_http_server.html">bayerjs-<wbr>http-<wbr>server</a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/router.html">router</a>
+						<a href="../modules/bayerjs_integrations.html">bayerjs-<wbr>integrations</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/bayerjs_middleware.html">bayerjs-<wbr>middleware</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/bayerjs_router.html">bayerjs-<wbr>router</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/router.router-1.html" class="tsd-kind-icon">Router</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="bayerjs_integrations.ibundles.html" class="tsd-kind-icon">IBundles</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="router.iroute.html" class="tsd-kind-icon">IRoute</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="bayerjs_integrations.ivueappoptions.html" class="tsd-kind-icon">IVue<wbr>App<wbr>Options</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.irouteinternal.html" class="tsd-kind-icon">IRoute<wbr>Internal</a>
+						<a href="bayerjs_integrations.ivuecontext.html" class="tsd-kind-icon">IVue<wbr>Context</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="router.irouteinternal.html#method" class="tsd-kind-icon">method</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="router.irouteinternal.html#middlewares" class="tsd-kind-icon">middlewares</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="router.irouteinternal.html#op" class="tsd-kind-icon">op</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="router.irouteinternal.html#route" class="tsd-kind-icon">route</a>
+								<a href="bayerjs_integrations.ivuecontext.html#url" class="tsd-kind-icon">url</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="router.irouterresponse.html" class="tsd-kind-icon">IRouter<wbr>Response</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/bayerjs_integrations.html#createappfunction" class="tsd-kind-icon">Create<wbr>App<wbr>Function</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/router.html#responsehandler" class="tsd-kind-icon">Response<wbr>Handler</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/bayerjs_integrations.html#default_template" class="tsd-kind-icon">DEFAULT_<wbr>TEMPLATE</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/router.html#routemiddleware" class="tsd-kind-icon">Route<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/router.html#routerresponse" class="tsd-kind-icon">Router<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/router.html#getmatchparams" class="tsd-kind-icon">get<wbr>Match<wbr>Params</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/bayerjs_integrations.html#rendervueapp" class="tsd-kind-icon">render<wbr>Vue<wbr>App</a>
 					</li>
 				</ul>
 			</nav>
