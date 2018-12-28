@@ -19,6 +19,9 @@
   "files": [
     "lib"
   ],
+  "bin": {
+    "http-server": "lib/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SolarLiner/bayer-js.git"

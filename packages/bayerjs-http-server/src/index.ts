@@ -1,16 +1,18 @@
+#!/usr/bin/env node
+import { join } from "path";
+import { cwd } from "process";
+
 import chalk from "chalk";
 import minimist from "minimist";
 
 import Bayer from "@bayerjs/core";
 import { staticFiles } from "@bayerjs/middleware";
-import { join } from "path";
-import { cwd } from "process";
 
 const DEFAULT_PORT = 8080;
 
 main(process.argv);
 
-async function main(argv: string[]) {
+function main(argv: string[]) {
   const args = minimist(argv.slice(2));
   // tslint:disable-next-line:prefer-const
   let port = normalizePort(args.port || args.p);
@@ -35,12 +37,12 @@ async function main(argv: string[]) {
   });
 }
 
-function normalizePort(port?: string) {
-  if (!port) return DEFAULT_PORT;
+function normalizePort(strPort: string) {
+  if (!strPort) return DEFAULT_PORT;
   try {
-    const normPort = Number.parseInt(port, 10);
-    if (normPort < 0) return DEFAULT_PORT;
-    return normPort;
+    const port = Number.parseInt(strPort, 10);
+    if (port < 0) return DEFAULT_PORT;
+    return port;
   } catch {
     return DEFAULT_PORT;
   }
