@@ -2,7 +2,7 @@ import { createWriteStream } from "fs";
 import { IncomingHttpHeaders, IncomingMessage } from "http";
 import { Socket } from "net";
 import { tmpdir } from "os";
-import { join } from "path";
+import { join, relative } from "path";
 import querystring from "querystring";
 import { StringDecoder } from "string_decoder";
 import { parse } from "url";
@@ -97,7 +97,7 @@ export class Request {
    * Initializes a new Request object.
    * @param request Node.js's IncomingMessage object used as base for this Request object.
    */
-  constructor(request: IncomingMessage) {
+  constructor(request: IncomingMessage, private baseUrl = "/") {
     this.req = request;
   }
 
@@ -154,19 +154,7 @@ export class Request {
     if (this.memUrl) {
       return this.memUrl;
     }
-    const { url, method: m, headers } = this.req;
-    const { pathname, query } = parse(url || "");
-    const method = toHTTPVerb(m || "GET");
-    if (!method) {
-      throw new Error("Unrecognized HTTP verb.");
-    }
-
-    return (this.memUrl = {
-      headers,
-      method,
-      path: pathname || "/",
-      query: querystring.parse(query || "")
-    });
+    return (this.memUrl = this.getRoute());
   }
 
   /**
@@ -227,6 +215,22 @@ export class Request {
         resolve(payload + d.end());
       });
     });
+  }
+
+  private getRoute() {
+    const { url, method: m, headers } = this.req;
+    const { pathname, query } = parse(url || "");
+    const method = toHTTPVerb(m || "GET");
+    if (!method) {
+      throw new Error("Unrecognized HTTP verb.");
+    }
+
+    return {
+      headers,
+      method,
+      path: relative(this.baseUrl, pathname || "/"),
+      query: querystring.parse(query || "")
+    };
   }
 }
 
