@@ -194,7 +194,7 @@ export class Request {
       busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
         const fn = `${fieldname.toLowerCase()}-${filename.toLowerCase()}`;
         const filepath = join(tmpdir(), fn);
-        file.pipe(createWriteStream(filepath));
+        file.pipe(createWriteStream(filepath, { encoding }));
         body.files[fieldname] = { filename, filepath, mimetype };
       });
       busboy.on("field", (fieldname, val) => {
