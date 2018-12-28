@@ -2,6 +2,7 @@
   "name": "@bayerjs/integrations",
   "version": "0.2.0-alpha.0",
   "description": "Framework integrations to Bayer.js",
+  "private": true,
   "keywords": [
     "bayerjs",
     "ssr",
