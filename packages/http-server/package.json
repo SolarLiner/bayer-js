@@ -1,0 +1,45 @@
+{
+  "name": "@bayerjs/http-server",
+  "version": "0.2.0-alpha.0",
+  "description": "Server local files as an HTTP server, powered by the Bayer.js library",
+  "keywords": [
+    "bayerjs",
+    "http",
+    "server",
+    "local",
+    "files"
+  ],
+  "author": "Nathan Graule <solarliner@gmail.com>",
+  "homepage": "https://github.com/SolarLiner/bayer-js#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolarLiner/bayer-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/SolarLiner/bayer-js/issues"
+  },
+  "dependencies": {
+    "@bayerjs/core": "^0.2.0-alpha.0",
+    "@bayerjs/middleware": "^0.2.0-alpha.0",
+    "chalk": "^2.4.1",
+    "minimist": "^1.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@types/minimist": "^1.2.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  }
+}
