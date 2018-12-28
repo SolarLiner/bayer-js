@@ -1,7 +1,7 @@
 {
-  "name": "@bayerjs/integrations",
+  "name": "@bayerjs/integration-vue",
   "version": "0.2.0-alpha.0",
-  "description": "Framework integrations to Bayer.js",
+  "description": "Vue.JS integration to Bayer.js",
   "private": true,
   "keywords": [
     "bayerjs",

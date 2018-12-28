@@ -1,8 +1,7 @@
-import Vue from "vue";
 import { createBundleRenderer } from "vue-server-renderer";
 
 import { of } from "rxjs";
-import { map, mergeMap, tap } from "rxjs/operators";
+import { map, mergeMap } from "rxjs/operators";
 
 import { ServerMiddleware } from "@bayerjs/core";
 
@@ -28,8 +27,6 @@ interface IVueAppOptions {
   template?: string;
   context?: IVueContext;
 }
-
-type CreateAppFunction = (context: IVueContext) => Vue | PromiseLike<Vue>;
 
 interface IBundles {
   clientManifest?: object;
