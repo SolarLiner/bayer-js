@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import { createServer, IncomingMessage, Server, ServerResponse } from "http";
-import { Observable, of, OperatorFunction } from "rxjs";
+import { Observable, of, OperatorFunction, pipe } from "rxjs";
 import { catchError, mergeMap, tap } from "rxjs/operators";
 import { Request } from "./request";
 import { Response } from "./response";
@@ -88,8 +88,17 @@ export default class Bayer<T = any> {
    */
   public callback() {
     this.sortMiddlewares();
-    let start: number;
-    const obs = this.obs.pipe(
+    const obs = this.obs.pipe(this.middleware());
+    obs.subscribe();
+    return this.reqFunc;
+  }
+
+  /**
+   * Return the app as a middleware. Useful to plug applications together.
+   */
+  public middleware(): ServerMiddleware {
+    let start: number; // TODO: Make start/stop timer concurrency-safe.
+    return pipe(
       tap(() => {
         start = Date.now();
       }),
@@ -104,8 +113,6 @@ export default class Bayer<T = any> {
       }),
       tap(params => this.terminateRequest(params, start))
     );
-    obs.subscribe();
-    return this.reqFunc;
   }
 
   private sortMiddlewares() {
