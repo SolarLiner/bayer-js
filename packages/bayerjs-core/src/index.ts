@@ -140,9 +140,10 @@ export default class Bayer<T = any> {
 
   private terminateRequest({ req, res }: IBayerCallback<T>, start: number) {
     if (!res.done) {
-      debug("%s %s not done", req.route.method, req.route.path);
+      debug("%s %s not sent", req.route.method, req.route.path);
       res.status(404).send(`Cannot ${req.route.method || "GET"} ${req.route.path}`);
     }
+    debug("%s %s finished", req.route.method, req.route.path);
     const ms = Date.now() - start;
     this.log(req, res, ms);
   }

@@ -13,12 +13,15 @@ export default function mount(mountPath: string, appOrMiddleware: Bayer | Server
   const trailingSlash = mountPath.slice(-1) === "/";
   debug("Mounting middleware to %o", mountPath);
   return mergeMap(params => {
+    debug("Mount %o: Request %s %s", mountPath, params.req.route.method, params.req.route.path);
     return of(params).pipe(
       filter(({ req }) => {
+        debug("Request test for %o on %o", req.route.path, mountPath);
         return match(mountPath, req.route.path, trailingSlash);
       }),
       map(({ req: oldReq, res, extra }) => {
         const req = oldReq.clone(mountPath);
+        debug("Mapping request %o %o", oldReq.route.path, req.route.path);
         return { req, res, extra };
       }),
       mergeMap(ctx => {
