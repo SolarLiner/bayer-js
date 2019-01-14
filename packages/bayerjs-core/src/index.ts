@@ -47,7 +47,7 @@ export default class Bayer<T = any> {
     this.middlewares = new Array();
     this.obs = new Observable<IBayerCallback<T>>(sub => {
       this.reqFunc = (req, res) => {
-        debug("Request: %s %s", req.url, req.url);
+        debug("Request: %s %s", req.method, req.url);
         const callbackObj = this.convertServerParams(req, res);
         sub.next(callbackObj);
       };
@@ -60,7 +60,7 @@ export default class Bayer<T = any> {
    * @param [priority=0] Optional priority given to the middleware.
    */
   public use<U = T>(middleware: ServerMiddleware<T, U>, priority = 0) {
-    debug("Add middleware %s", middleware.toString().substring(0, 15));
+    debug("Add middleware %s", middleware.name);
     this.middlewares.push({ middleware, priority });
   }
 
