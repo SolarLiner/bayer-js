@@ -1,10 +1,13 @@
 import { access as _access, createReadStream, exists as _exists, lstat, Stats } from "fs";
 import { join } from "path";
 
+import _debug from "debug";
 import { pipe } from "rxjs";
 import { map, mergeMap } from "rxjs/operators";
 
 import { HttpError, ServerMiddleware } from "@bayerjs/core";
+
+const debug = _debug("@bayerjs/static");
 
 /**
  * Static files middleware for the Bayer.js server library.
@@ -24,13 +27,16 @@ export default function staticFiles(
     map(params => {
       const resourcePath = absolute(baseUrl, params.req.route.path.substr(1)).substr(1);
       const path = join(localpath, resourcePath);
+      debug("Path: %o", path);
       return { params, path };
     }),
-    mergeMap(({ params, path }) => {
-      return checkAvailable(path, useIndexFile, indexExtension).then(p => ({ params, file: createReadStream(p) }));
+    mergeMap(async ({ params, path }) => {
+      const file = await checkAvailable(path, useIndexFile, indexExtension);
+      return ({ params, file: createReadStream(file) });
     }),
-    mergeMap(({ params, file }) => {
-      return params.res.send(file).then(() => params);
+    mergeMap(async ({ params, file }) => {
+      await params.res.send(file);
+      return params;
     })
   );
 }

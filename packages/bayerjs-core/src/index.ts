@@ -1,11 +1,15 @@
 import chalk from "chalk";
+import _debug from "debug";
 import { createServer, IncomingMessage, Server, ServerResponse } from "http";
 import { Observable, of, OperatorFunction, pipe } from "rxjs";
 import { catchError, mergeMap, tap } from "rxjs/operators";
+
 import { Request } from "./request";
 import { Response } from "./response";
 
 type RequestFunction = (req: IncomingMessage, res: ServerResponse) => void;
+
+const debug = _debug("@bayerjs/core");
 
 /**
  * Callback object type used in the Server middlewares.
@@ -43,6 +47,7 @@ export default class Bayer<T = any> {
     this.middlewares = new Array();
     this.obs = new Observable<IBayerCallback<T>>(sub => {
       this.reqFunc = (req, res) => {
+        debug("Request: %s %s", req.url, req.url);
         const callbackObj = this.convertServerParams(req, res);
         sub.next(callbackObj);
       };
@@ -55,6 +60,7 @@ export default class Bayer<T = any> {
    * @param [priority=0] Optional priority given to the middleware.
    */
   public use<U = T>(middleware: ServerMiddleware<T, U>, priority = 0) {
+    debug("Add middleware %s", middleware.toString().substring(0, 15));
     this.middlewares.push({ middleware, priority });
   }
 
@@ -74,6 +80,7 @@ export default class Bayer<T = any> {
     return new Promise<Server>((resolve, _reject) => {
       const cb = this.callback();
       const server = createServer(cb);
+      debug("Listening on :%d", port);
       server.listen(port, () => resolve(server));
     });
   }
@@ -87,6 +94,7 @@ export default class Bayer<T = any> {
    * @returns A function that accepts Node.js's IncomingMessage and ServerResponse objects.
    */
   public callback() {
+    debug("Prepare server listening");
     this.sortMiddlewares();
     let start: number; // TODO: Make start/stop timer concurrency-safe.
     const obs = this.obs.pipe(
@@ -132,6 +140,7 @@ export default class Bayer<T = any> {
 
   private terminateRequest({ req, res }: IBayerCallback<T>, start: number) {
     if (!res.done) {
+      debug("%s %s not done", req.route.method, req.route.path);
       res.status(404).send(`Cannot ${req.route.method || "GET"} ${req.route.path}`);
     }
     const ms = Date.now() - start;
@@ -152,6 +161,7 @@ export default class Bayer<T = any> {
   }
 
   private handleRequestError(err: any, { res }: IBayerCallback<T>) {
+    debug("Handle error %O", err);
     if (typeof err === "number") {
       res.status(err).end();
     } else if (err instanceof HttpError) {
