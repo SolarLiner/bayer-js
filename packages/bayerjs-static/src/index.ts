@@ -14,7 +14,7 @@ import { HttpError, ServerMiddleware } from "@bayerjs/core";
  * @param indexExtension Extension of the index file.
  * @returns Bayer.js Server middleware.
  */
-export function staticFiles(
+export default function staticFiles(
   localpath: string,
   baseUrl = "/",
   useIndexFile = true,
@@ -48,11 +48,17 @@ function absolute(base: string, relative: string) {
   return stack.join("/");
 }
 
-async function checkAvailable(p: string, useIndexFile: boolean, indexExtension: string, forceNoIndex = false): Promise<string> {
-  if (!await exists(p)) throw new HttpError(404, "Not found");
+async function checkAvailable(
+  p: string,
+  useIndexFile: boolean,
+  indexExtension: string,
+  forceNoIndex = false
+): Promise<string> {
+  if (!(await exists(p))) throw new HttpError(404, "Not found");
   const stat = await nodeCallbackPromise<Stats>(lstat, p);
   if (stat.isDirectory()) {
-    if (useIndexFile && !forceNoIndex) return checkAvailable(join(p, `index.${indexExtension}`), useIndexFile, indexExtension, true);
+    if (useIndexFile && !forceNoIndex)
+      return checkAvailable(join(p, `index.${indexExtension}`), useIndexFile, indexExtension, true);
     else throw new HttpError(404, "Not found");
   } else if (stat.isFile()) {
     if (await access(p)) return p;
