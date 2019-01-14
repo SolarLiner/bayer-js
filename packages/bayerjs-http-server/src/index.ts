@@ -6,7 +6,7 @@ import chalk from "chalk";
 import minimist from "minimist";
 
 import Bayer from "@bayerjs/core";
-import { staticFiles } from "@bayerjs/middleware";
+import staticFiles from "@bayerjs/static";
 
 const DEFAULT_PORT = 8080;
 

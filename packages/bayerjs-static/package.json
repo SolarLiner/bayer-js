@@ -1,0 +1,38 @@
+{
+  "name": "@bayerjs/static",
+  "version": "0.2.0-alpha.0",
+  "description": "Static files middleware",
+  "keywords": [
+    "bayerjs",
+    "http",
+    "staticfiles",
+    "static",
+    "files",
+    "server",
+    "middleware"
+  ],
+  "author": "Nathan Graule <solarliner@gmail.com>",
+  "homepage": "https://github.com/solarliner/bayer-js",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolarLiner/bayer-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/SolarLiner/bayer-js/issues"
+  },
+  "dependencies": {
+    "@bayerjs/core": "^0.2.0-alpha.0"
+  }
+}
