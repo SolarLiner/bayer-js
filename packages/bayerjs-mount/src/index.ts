@@ -10,8 +10,8 @@ export default function mount(baseUrl: string, appOrMiddleware: Bayer | ServerMi
         return req.route.path.startsWith(baseUrl);
       }),
       map(({ req: oldReq, res, extra }) => {
-        const req = oldReq.clone(baseUrl)
-        return {req, res, extra};
+        const req = oldReq.clone(baseUrl);
+        return { req, res, extra };
       }),
       mergeMap(ctx => {
         if (appOrMiddleware instanceof Bayer) {
