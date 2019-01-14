@@ -36,6 +36,7 @@
     "@bayerjs/core": "^0.2.0-alpha.0",
     "@bayerjs/static": "^0.2.0-alpha.0",
     "chalk": "^2.4.1",
+    "debug": "^4.1.1",
     "minimist": "^1.2.0"
   },
   "devDependencies": {

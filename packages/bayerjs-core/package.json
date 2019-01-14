@@ -37,6 +37,7 @@
   "dependencies": {
     "busboy": "^0.2.14",
     "chalk": "^2.4.1",
+    "debug": "^4.1.1",
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
