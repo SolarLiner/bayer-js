@@ -4,8 +4,11 @@ import { catchError, first, map, mergeMap } from "rxjs/operators";
 
 import { ServerMiddleware } from "@bayerjs/core";
 import { IRoute as IBaseRoute } from "@bayerjs/core";
+import _debug from "debug";
 import { OutgoingHttpHeaders } from "http";
 import { Stream } from "stream";
+
+const debug = _debug("@bayerjs/router");
 
 /**
  * Router response object to be returned by routes.
@@ -106,6 +109,7 @@ export class Router {
    * @param middlewares Optional middlewares handling the route (ie. access control)
    */
   public route(method: string, route: string, op: ResponseHandler, ...middlewares: RouteMiddleware[]) {
+    debug("Add route for %s %o", method, route);
     this.routes.push({ route: pathToRegexp(route), op, middlewares, method: method.toUpperCase() });
   }
 
@@ -113,6 +117,7 @@ export class Router {
    * Returns this router as a server middleware function.
    */
   public middleware(): ServerMiddleware {
+    debug("Mounting router");
     return mergeMap(v =>
       of(v).pipe(
         mergeMap(params => {
@@ -120,6 +125,7 @@ export class Router {
             req: { route }
           } = params;
           const matchedRoutes = this.routes.filter(r => route.method === r.method && r.route.test(route.path));
+          debug("%d matched routes", matchedRoutes.length);
           if (matchedRoutes.length > 0) return of({ routes: matchedRoutes, params });
           else return empty();
         }),
