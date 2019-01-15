@@ -1,3 +1,4 @@
+import assert from "assert";
 import { createWriteStream } from "fs";
 import { IncomingHttpHeaders, IncomingMessage } from "http";
 import { Socket } from "net";
@@ -99,6 +100,10 @@ export class Request {
    */
   constructor(request: IncomingMessage, private baseUrl = "/") {
     this.req = request;
+    assert(baseUrl.startsWith("/"), "Base URL must be absolute");
+    if (!match(request.url || "/", baseUrl)) {
+      throw new Error("Request URL does not match URL");
+    }
   }
 
   /**
@@ -258,4 +263,16 @@ function toHTTPVerb(verb?: string) {
   } else {
     return null;
   }
+}
+
+function match(prefix: string, path: string, trailingSlash = false) {
+  // does not match prefix at all
+  if (path.indexOf(prefix) !== 0) return null;
+
+  const newPath = path.replace(prefix, "") || "/";
+  if (trailingSlash) return newPath;
+
+  // `/mount` does not match `/mountlkjalskjdf`
+  if (newPath[0] !== "/") return null;
+  return newPath;
 }
