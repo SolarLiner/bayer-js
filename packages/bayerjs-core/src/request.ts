@@ -98,11 +98,13 @@ export class Request {
    * Initializes a new Request object.
    * @param request Node.js's IncomingMessage object used as base for this Request object.
    */
-  constructor(request: IncomingMessage, private baseUrl = "/") {
+  constructor(request: IncomingMessage, private baseUrl?: string) {
     this.req = request;
-    assert(baseUrl.startsWith("/"), "Base URL must be absolute");
-    if (!match(request.url || "/", baseUrl)) {
-      throw new Error("Request URL does not match URL");
+    if (baseUrl) {
+      assert(baseUrl.startsWith("/"), "Base URL must be absolute");
+      if (!match(baseUrl, request.url || "/")) {
+        throw new Error("Request URL does not match URL");
+      }
     }
   }
 
