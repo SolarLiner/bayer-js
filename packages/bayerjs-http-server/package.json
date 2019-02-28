@@ -35,12 +35,12 @@
   "dependencies": {
     "@bayerjs/core": "^0.2.0-alpha.0",
     "@bayerjs/static": "^0.2.0-alpha.0",
-    "@types/debug": "^0.0.31",
     "chalk": "^2.4.1",
     "debug": "^4.1.1",
     "minimist": "^1.2.0"
   },
   "devDependencies": {
+    "@types/debug": "^0.0.31",
     "@babel/core": "^7.2.2",
     "@types/minimist": "^1.2.0",
     "ts-node": "^7.0.1"
