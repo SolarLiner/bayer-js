@@ -1,39 +1,32 @@
 import assert from "assert";
 
 import _debug from "debug";
-import { of } from "rxjs";
+import { of, pipe } from "rxjs";
 import { filter, map, mergeMap } from "rxjs/operators";
 
-import Bayer, { ServerMiddleware } from "@bayerjs/core";
+import { ServerMiddleware } from "@bayerjs/core";
 
 const debug = _debug("@bayerjs/mount");
 
-export default function mount(mountPath: string, appOrMiddleware: Bayer | ServerMiddleware): ServerMiddleware {
+export default function mount(mountPath: string, middleware: ServerMiddleware): ServerMiddleware {
   assert.equal(mountPath[0], "/", "Mount path must be absolute");
   const trailingSlash = mountPath.slice(-1) === "/";
   debug("Mounting middleware to %o", mountPath);
-  return mergeMap(params => {
-    debug("Mount %o: Request %s %s", mountPath, params.req.route.method, params.req.route.path);
-    return of(params).pipe(
-      filter(({ req }) => {
-        debug("Request test for %o on %o", req.route.path, mountPath);
-        return match(mountPath, req.route.path, trailingSlash);
-      }),
-      map(({ req: oldReq, res, extra }) => {
-        const req = oldReq.clone(mountPath);
-        debug("Mapping request %o %o", oldReq.route.path, req.route.path);
-        return { req, res, extra };
-      }),
-      mergeMap(ctx => {
-        debug("Passing to mounted middleware from %o %s", mountPath, ctx.req.route.path);
-        if (appOrMiddleware instanceof Bayer) {
-          return of(ctx).pipe(appOrMiddleware.middleware());
-        } else {
-          return of(ctx).pipe(appOrMiddleware);
-        }
-      })
-    );
-  });
+  return pipe(
+    filter(({ req }) => {
+      debug("Request test for %o on %o", req.route.path, mountPath);
+      return match(mountPath, req.route.path, trailingSlash);
+    }),
+    map(({ req: oldReq, res, extra }) => {
+      const req = oldReq.clone(mountPath);
+      debug("Mapping request %o %o", oldReq.route.path, req.route.path);
+      return { req, res, extra };
+    }),
+    mergeMap(ctx => {
+      debug("Passing to mounted middleware from %o %s", mountPath, ctx.req.route.path);
+      return of(ctx).pipe(middleware);
+    })
+  );
 }
 
 function match(prefix: string, path: string, trailingSlash = false) {
