@@ -168,6 +168,7 @@ export class Request {
    * Returns the full path of the request (base URL + local route path)
    */
   public get fullPath() {
+    if (!this.baseUrl) return this.route.path;
     return join(this.baseUrl, this.route.path.substr(1));
   }
 
@@ -175,7 +176,7 @@ export class Request {
    * Clones the requests, optionally applying a new base URL to it.
    * @param [baseUrl="/"] New base URL to base request off of
    */
-  public clone(baseUrl = "/") {
+  public clone(baseUrl?: string) {
     return new Request(this.req, baseUrl);
   }
 
@@ -246,11 +247,14 @@ export class Request {
     if (!method) {
       throw new Error("Unrecognized HTTP verb.");
     }
-
+    let path: string | null = pathname || "";
+    if (this.baseUrl) path = match(this.baseUrl, path, true);
+    if (!path) throw new Error("Cannot get path from request");
     return {
       headers,
       method,
-      path: "/" + relative(this.baseUrl, pathname || ""),
+      // path: "/" + relative(this.baseUrl, pathname || ""),
+      path,
       query: querystring.parse(query || "")
     };
   }
@@ -269,12 +273,16 @@ function toHTTPVerb(verb?: string) {
 
 function match(prefix: string, path: string, trailingSlash = false) {
   // does not match prefix at all
+  console.log("match(prefix: ", prefix, ", path: ", path, "): Testing path contains prefix");
   if (path.indexOf(prefix) !== 0) return null;
 
   const newPath = path.replace(prefix, "") || "/";
+  console.log("match(prefix: ", prefix, ", path: ", path, "): Remove prefix from the path", newPath);
   if (trailingSlash) return newPath;
 
   // `/mount` does not match `/mountlkjalskjdf`
+  console.log("Testing to see if we matched against a partial path and not a complete one");
   if (newPath[0] !== "/") return null;
+  console.log("match(prefix: ", prefix, ", path: ", path, "): Returning newPath: ", newPath);
   return newPath;
 }
