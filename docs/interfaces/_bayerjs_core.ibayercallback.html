@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IRoute | Bayer.js</title>
+	<title>IBayerCallback | Bayer.js</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_bayerjs.html">@bayerjs</a>
+					<a href="../modules/_bayerjs_core.html">@bayerjs/core</a>
 				</li>
 				<li>
-					<a href="_bayerjs.iroute.html">IRoute</a>
+					<a href="_bayerjs_core.ibayercallback.html">IBayerCallback</a>
 				</li>
 			</ul>
-			<h1>Interface IRoute</h1>
+			<h1>Interface IBayerCallback&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -72,15 +72,23 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Router object being passed in to routes upon request.</p>
+						<p>Callback object type used in the Server middlewares.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IRoute</span>
+						<span class="target">IBayerCallback</span>
 					</li>
 				</ul>
 			</section>
@@ -91,10 +99,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_bayerjs.iroute.html#headers" class="tsd-kind-icon">headers</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_bayerjs.iroute.html#method" class="tsd-kind-icon">method</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_bayerjs.iroute.html#path" class="tsd-kind-icon">path</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_bayerjs.iroute.html#query" class="tsd-kind-icon">query</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_bayerjs_core.ibayercallback.html#extra" class="tsd-kind-icon">extra</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_bayerjs_core.ibayercallback.html#req" class="tsd-kind-icon">req</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_bayerjs_core.ibayercallback.html#res" class="tsd-kind-icon">res</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,72 +110,48 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="headers" class="tsd-anchor"></a>
-					<h3>headers</h3>
-					<div class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IncomingHttpHeaders</span></div>
+					<a name="extra" class="tsd-anchor"></a>
+					<h3>extra</h3>
+					<div class="tsd-signature tsd-kind-icon">extra<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/9624e1b/packages/@bayerjs/core/src/request.ts#L69">@bayerjs/core/src/request.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/19d90ab/packages/@bayerjs/core/src/index.ts#L23">core/src/index.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Headers passed by the client in the request.</p>
+							<p>Extra data to be used by middlewares (to add or to use).</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="method" class="tsd-anchor"></a>
-					<h3>method</h3>
-					<div class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">:</span> <a href="../modules/_bayerjs.html#httpverb" class="tsd-signature-type">HTTPVerb</a></div>
+					<a name="req" class="tsd-anchor"></a>
+					<h3>req</h3>
+					<div class="tsd-signature tsd-kind-icon">req<span class="tsd-signature-symbol">:</span> <a href="../classes/_bayerjs_core.request.html" class="tsd-signature-type">Request</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/9624e1b/packages/@bayerjs/core/src/request.ts#L65">@bayerjs/core/src/request.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/19d90ab/packages/@bayerjs/core/src/index.ts#L19">core/src/index.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>HTTP method requested by the client.</p>
+							<p>Request object.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="path" class="tsd-anchor"></a>
-					<h3>path</h3>
-					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="res" class="tsd-anchor"></a>
+					<h3>res</h3>
+					<div class="tsd-signature tsd-kind-icon">res<span class="tsd-signature-symbol">:</span> <a href="../classes/_bayerjs_core.response.html" class="tsd-signature-type">Response</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/9624e1b/packages/@bayerjs/core/src/request.ts#L61">@bayerjs/core/src/request.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/19d90ab/packages/@bayerjs/core/src/index.ts#L21">core/src/index.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Request path by the client. Has been processed and standardized to always
-							finish with a slash.</p>
+							<p>Response object.</p>
 						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="query" class="tsd-anchor"></a>
-					<h3>query</h3>
-					<div class="tsd-signature tsd-kind-icon">query<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SolarLiner/bayer-js/blob/9624e1b/packages/@bayerjs/core/src/request.ts#L73">@bayerjs/core/src/request.ts:73</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>URL query (the part after the question mark), if any.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>x: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-							</li>
-						</ul>
 					</div>
 				</section>
 			</section>
@@ -180,149 +163,89 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_bayerjs.html">@bayerjs</a>
+						<a href="../modules/_bayerjs_core.html">@bayerjs/core</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/test.html">test</a>
+						<a href="../modules/_bayerjs_http_server.html">@bayerjs/http-<wbr>server</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_bayerjs_mount.html">@bayerjs/mount</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_bayerjs_router.html">@bayerjs/router</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_bayerjs_rxjs_debug.html">@bayerjs/rxjs-<wbr>debug</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_bayerjs_static.html">@bayerjs/static</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../classes/_bayerjs.bayer.html" class="tsd-kind-icon">Bayer</a>
+						<a href="../classes/_bayerjs_core.bayer.html" class="tsd-kind-icon">Bayer</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_bayerjs.httperror.html" class="tsd-kind-icon">Http<wbr>Error</a>
+						<a href="../classes/_bayerjs_core.httperror.html" class="tsd-kind-icon">Http<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_bayerjs.request.html" class="tsd-kind-icon">Request</a>
+						<a href="../classes/_bayerjs_core.request.html" class="tsd-kind-icon">Request</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_bayerjs.response.html" class="tsd-kind-icon">Response</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_bayerjs.router.html" class="tsd-kind-icon">Router</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_bayerjs.ibayercallback.html" class="tsd-kind-icon">IBayer<wbr>Callback</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_bayerjs.ibayerstaticoptions.html" class="tsd-kind-icon">IBayer<wbr>Static<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_bayerjs.iformdata.html" class="tsd-kind-icon">IForm<wbr>Data</a>
+						<a href="../classes/_bayerjs_core.response.html" class="tsd-kind-icon">Response</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_bayerjs.iroute.html" class="tsd-kind-icon">IRoute</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_bayerjs_core.ibayercallback.html" class="tsd-kind-icon">IBayer<wbr>Callback</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_bayerjs.iroute.html#headers" class="tsd-kind-icon">headers</a>
+								<a href="_bayerjs_core.ibayercallback.html#extra" class="tsd-kind-icon">extra</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_bayerjs.iroute.html#method" class="tsd-kind-icon">method</a>
+								<a href="_bayerjs_core.ibayercallback.html#req" class="tsd-kind-icon">req</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_bayerjs.iroute.html#path" class="tsd-kind-icon">path</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_bayerjs.iroute.html#query" class="tsd-kind-icon">query</a>
+								<a href="_bayerjs_core.ibayercallback.html#res" class="tsd-kind-icon">res</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="_bayerjs.iroute-1.html" class="tsd-kind-icon">IRoute</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_bayerjs.irouteinternal.html" class="tsd-kind-icon">IRoute<wbr>Internal</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_bayerjs.irouterresponse.html" class="tsd-kind-icon">IRouter<wbr>Response</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_bayerjs_core.iformdata.html" class="tsd-kind-icon">IForm<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_bayerjs.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
+						<a href="_bayerjs_core.iroute.html" class="tsd-kind-icon">IRoute</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_bayerjs_core.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_bayerjs.html#httpverb" class="tsd-kind-icon">HTTPVerb</a>
+						<a href="../modules/_bayerjs_core.html#httpverb" class="tsd-kind-icon">HTTPVerb</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a>
+						<a href="../modules/_bayerjs_core.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
+						<a href="../modules/_bayerjs_core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/_bayerjs.html#responsehandler" class="tsd-kind-icon">Response<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/_bayerjs.html#routemiddleware" class="tsd-kind-icon">Route<wbr>Middleware</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_bayerjs.html#routerresponse" class="tsd-kind-icon">Router<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/_bayerjs.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
+						<a href="../modules/_bayerjs_core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#default_port" class="tsd-kind-icon">DEFAULT_<wbr>PORT</a>
+						<a href="../modules/_bayerjs_core.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#debug" class="tsd-kind-icon">debug</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#debug-1" class="tsd-kind-icon">debug</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#debug-2" class="tsd-kind-icon">debug</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#debug-3" class="tsd-kind-icon">debug</a>
+						<a href="../modules/_bayerjs_core.html#debug" class="tsd-kind-icon">debug</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#access" class="tsd-kind-icon">access</a>
+						<a href="../modules/_bayerjs_core.html#match" class="tsd-kind-icon">match</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#checkavailable" class="tsd-kind-icon">check<wbr>Available</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../modules/_bayerjs.html#debug-4" class="tsd-kind-icon">debug</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#exists" class="tsd-kind-icon">exists</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#getmatchparams" class="tsd-kind-icon">get<wbr>Match<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#main" class="tsd-kind-icon">main</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#match" class="tsd-kind-icon">match</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#match-1" class="tsd-kind-icon">match</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_bayerjs.html#mount" class="tsd-kind-icon">mount</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#nodecallbackpromise" class="tsd-kind-icon">node<wbr>Callback<wbr>Promise</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#normalizeport" class="tsd-kind-icon">normalize<wbr>Port</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_bayerjs.html#staticfiles" class="tsd-kind-icon">static<wbr>Files</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_bayerjs.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a>
+						<a href="../modules/_bayerjs_core.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a>
 					</li>
 				</ul>
 			</nav>
