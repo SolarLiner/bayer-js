@@ -2,8 +2,8 @@ import { access as _access, createReadStream, exists as _exists, lstat, Stats } 
 import { join } from "path";
 
 import _debug from "debug";
-import { pipe } from "rxjs";
-import { map, mergeMap } from "rxjs/operators";
+import { pipe, of } from "rxjs";
+import { map, mergeMap, catchError } from "rxjs/operators";
 
 import { HttpError, ServerMiddleware } from "@bayerjs/core";
 
@@ -34,15 +34,17 @@ export interface IBayerStaticOptions {
  * @param [options.spaFile=index.html] file to serve on 404 hits, if SPA mode is turned on.
  * @returns Bayer.js Server middleware.
  */
-export default function staticFiles(
-  options: IBayerStaticOptions
-): ServerMiddleware {
-  const opts: Required<IBayerStaticOptions> = Object.assign({}, {
-    useIndexFile: true,
-    indexFile: "index.html",
-    spaMode: false,
-    spaFile: "index.html"
-  }, options);
+export default function staticFiles(options: IBayerStaticOptions): ServerMiddleware {
+  const opts: Required<IBayerStaticOptions> = Object.assign(
+    {},
+    {
+      useIndexFile: true,
+      indexFile: "index.html",
+      spaMode: false,
+      spaFile: "index.html"
+    },
+    options
+  );
   return pipe(
     map(params => {
       const resourcePath = params.req.route.path.substr(1);
@@ -52,7 +54,20 @@ export default function staticFiles(
     }),
     mergeMap(async ({ params, path }) => {
       const file = await checkAvailable(path, opts.useIndexFile, opts.indexFile);
-      return ({ params, file: createReadStream(file) });
+      return { params, file: createReadStream(file) };
+    }),
+    catchError(async (err, caught) => {
+      if (err instanceof HttpError) {
+        if (opts.spaMode && err.code === 404) {
+          try {
+            const file = await checkAvailable(join(opts.localPath, opts.spaFile), false, "");
+            return caught.toPromise().then(({ params }) => ({ params, file }));
+          } catch {
+            throw err; // Throw original error instead of new one
+          }
+        }
+      }
+      throw err;
     }),
     mergeMap(async ({ params, file }) => {
       await params.res.send(file);
@@ -70,8 +85,7 @@ async function checkAvailable(
   if (!(await exists(p))) throw new HttpError(404, "Not found");
   const stat = await nodeCallbackPromise<Stats>(lstat, p);
   if (stat.isDirectory()) {
-    if (useIndexFile && !forceNoIndex)
-      return checkAvailable(join(p, indexFile), useIndexFile, indexFile, true);
+    if (useIndexFile && !forceNoIndex) return checkAvailable(join(p, indexFile), useIndexFile, indexFile, true);
     else throw new HttpError(404, "Not found");
   } else if (stat.isFile()) {
     if (await access(p)) return p;
