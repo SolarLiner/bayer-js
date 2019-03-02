@@ -14,30 +14,35 @@ main(process.argv);
 
 function main(argv: string[]) {
   const args = minimist(argv.slice(2));
-  // tslint:disable-next-line:prefer-const
-  let port = normalizePort(args.port || args.p);
+  const port = normalizePort(args.port || args.p);
+  const spaMode = !!args.spa || !!args.s;
+  const spaFile = args["spa-file"];
+  const indexFile = args["index-file"];
+  const useIndexFile = args.index;
 
   const [path] = args._;
-  let serveFolder: string;
+  let localPath: string;
   if (path) {
-    if (path.startsWith("/")) serveFolder = path;
-    else serveFolder = join(cwd(), path);
+    if (path.startsWith("/")) localPath = path;
+    else localPath = join(cwd(), path);
   } else {
-    serveFolder = cwd();
+    localPath = cwd();
   }
 
   const app = new Bayer();
-  app.use(staticFiles(serveFolder));
+  const staticOptions = { localPath, spaMode, spaFile, useIndexFile, indexFile };
+  console.dir(staticOptions);
+  app.use(staticFiles(staticOptions));
 
   app.listen(port).then(() => {
     process.stdout.write(chalk.gray("Server ready! "));
-    process.stdout.write(chalk.greenBright(`Serving ${chalk.white(serveFolder)} on `));
+    process.stdout.write(chalk.greenBright(`Serving ${chalk.white(localPath)} on `));
     process.stdout.write(chalk.magenta(`http://localhost:${port}`));
     process.stdout.write("\n");
   });
 }
 
-function normalizePort(strPort: string) {
+function normalizePort(strPort: any) {
   if (!strPort) return DEFAULT_PORT;
   try {
     const port = Number.parseInt(strPort, 10);
