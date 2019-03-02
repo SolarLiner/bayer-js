@@ -35,6 +35,11 @@ export interface IBayerStaticOptions {
  * @returns Bayer.js Server middleware.
  */
 export default function staticFiles(options: IBayerStaticOptions): ServerMiddleware {
+  // Clean input object
+  Object.keys(options).forEach((key) => {
+    const k = key as keyof IBayerStaticOptions;
+    if (options[k] === undefined) delete options[k];
+  });
   const opts: Required<IBayerStaticOptions> = Object.assign(
     {},
     {
