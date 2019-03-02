@@ -273,16 +273,12 @@ function toHTTPVerb(verb?: string) {
 
 function match(prefix: string, path: string, trailingSlash = false) {
   // does not match prefix at all
-  console.log("match(prefix: ", prefix, ", path: ", path, "): Testing path contains prefix");
   if (path.indexOf(prefix) !== 0) return null;
 
   const newPath = path.replace(prefix, "") || "/";
-  console.log("match(prefix: ", prefix, ", path: ", path, "): Remove prefix from the path", newPath);
   if (trailingSlash) return newPath;
 
   // `/mount` does not match `/mountlkjalskjdf`
-  console.log("Testing to see if we matched against a partial path and not a complete one");
   if (newPath[0] !== "/") return null;
-  console.log("match(prefix: ", prefix, ", path: ", path, "): Returning newPath: ", newPath);
   return newPath;
 }
