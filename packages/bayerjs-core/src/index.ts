@@ -162,16 +162,18 @@ export default class Bayer<T = any> {
   }
 
   private handleRequestError(err: any, { res }: IBayerCallback<T>) {
-    debug("Handle error %O", err);
     if (typeof err === "number") {
+      debug("Handle error %d", err);
       res.status(err).end();
     } else if (err instanceof HttpError) {
+      debug("Handle error %d: '%s'", err.code, err.message);
       const ress = res.status(err.code);
       if (err.reason) return ress.send(err.reason);
       ress.end();
     } else {
+      debug("Handle error %O", err);
       const ress = res.status(500, "Internal server error");
-      if (err instanceof Error) return ress.send(`${err.name} : ${err.message}`);
+      if (err instanceof Error) return ress.send(`${err.name} : ${err.message}\n`);
       ress.end();
     }
   }
