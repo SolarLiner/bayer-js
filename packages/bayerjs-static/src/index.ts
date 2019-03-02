@@ -10,28 +10,48 @@ import { HttpError, ServerMiddleware } from "@bayerjs/core";
 const debug = _debug("@bayerjs/static");
 
 /**
+ * Options interface for the Bayer.js static middleware.
+ */
+export interface IBayerStaticOptions {
+  /** Local path to the directory containing the */
+  localPath: string;
+  useIndexFile?: boolean;
+  indexFile?: string;
+  spaMode?: boolean;
+  spaFile?: string;
+}
+
+/**
  * Static files middleware for the Bayer.js server library.
- * @param localpath Local folder containing static files
- * @param baseUrl Base URL from which to build relative paths to files
- * @param useIndexFile Whether to search for an index file if hitting a folder
- * @param indexExtension Extension of the index file.
+ * NOTE: This is a pretty naive implementation, and probably not secure. You should prefer using reverse-proxies or
+ * CDNs. This is provided as a convinience function.
+ * @param options Options object passed to the middleware.
+ * @param options.localPath Local path to the directory containing the files to serve
+ * @param [options.useIndexFile=true] Whether to use index file on directory hits
+ * @param [options.indexFile=index.html] Filename to use on directory hits
+ * @param [options.spaMode=false] SPA mode redirects any 404 to the root index, or to a particular file as defined in
+ * spaFile
+ * @param [options.spaFile=index.html] file to serve on 404 hits, if SPA mode is turned on.
  * @returns Bayer.js Server middleware.
  */
 export default function staticFiles(
-  localpath: string,
-  baseUrl = "/",
-  useIndexFile = true,
-  indexExtension = "html"
+  options: IBayerStaticOptions
 ): ServerMiddleware {
+  const opts: Required<IBayerStaticOptions> = Object.assign({}, {
+    useIndexFile: true,
+    indexFile: "index.html",
+    spaMode: false,
+    spaFile: "index.html"
+  }, options);
   return pipe(
     map(params => {
-      const resourcePath = absolute(baseUrl, params.req.route.path.substr(1)).substr(1);
-      const path = join(localpath, resourcePath);
+      const resourcePath = params.req.route.path.substr(1);
+      const path = join(opts.localPath, resourcePath);
       debug("Path: %o", path);
       return { params, path };
     }),
     mergeMap(async ({ params, path }) => {
-      const file = await checkAvailable(path, useIndexFile, indexExtension);
+      const file = await checkAvailable(path, opts.useIndexFile, opts.indexFile);
       return ({ params, file: createReadStream(file) });
     }),
     mergeMap(async ({ params, file }) => {
@@ -41,30 +61,17 @@ export default function staticFiles(
   );
 }
 
-function absolute(base: string, relative: string) {
-  const stack = base.split("/");
-  const parts = relative.split("/");
-  stack.pop(); // remove current file name (or empty string)
-  // (omit if "base" is the current folder without trailing slash)
-  for (const part of parts) {
-    if (part === ".") continue;
-    if (part === "..") stack.pop();
-    else stack.push(part);
-  }
-  return stack.join("/");
-}
-
 async function checkAvailable(
   p: string,
   useIndexFile: boolean,
-  indexExtension: string,
+  indexFile: string,
   forceNoIndex = false
 ): Promise<string> {
   if (!(await exists(p))) throw new HttpError(404, "Not found");
   const stat = await nodeCallbackPromise<Stats>(lstat, p);
   if (stat.isDirectory()) {
     if (useIndexFile && !forceNoIndex)
-      return checkAvailable(join(p, `index.${indexExtension}`), useIndexFile, indexExtension, true);
+      return checkAvailable(join(p, indexFile), useIndexFile, indexFile, true);
     else throw new HttpError(404, "Not found");
   } else if (stat.isFile()) {
     if (await access(p)) return p;
