@@ -16,7 +16,7 @@
     "tslint-config-prettier": "^1.16.0",
     "tslint-plugin-prettier": "^2.0.1",
     "typedoc": "^0.14.1",
-    "typedoc-plugin-monorepo": "^0.1.0",
+    "typedoc-plugin-external-module-map": "^1.0.0",
     "typescript": "^3.1.6"
   },
   "workspaces": [
@@ -32,6 +32,6 @@
     "lint": "lerna exec --stream --concurrency 4 'tslint -p tsconfig.json'",
     "lint:types": "lerna exec --stream --concurrency 4 'tsc --noEmit'",
     "lint:fix": "lerna exec --stream --concurrency 4 'tslint -p tsconfig.json --fix'",
-    "docs": "typedoc --options typedoc.json packages --exclude test --excludePrivate --excludeProtected"
+    "docs": "typedoc packages"
   }
 }
