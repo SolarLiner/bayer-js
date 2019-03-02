@@ -3,7 +3,7 @@ module.exports = {
   excludePrivate: true,
   excludeProtected: true,
   experimentalDecorators: true,
-  "external-modulemap": ".*/packages/([^/]+)/.*",
+  "external-modulemap": ".*\/packages\/(@bayerjs\/.*)\/src\/",
   ignoreCompilerErrors: "true",
   includeDeclarations: false,
   mode: "modules",

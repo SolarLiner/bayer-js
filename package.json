@@ -32,6 +32,6 @@
     "lint": "lerna exec --stream --concurrency 4 'tslint -p tsconfig.json'",
     "lint:types": "lerna exec --stream --concurrency 4 'tsc --noEmit'",
     "lint:fix": "lerna exec --stream --concurrency 4 'tslint -p tsconfig.json --fix'",
-    "docs": "typedoc packages"
+    "docs": "typedoc packages/@bayerjs"
   }
 }
