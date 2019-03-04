@@ -1,6 +1,6 @@
 {
   "name": "@bayerjs/router",
-  "version": "0.2.0-alpha.0",
+  "version": "0.3.0-alpha.0",
   "description": "Router for the Bayer.JS server library",
   "keywords": [
     "bayer",
@@ -32,7 +32,7 @@
     "url": "https://github.com/SolarLiner/bayer-js/issues"
   },
   "dependencies": {
-    "@bayerjs/core": "^0.2.0-alpha.0",
+    "@bayerjs/core": "^0.3.0-alpha.0",
     "@bayerjs/middleware": "^0.2.0-alpha.0",
     "@types/debug": "^0.0.31",
     "debug": "^4.1.1",
