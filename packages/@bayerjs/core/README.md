@@ -21,7 +21,7 @@ app.listen(); // Will listen on port 80 and 404 every request made to it
 ```typescript
 import { tap } from "rxjs/operators";
 
-app.use(tap(({ req, res, extra }) => {
+app.use(tap(({ res }) => {
   res.status(200, "OK").send("Hello world!");
 }));
 ```

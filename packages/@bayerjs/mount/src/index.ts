@@ -6,6 +6,11 @@ import { mergeMap } from "rxjs/operators";
 
 const debug = _debug("@bayerjs/mount");
 
+/**
+ * Mount a middleware on a subdirectory of the URL
+ * @param mountPath Path onto which to mount the middleware
+ * @param middleware Middleware to mount
+ */
 export default function mount(mountPath: string, middleware: ServerMiddleware): ServerMiddleware {
   assert.equal(mountPath[0], "/", "Mount path must be absolute");
   debug("Mounting middleware to %o", mountPath);

@@ -60,7 +60,7 @@ export default class Bayer<T = any> {
    * @param [priority=0] Optional priority given to the middleware.
    */
   public use<U = T>(middleware: ServerMiddleware<T, U>, priority = 0) {
-    debug("Add middleware %s", middleware.name);
+    debug("Add middleware");
     this.middlewares.push({ middleware, priority });
   }
 

@@ -80,7 +80,7 @@ function getMatchParams(r: IRouteInternal, path: string, index?: number) {
 
 /**
  * Router class for the Bayer.js server object. Plug into the server like this:
- *
+ * @example
  * ```javascript
  * const server = new Bayer();
  * const router = new Router();

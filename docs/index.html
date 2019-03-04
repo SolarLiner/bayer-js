@@ -67,10 +67,10 @@
 				<h1 id="bayer">Bayer</h1>
 				<p>Reactive server abstractions library for Node.js.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> Bayer <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/core"</span>;
-<span class="hljs-keyword">import</span> { staticFiles } <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/middleware"</span>;
+<span class="hljs-keyword">import</span> staticFiles <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/static"</span>;
 <span class="hljs-keyword">import</span> Router <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/router"</span>;
 
-<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Bayer();
+<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> Bayer();
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
 
 router.route(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"/"</span>, <span class="hljs-function">(<span class="hljs-params">{ res }</span>) =&gt;</span> {
@@ -78,10 +78,10 @@ router.route(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"
 });
 
 <span class="hljs-comment">// Use middleware</span>
-app.use(staticFiles(join(__dirname, <span class="hljs-string">"../public"</span>)));
-app.use(router.middleware(), <span class="hljs-number">1</span>); <span class="hljs-comment">// Optional priority (here to set it higher than the static files to override routes);</span>
-<span class="hljs-comment">// Run the app</span>
-app.run().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Listening on http://localhost:3000"</span>));</code></pre>
+server.use(staticFiles({ localPath: join(__dirname, <span class="hljs-string">"../public"</span>) }));
+server.use(router.middleware(), <span class="hljs-number">1</span>); <span class="hljs-comment">// Optional priority (here to set it higher than the static files to override routes);</span>
+<span class="hljs-comment">// Run the server</span>
+server.listen(<span class="hljs-number">3000</span>).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Listening on http://localhost:3000"</span>));</code></pre>
 				<h2 id="what-it-is">What it is</h2>
 				<p>Bayer is a reactive library that abstracts away the difficulty of setting up a
 					Node.js server with common-case features. It uses <code>rxjs</code> handle data-flow, as it
@@ -92,8 +92,7 @@ app.run().then(<span class="hljs-function"><span class="hljs-params">()</span> =
 				library.</p>
 				<p>Bayer can easily be extended through the use of Middlewares, they&#39;re
 					<code>OperatorFunction</code>s that get piped to the main request Observable.
-					They can be as simple or as complex, and benefit from all the power of the RxJS
-				Operators.</p>
+				They can be as simple or as complex, and benefit from all the power of the RxJS Operators.</p>
 				<h3 id="easy">Easy</h3>
 				<p>While being introduced to Reactive programming will make your life easier, the
 					project aims to make writing feature-complete servers as easy and as quick as

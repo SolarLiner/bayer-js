@@ -4,8 +4,15 @@ Simple static HTTP server - an example package using the Bayer.js library.
 
 ## Usage
 
-```bash
-http-server ./public --port 3000 # -p is shorthand for --port
-```
+The package exposes an executable `http-server`. Here are the different options:
 
-Both port and path is optional. They respectively default to 3000 and the current working directory.
+```
+$ http-server <PATH> [OPTIONS]
+  <PATH>                Directory to serve
+OPTIONS:
+  -p --port             Port to listen to [default: 3000]
+  -s --spa              Enables SPA mode (serves a file on 404 errors)
+  --spa-file            File to serve on 404 errors
+  --no-index            Disable serving index file on directory hits
+  --index-file          Index file to serve on directory hits
+```

@@ -15,9 +15,13 @@ const debug = _debug("@bayerjs/static");
 export interface IBayerStaticOptions {
   /** Local path to the directory containing the */
   localPath: string;
+  /** Whether to use the index file on directory hits */
   useIndexFile?: boolean;
+  /** File to serve on directory hits, relative to the hit directory */
   indexFile?: string;
+  /** Whether to enable SPA mode, which serves a file relative to localPath on 404 errors */
   spaMode?: boolean;
+  /** File to serve on 404 errors */
   spaFile?: string;
 }
 
