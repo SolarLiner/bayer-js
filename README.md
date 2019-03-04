@@ -1,4 +1,4 @@
-# Bayer
+# Bayer.js
 
 Reactive server abstractions library for Node.js.
 
