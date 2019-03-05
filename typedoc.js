@@ -1,9 +1,10 @@
 module.exports = {
   emitDecoratorMetadata: "true",
+  exclude: "**/node_modules/**",
   excludePrivate: true,
   excludeProtected: true,
   experimentalDecorators: true,
-  "external-modulemap": ".*\/packages\/(@bayerjs\/.*)\/src\/",
+  "external-modulemap": "packages\/(@bayerjs\/[^\/@]*)\/src\/",
   ignoreCompilerErrors: "true",
   includeDeclarations: false,
   mode: "modules",
