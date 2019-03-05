@@ -1,0 +1,40 @@
+{
+  "name": "@bayerjs/rxjs-debug",
+  "version": "0.3.0-alpha.0",
+  "description": "Debug operator for observables",
+  "keywords": [
+    "bayerjs",
+    "rxjs",
+    "observable",
+    "debug"
+  ],
+  "author": "Nathan Graule <solarliner@gmail.com>",
+  "homepage": "https://github.com/solarliner/bayer-js",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolarLiner/bayer-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/SolarLiner/bayer-js/issues"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "rxjs": "^6.3.3"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.31",
+    "@types/node": "^10.12.18"
+  },
+  "gitHead": "cf1a5f876257c692bdc9f772fdfa1892f35125cc"
+}

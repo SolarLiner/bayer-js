@@ -1,0 +1,21 @@
+module.exports = {
+  emitDecoratorMetadata: "true",
+  excludePrivate: true,
+  excludeProtected: true,
+  experimentalDecorators: true,
+  "external-modulemap": ".*\/packages\/(@bayerjs\/.*)\/src\/",
+  ignoreCompilerErrors: "true",
+  includeDeclarations: false,
+  mode: "modules",
+  module: "commonjs",
+  moduleResolution: "node",
+  name: "Bayer.js",
+  out: "docs/",
+  preserveConstEnums: "true",
+  readme: "README.md",
+  stripInternal: "true",
+  suppressExcessPropertyErrors: "true",
+  suppressImplicitAnyIndexErrors: "true",
+  target: "ES5",
+  theme: "default"
+};

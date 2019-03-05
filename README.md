@@ -1,13 +1,13 @@
-# Bayer
+# Bayer.js
 
 Reactive server abstractions library for Node.js.
 
 ```typescript
 import Bayer from "@bayerjs/core";
-import { staticFiles } from "@bayerjs/middleware";
+import staticFiles from "@bayerjs/static";
 import Router from "@bayerjs/router";
 
-const app = new Bayer();
+const server = new Bayer();
 const router = new Router();
 
 router.route("GET", "/", ({ res }) => {
@@ -15,10 +15,10 @@ router.route("GET", "/", ({ res }) => {
 });
 
 // Use middleware
-app.use(staticFiles(join(__dirname, "../public")));
-app.use(router.middleware(), 1); // Optional priority (here to set it higher than the static files to override routes);
-// Run the app
-app.run().then(() => console.log("Listening on http://localhost:3000"));
+server.use(staticFiles({ localPath: join(__dirname, "../public") }));
+server.use(router.middleware(), 1); // Optional priority (here to set it higher than the static files to override routes);
+// Run the server
+server.listen(3000).then(() => console.log("Listening on http://localhost:3000"));
 ```
 
 ## What it is
@@ -35,8 +35,7 @@ library.
 
 Bayer can easily be extended through the use of Middlewares, they're
 `OperatorFunction`s that get piped to the main request Observable.
-They can be as simple or as complex, and benefit from all the power of the RxJS
-Operators.
+They can be as simple or as complex, and benefit from all the power of the RxJS Operators.
 
 ### Easy
 

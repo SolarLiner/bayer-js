@@ -1,0 +1,54 @@
+{
+  "name": "@bayerjs/core",
+  "version": "0.3.0-alpha.0",
+  "description": "Bayer.JS core server library",
+  "keywords": [
+    "server",
+    "library",
+    "rxjs",
+    "reactive"
+  ],
+  "author": "Nathan Graule <solarliner@gmail.com>",
+  "homepage": "https://github.com/solarliner/bayer-js",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solarliner/bayer-js.git"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --watch",
+    "clean": "rimraf lib",
+    "lint": "tslint -p tsconfig.json",
+    "lint:fix": "tslint -p tsconfig.json --fix",
+    "prepack": "tsc"
+  },
+  "bugs": {
+    "url": "https://github.com/solarliner/bayer-js/issues"
+  },
+  "dependencies": {
+    "@types/debug": "^0.0.31",
+    "busboy": "^0.2.14",
+    "chalk": "^2.4.1",
+    "debug": "^4.1.1",
+    "rxjs": "^6.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@types/busboy": "^0.2.3",
+    "@types/debug": "0.0.31",
+    "@types/node": "^10.12.10",
+    "lerna": "^3.4.3",
+    "rimraf": "^2.6.2"
+  },
+  "gitHead": "cf1a5f876257c692bdc9f772fdfa1892f35125cc"
+}

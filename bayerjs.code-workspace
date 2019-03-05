@@ -18,8 +18,8 @@
 	"extensions": {
 		"recommendations": [
 			"vector-of-bool.gitflow",
-			"knisterpeter.vscode-github",
-			"eg2.tslint"
+      "knisterpeter.vscode-github",
+      "ms-vscode.vscode-typescript-tslint-plugin"
 		]
 	}
 }

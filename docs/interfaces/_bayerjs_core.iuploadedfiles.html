@@ -3,17 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Bayer.js</title>
+	<title>IUploadedFiles | Bayer.js</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 <header>
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">Bayer.js</a>
+					<a href="../index.html" class="title">Bayer.js</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -53,112 +53,176 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_bayerjs_core.html">@bayerjs/core</a>
+				</li>
+				<li>
+					<a href="_bayerjs_core.iuploadedfiles.html">IUploadedFiles</a>
 				</li>
 			</ul>
-			<h1> Bayer.js</h1>
+			<h1>Interface IUploadedFiles</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<h1 id="bayer-js">Bayer.js</h1>
-				<p>Reactive server abstractions library for Node.js.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> Bayer <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/core"</span>;
-<span class="hljs-keyword">import</span> staticFiles <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/static"</span>;
-<span class="hljs-keyword">import</span> Router <span class="hljs-keyword">from</span> <span class="hljs-string">"@bayerjs/router"</span>;
-
-<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> Bayer();
-<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
-
-router.route(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"/"</span>, <span class="hljs-function">(<span class="hljs-params">{ res }</span>) =&gt;</span> {
-  res.status(<span class="hljs-number">403</span>, <span class="hljs-string">"Unauthorized"</span>).json({ error: <span class="hljs-string">"You are not authorized"</span> });
-});
-
-<span class="hljs-comment">// Use middleware</span>
-server.use(staticFiles({ localPath: join(__dirname, <span class="hljs-string">"../public"</span>) }));
-server.use(router.middleware(), <span class="hljs-number">1</span>); <span class="hljs-comment">// Optional priority (here to set it higher than the static files to override routes);</span>
-<span class="hljs-comment">// Run the server</span>
-server.listen(<span class="hljs-number">3000</span>).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Listening on http://localhost:3000"</span>));</code></pre>
-				<h2 id="what-it-is">What it is</h2>
-				<p>Bayer is a reactive library that abstracts away the difficulty of setting up a
-					Node.js server with common-case features. It uses <code>rxjs</code> handle data-flow, as it
-				is basically the textbook use-case of reactive programming.</p>
-				<h3 id="modular">Modular</h3>
-				<p>As its smallest, Bayer provides you with an Observable, providing
-					<code>Request</code> and <code>Response</code> parameter objects, which are based on Node.js&#39;s <code>IncomingMessage</code> and <code>ServerResponse</code> objects.
-				library.</p>
-				<p>Bayer can easily be extended through the use of Middlewares, they&#39;re
-					<code>OperatorFunction</code>s that get piped to the main request Observable.
-				They can be as simple or as complex, and benefit from all the power of the RxJS Operators.</p>
-				<h3 id="easy">Easy</h3>
-				<p>While being introduced to Reactive programming will make your life easier, the
-					project aims to make writing feature-complete servers as easy and as quick as
-					possible. If you need a &quot;quickstart template&quot; that&#39;s more than 50 lines of code
-				when creating a new project, then this project&#39;s purpose has been defeated.</p>
-				<h2 id="what-it-isn-t">What it isn&#39;t</h2>
-				<p>Bayer isn&#39;t batteries included; it won&#39;t do <em>everything</em> for you. However, the
-					project tries to strike a balance between minimalism and availability of
-				features.</p>
-				<p>Note that because Bayer has been designed with modularity in mind, functionality
-				can easily be added through the use of middlewares.</p>
-				<h2 id="why-the-name-bayer-">Why the name &quot;Bayer&quot;?</h2>
-				<p>Because I was listening to Andrew Bayer&#39;s album when initially building the
-					project, and that it&#39;s a cool name, and because the JavaScript community needs
-				some <a href="https://www.youtube.com/watch?v=vfiL-tyMHyI">beautiful music</a>.</p>
-				<p><sup>But if you ask me,
-						<a href="https://www.youtube.com/watch?v=J_VN-xwN72A">this version</a> is much better
-				😝</sup></p>
-			</div>
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Uploaded files type. Used by <a href="../classes/_bayerjs_core.request.html#formdata">Request.formData</a>.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">IUploadedFiles</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-kind-interface tsd-parent-kind-external-module">
+				<h3 class="tsd-before-signature">Indexable</h3>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>x: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">object</span></div>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Uploaded files type. Used by <a href="../classes/_bayerjs_core.request.html#formdata">Request.formData</a>.</p>
+					</div>
+				</div>
+				<ul class="tsd-parameters">
+					<li class="tsd-parameter">
+						<h5>filename<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Original file name when uploaded.</p>
+							</div>
+						</div>
+					</li>
+					<li class="tsd-parameter">
+						<h5>filepath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Path of the temporary file containing the uploaded file.</p>
+							</div>
+						</div>
+					</li>
+					<li class="tsd-parameter">
+						<h5>mimetype<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>MIME type of the uploaded object.</p>
+							</div>
+							<dl class="tsd-comment-tags">
+								<dt>example</dt>
+								<dd><p>&quot;image/png&quot;</p>
+								</dd>
+							</dl>
+						</div>
+					</li>
+				</ul>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_bayerjs_core.html">@bayerjs/core</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_core.html">@bayerjs/core</a>
+						<a href="../modules/_bayerjs_http_server.html">@bayerjs/http-<wbr>server</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_http_server.html">@bayerjs/http-<wbr>server</a>
+						<a href="../modules/_bayerjs_http_server_node_modules__bayerjs_core.html">@bayerjs/http-<wbr>server/node_<wbr>modules/@bayerjs/core</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_http_server_node_modules__bayerjs_core.html">@bayerjs/http-<wbr>server/node_<wbr>modules/@bayerjs/core</a>
+						<a href="../modules/_bayerjs_http_server_node_modules__bayerjs_static.html">@bayerjs/http-<wbr>server/node_<wbr>modules/@bayerjs/static</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_http_server_node_modules__bayerjs_static.html">@bayerjs/http-<wbr>server/node_<wbr>modules/@bayerjs/static</a>
+						<a href="../modules/_bayerjs_http_server_node_modules__bayerjs_static_node_modules__bayerjs_core.html">@bayerjs/http-<wbr>server/node_<wbr>modules/@bayerjs/static/node_<wbr>modules/@bayerjs/core</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_http_server_node_modules__bayerjs_static_node_modules__bayerjs_core.html">@bayerjs/http-<wbr>server/node_<wbr>modules/@bayerjs/static/node_<wbr>modules/@bayerjs/core</a>
+						<a href="../modules/_bayerjs_mount.html">@bayerjs/mount</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_mount.html">@bayerjs/mount</a>
+						<a href="../modules/_bayerjs_mount_node_modules__bayerjs_core.html">@bayerjs/mount/node_<wbr>modules/@bayerjs/core</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_mount_node_modules__bayerjs_core.html">@bayerjs/mount/node_<wbr>modules/@bayerjs/core</a>
+						<a href="../modules/_bayerjs_router.html">@bayerjs/router</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_router.html">@bayerjs/router</a>
+						<a href="../modules/_bayerjs_router_node_modules__bayerjs_core.html">@bayerjs/router/node_<wbr>modules/@bayerjs/core</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_router_node_modules__bayerjs_core.html">@bayerjs/router/node_<wbr>modules/@bayerjs/core</a>
+						<a href="../modules/_bayerjs_rxjs_debug.html">@bayerjs/rxjs-<wbr>debug</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_rxjs_debug.html">@bayerjs/rxjs-<wbr>debug</a>
+						<a href="../modules/_bayerjs_static.html">@bayerjs/static</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_static.html">@bayerjs/static</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_bayerjs_static_node_modules__bayerjs_core.html">@bayerjs/static/node_<wbr>modules/@bayerjs/core</a>
+						<a href="../modules/_bayerjs_static_node_modules__bayerjs_core.html">@bayerjs/static/node_<wbr>modules/@bayerjs/core</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../classes/_bayerjs_core.bayer.html" class="tsd-kind-icon">Bayer</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_bayerjs_core.httperror.html" class="tsd-kind-icon">Http<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_bayerjs_core.request.html" class="tsd-kind-icon">Request</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_bayerjs_core.response.html" class="tsd-kind-icon">Response</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_bayerjs_core.ibayercallback.html" class="tsd-kind-icon">IBayer<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_bayerjs_core.iformdata.html" class="tsd-kind-icon">IForm<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_bayerjs_core.iroute.html" class="tsd-kind-icon">IRoute</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_bayerjs_core.iuploadedfiles.html" class="tsd-kind-icon">IUploaded<wbr>Files</a>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_bayerjs_core.html#httpverb" class="tsd-kind-icon">HTTPVerb</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_bayerjs_core.html#matchhttpverb" class="tsd-kind-icon">MatchHTTPVerb</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_bayerjs_core.html#requestfunction" class="tsd-kind-icon">Request<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../modules/_bayerjs_core.html#servermiddleware" class="tsd-kind-icon">Server<wbr>Middleware</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_bayerjs_core.html#http_verbs" class="tsd-kind-icon">HTTP_<wbr>VERBS</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_bayerjs_core.html#debug" class="tsd-kind-icon">debug</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_bayerjs_core.html#match" class="tsd-kind-icon">match</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_bayerjs_core.html#tohttpverb" class="tsd-kind-icon">toHTTPVerb</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -227,7 +291,7 @@ server.listen(<span class="hljs-number">3000</span>).then(<span class="hljs-func
 	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
