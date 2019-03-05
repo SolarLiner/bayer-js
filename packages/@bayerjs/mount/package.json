@@ -1,6 +1,6 @@
 {
   "name": "@bayerjs/mount",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0-alpha.1",
   "description": "Mount Bayer.js apps and middlewares into sub-directories",
   "keywords": [
     "bayerjs",
@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
-    "@bayerjs/core": "^0.3.0-alpha.0",
+    "@bayerjs/core": "^0.3.0-alpha.1",
     "@types/debug": "^0.0.31",
     "debug": "^4.1.1"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@bayerjs/http-server",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0-alpha.1",
   "description": "Server local files as an HTTP server, powered by the Bayer.js library",
   "keywords": [
     "bayerjs",
@@ -33,8 +33,8 @@
     "url": "https://github.com/SolarLiner/bayer-js/issues"
   },
   "dependencies": {
-    "@bayerjs/core": "^0.3.0-alpha.0",
-    "@bayerjs/static": "^0.3.0-alpha.0",
+    "@bayerjs/core": "^0.3.0-alpha.1",
+    "@bayerjs/static": "^0.3.0-alpha.1",
     "chalk": "^2.4.1",
     "debug": "^4.1.1",
     "minimist": "^1.2.0"
