@@ -35,5 +35,6 @@
   "devDependencies": {
     "@types/debug": "^0.0.31",
     "@types/node": "^10.12.18"
-  }
+  },
+  "gitHead": "cf1a5f876257c692bdc9f772fdfa1892f35125cc"
 }

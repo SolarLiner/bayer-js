@@ -36,5 +36,6 @@
     "@bayerjs/core": "^0.3.0-alpha.0",
     "@types/debug": "^0.0.31",
     "debug": "^4.1.1"
-  }
+  },
+  "gitHead": "cf1a5f876257c692bdc9f772fdfa1892f35125cc"
 }

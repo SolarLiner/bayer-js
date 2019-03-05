@@ -44,5 +44,6 @@
     "@types/debug": "^0.0.31",
     "@types/minimist": "^1.2.0",
     "ts-node": "^7.0.1"
-  }
+  },
+  "gitHead": "cf1a5f876257c692bdc9f772fdfa1892f35125cc"
 }

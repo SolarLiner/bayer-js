@@ -49,5 +49,6 @@
     "@types/node": "^10.12.10",
     "lerna": "^3.4.3",
     "rimraf": "^2.6.2"
-  }
+  },
+  "gitHead": "cf1a5f876257c692bdc9f772fdfa1892f35125cc"
 }

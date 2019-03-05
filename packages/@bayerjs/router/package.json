@@ -44,5 +44,6 @@
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",
     "@types/mime-types": "^2.1.0"
-  }
+  },
+  "gitHead": "cf1a5f876257c692bdc9f772fdfa1892f35125cc"
 }
