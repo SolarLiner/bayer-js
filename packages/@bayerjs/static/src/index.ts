@@ -78,7 +78,8 @@ export default function staticFiles(options: IBayerStaticOptions): ServerMiddlew
       }
     }),
     mergeMap(async ({ params, file }) => {
-      await params.res.send(file);
+      if(!params.res.done)
+        await params.res.send(file);
       return params;
     })
   );
