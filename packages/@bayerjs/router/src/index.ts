@@ -1,11 +1,8 @@
-import pathToRegexp from "path-to-regexp";
-import { empty, of } from "rxjs";
-import { catchError, first, map, mergeMap } from "rxjs/operators";
-
-import { ServerMiddleware } from "@bayerjs/core";
-import { IRoute as IBaseRoute } from "@bayerjs/core";
+import { IBayerCallback, IRoute as IBaseRoute, ServerMiddleware } from "@bayerjs/core";
 import _debug from "debug";
 import { OutgoingHttpHeaders } from "http";
+import pathToRegexp from "path-to-regexp";
+import { tap } from "rxjs/operators";
 import { Stream } from "stream";
 
 const debug = _debug("@bayerjs/router");
@@ -91,7 +88,7 @@ function getMatchParams(r: IRouteInternal, path: string, index?: number) {
  * server.listen();
  * ```
  */
-export class Router {
+export default class Router {
   private routes: IRouteInternal[];
 
   /**
@@ -118,54 +115,48 @@ export class Router {
    */
   public middleware(): ServerMiddleware {
     debug("Mounting router");
-    return mergeMap(v =>
-      of(v).pipe(
-        mergeMap(params => {
-          const {
-            req: { route }
-          } = params;
-          const matchedRoutes = this.routes.filter(r => route.method === r.method && r.route.test(route.path));
-          debug("%d matched routes", matchedRoutes.length);
-          if (matchedRoutes.length > 0) return of({ routes: matchedRoutes, params });
-          else return empty();
-        }),
-        mergeMap(({ routes, params }) => {
-          return routes.map(route => ({ route, params }));
-        }),
-        first(),
-        map(({ route: origRoute, params }) => {
-          const { op, middlewares } = origRoute;
-          const {
-            req: { route },
-            res,
-            extra
-          } = params;
-          const routeArgs: IRoute<typeof extra> = {
-            ...route,
-            params: getMatchParams(origRoute, route.path),
-            extra
-          };
-          middlewares.forEach(m => m(routeArgs));
-          const result = op(routeArgs);
+    return tap(ctx => {
+      const routes = this.matchRoutes(ctx);
+      if (!routes) {
+        return;
+      }
+      const { route, params } = routes[0];
+      this.executeRoute(route, params);
+    });
+  }
 
-          if (typeof result === "string" || result instanceof Stream) {
-            res.status(200, "OK").send(result);
-            return params;
-          }
-          if (result) {
-            const { statusCode, statusReason, content } = result;
-            res.status(statusCode || 200, statusReason || "OK").send(content);
-            return params;
-          }
-          return params;
-        }),
-        catchError(err => {
-          if (!(err instanceof Error)) {
-            err = new Error(err);
-          }
-          return empty();
-        })
-      )
-    );
+  private executeRoute(origRoute: IRouteInternal, params: IBayerCallback<any>) {
+    const { op, middlewares } = origRoute;
+    const {
+      req: { route },
+      res,
+      extra
+    } = params;
+    const routeArgs: IRoute<typeof extra> = {
+      ...route,
+      params: getMatchParams(origRoute, route.path),
+      extra
+    };
+    middlewares.forEach(m => m(routeArgs));
+    const result = op(routeArgs);
+    if (typeof result === "string" || result instanceof Stream) {
+      res.status(200, "OK").send(result);
+    } else if (result) {
+      const { statusCode, statusReason, content } = result;
+      res.status(statusCode || 200, statusReason || "OK").send(content);
+    }
+  }
+
+  private matchRoutes(params: IBayerCallback<any>) {
+    const {
+      req: { route }
+    } = params;
+    const matched = this.routes.filter(r => route.method === r.method && r.route.test(route.path));
+    debug("%d matched routes", matched.length);
+    if (matched.length > 0) {
+      // tslint:disable-next-line: no-shadowed-variable
+      return matched.map(route => ({ route, params }));
+    }
+    return null;
   }
 }
